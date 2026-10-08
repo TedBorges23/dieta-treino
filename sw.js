@@ -1,5 +1,5 @@
 // Cache para o SHAPE abrir sem internet. Troque a versão a cada publicação.
-const CACHE = 'shape-v4';
+const CACHE = 'shape-v5';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -14,7 +14,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
   // Página: rede primeiro, cache se estiver offline.
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return r; })
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(r => { const copy = r.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); return r; })
       .catch(() => caches.match('./index.html')));
     return;
   }

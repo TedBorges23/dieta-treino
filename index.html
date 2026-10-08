@@ -793,7 +793,8 @@ $('f').addEventListener('input',render);$('f').addEventListener('change',render)
 render();
 </script>
 <script>
-if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(r=>{r.update();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')r.update()})}).catch(()=>{}));
+  let reloaded=false;navigator.serviceWorker.addEventListener('controllerchange',()=>{if(!reloaded){reloaded=true;location.reload()}})}
 (function(){
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   if(standalone)return;
