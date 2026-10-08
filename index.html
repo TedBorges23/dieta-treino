@@ -19,7 +19,7 @@
 /* Layout: barra de marca no topo; painel "Seus dados" fixo à esquerda e o plano rolando à direita; uma coluna no celular */
 :root{
   --bg:#F5F1E6; --surface:#FFFFFF; --sunk:#EEE9DB; --ink:#0E2A22; --muted:#5D6B63; --line:#E2DCCB;
-  --brand:#0F3D30; --brand-ink:#FFFFFF; --brand-soft:#DCEEE3; --brand-text:#0F3D30; --go:#1F9D55;
+  --brand:#0F3D30; --brand2:#1F6B50; --brand-ink:#FFFFFF; --brand-soft:#DCEEE3; --brand-text:#0F3D30; --go:#1F9D55;
   --lime:#F5C330; --lime-ink:#3A2A00;
   --prot:#D9485F; --carb:#E39B0F; --fat:#2F80C9; --warn:#B94713; --ok:#1F9D55;
   --display:"Archivo",ui-sans-serif,system-ui,sans-serif;
@@ -27,18 +27,31 @@
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
   --shadow:0 1px 2px rgba(14,42,34,.06),0 10px 24px -14px rgba(14,42,34,.22);
 }
+/* paletas extras (a padrão "floresta" é o :root) */
+:root[data-palette="esmeralda"]{--bg:#EFF6F2;--sunk:#E1EEE7;--line:#CFE2D8;--ink:#0A2A1F;--muted:#557066;--brand:#065F46;--brand2:#0D9488;--brand-soft:#D1FAE5;--brand-text:#047857;--go:#10B981;--lime:#FDE047;--lime-ink:#422006}
+:root[data-palette="oceano"]{--bg:#F0F4FA;--sunk:#E2E9F4;--line:#D2DCEB;--ink:#0B1B33;--muted:#56657E;--brand:#0B2545;--brand2:#1D4E89;--brand-soft:#DCE8F7;--brand-text:#1D4E89;--go:#0EA5E9;--lime:#FF9F1C;--lime-ink:#3A1E00}
+:root[data-palette="energia"]{--bg:#FBF4F1;--sunk:#F3E6E0;--line:#EAD6CC;--ink:#2A1410;--muted:#7A5F58;--brand:#4A0E33;--brand2:#BE185D;--brand-soft:#FCE7F0;--brand-text:#9D174D;--go:#F97316;--lime:#FACC15;--lime-ink:#3A2A00}
+:root[data-palette="grafite"]{--bg:#F4F4F5;--sunk:#E7E7EA;--line:#D9D9DE;--ink:#111114;--muted:#5E5E68;--brand:#18181B;--brand2:#3F3F46;--brand-soft:#ECFCCB;--brand-text:#4D7C0F;--go:#65A30D;--lime:#A3E635;--lime-ink:#1A2E05}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0A1813; --surface:#11241D; --sunk:#183128; --ink:#ECF3EE; --muted:#9BB2A7; --line:#22403A;
-  --brand:#1A5240; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
+  --brand:#14453A; --brand2:#1F6B50; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
   --lime:#F5C330; --lime-ink:#3A2A00;
   --prot:#FF7D91; --carb:#FFC04D; --fat:#6AAEF0; --warn:#FF9A66; --ok:#3CC277;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 24px -14px rgba(0,0,0,.6); color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0A1813; --surface:#11241D; --sunk:#183128; --ink:#ECF3EE; --muted:#9BB2A7; --line:#22403A;
-  --brand:#1A5240; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
+  --brand:#14453A; --brand2:#1F6B50; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
   --lime:#F5C330; --lime-ink:#3A2A00;
   --prot:#FF7D91; --carb:#FFC04D; --fat:#6AAEF0; --warn:#FF9A66; --ok:#3CC277;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 24px -14px rgba(0,0,0,.6); color-scheme:dark}
+@media (prefers-color-scheme: dark){:root[data-palette="esmeralda"]:not([data-theme="light"]){--bg:#06150F;--surface:#0D2219;--sunk:#143024;--line:#1E4034;--ink:#EAF7F1;--muted:#93B8A9;--brand:#065F46;--brand2:#0F766E;--brand-soft:#123A2D;--brand-text:#6EE7B7;--go:#34D399}}
+:root[data-theme="dark"][data-palette="esmeralda"]{--bg:#06150F;--surface:#0D2219;--sunk:#143024;--line:#1E4034;--ink:#EAF7F1;--muted:#93B8A9;--brand:#065F46;--brand2:#0F766E;--brand-soft:#123A2D;--brand-text:#6EE7B7;--go:#34D399}
+@media (prefers-color-scheme: dark){:root[data-palette="oceano"]:not([data-theme="light"]){--bg:#07101D;--surface:#0E1A2C;--sunk:#15243B;--line:#21334E;--ink:#ECF2FA;--muted:#9BABC3;--brand:#11315A;--brand2:#1D4E89;--brand-soft:#172C4A;--brand-text:#7CC4F5;--go:#38BDF8}}
+:root[data-theme="dark"][data-palette="oceano"]{--bg:#07101D;--surface:#0E1A2C;--sunk:#15243B;--line:#21334E;--ink:#ECF2FA;--muted:#9BABC3;--brand:#11315A;--brand2:#1D4E89;--brand-soft:#172C4A;--brand-text:#7CC4F5;--go:#38BDF8}
+@media (prefers-color-scheme: dark){:root[data-palette="energia"]:not([data-theme="light"]){--bg:#150A0E;--surface:#23121A;--sunk:#2F1A23;--line:#45262F;--ink:#FBEFF2;--muted:#C2A3AC;--brand:#4A1238;--brand2:#9D174D;--brand-soft:#3A1828;--brand-text:#F9A8D4;--go:#FB923C}}
+:root[data-theme="dark"][data-palette="energia"]{--bg:#150A0E;--surface:#23121A;--sunk:#2F1A23;--line:#45262F;--ink:#FBEFF2;--muted:#C2A3AC;--brand:#4A1238;--brand2:#9D174D;--brand-soft:#3A1828;--brand-text:#F9A8D4;--go:#FB923C}
+@media (prefers-color-scheme: dark){:root[data-palette="grafite"]:not([data-theme="light"]){--bg:#0A0A0C;--surface:#151517;--sunk:#1E1E22;--line:#2B2B30;--ink:#F1F1F3;--muted:#A1A1AA;--brand:#1E1E22;--brand2:#3F3F46;--brand-soft:#233016;--brand-text:#BEF264;--go:#84CC16}}
+:root[data-theme="dark"][data-palette="grafite"]{--bg:#0A0A0C;--surface:#151517;--sunk:#1E1E22;--line:#2B2B30;--ink:#F1F1F3;--muted:#A1A1AA;--brand:#1E1E22;--brand2:#3F3F46;--brand-soft:#233016;--brand-text:#BEF264;--go:#84CC16}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 img{max-width:100%}
@@ -71,7 +84,7 @@ nav a:hover{background:var(--sunk);color:var(--ink)}
 
 /* painel de dados */
 aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);background:var(--surface);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
-@media (max-width:900px){aside{position:static}}
+@media (max-width:900px){aside{position:static;order:2}}
 .panelhead{display:flex;align-items:center;gap:10px}
 .badge{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--brand-soft);color:var(--brand-text)}
 .panelhead h2{font-size:1.05rem}
@@ -218,7 +231,7 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
 .day .time{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:4px}
 .meal .time{margin-left:auto;font-family:var(--mono);font-size:.85rem;font-weight:500;background:var(--sunk);padding:3px 8px;border-radius:7px}
 /* hoje: sequência e meu dia */
-.streak{background:var(--brand);color:#fff;border-radius:24px;padding:22px 22px 0;display:flex;flex-direction:column;gap:18px}
+.streak{background:linear-gradient(140deg,var(--brand) 0%,var(--brand) 45%,var(--brand2) 100%);color:#fff;border-radius:24px;padding:22px 22px 0;display:flex;flex-direction:column;gap:18px}
 .sk-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
 .sk-label{color:var(--lime);font-weight:800;font-size:.78rem;letter-spacing:.1em}
 .sk-num{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;line-height:1}
@@ -271,6 +284,14 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
   body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
   .checkin{grid-template-columns:minmax(0,1fr)}
 }
+.palettes{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.pal{position:relative;cursor:pointer}
+.pal input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.pal span{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:14px;border:2px solid var(--line);background:var(--surface);font-size:.82rem;font-weight:700}
+.pal i{display:flex;height:26px;border-radius:8px;overflow:hidden}
+.pal i b{flex:1}
+.pal input:checked+span{border-color:var(--go);box-shadow:0 0 0 3px color-mix(in srgb,var(--go) 25%,transparent)}
+.pal input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
 details.method{background:var(--surface);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
 details.method summary{cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px;list-style:none}
 details.method summary::-webkit-details-marker{display:none}
@@ -302,7 +323,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
 </div></header>
 
 <div class="wrap">
-  <aside>
+  <aside id="dados">
     <div class="panelhead"><span class="badge" data-i="user"></span><div><h2>Seus dados</h2><span class="muted" style="font-size:.8rem" id="exampleNote">Exemplo preenchido. Troque pelos seus.</span></div></div>
     <form id="f" onsubmit="return false" style="display:flex;flex-direction:column;gap:14px">
       <div class="field"><span class="label">Sexo</span>
@@ -423,6 +444,16 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
           <div class="field" style="max-width:160px"><label class="label" for="horaTreino" data-i="clock">Horário do treino</label><input type="time" id="horaTreino"></div>
         </div>
         <div class="card">
+          <h3 class="ch" data-i="sparkles">Aparência</h3>
+          <p class="hint">Escolha as cores do app e o tema claro ou escuro.</p>
+          <div class="palettes" id="palettes" role="radiogroup" aria-label="Cores do app"></div>
+          <div class="seg" id="modeSeg">
+            <label><input type="radio" name="mode" id="mode-auto" value="auto" checked><span>Automático</span></label>
+            <label><input type="radio" name="mode" id="mode-light" value="light"><span>Claro</span></label>
+            <label><input type="radio" name="mode" id="mode-dark" value="dark"><span>Escuro</span></label>
+          </div>
+        </div>
+        <div class="card">
           <h3 class="ch" data-i="target">Metas sob medida</h3>
           <p class="hint">Deixe em branco para usar o cálculo automático.</p>
           <div class="row2">
@@ -449,9 +480,9 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
 </div>
 <nav class="tabbar" aria-label="Navegação">
   <a href="#hoje" class="on" data-i="flame">Hoje</a>
-  <a href="#resumo" data-i="target">Metas</a>
   <a href="#alimentos" data-i="utensils">Dieta</a>
   <a href="#treino" data-i="dumbbell">Treino</a>
+  <a href="#dados" data-i="user">Perfil</a>
   <a href="#ajustes" data-i="sliders-horizontal">Ajustes</a>
 </nav>
 <footer><b>SHAPE</b> · criado por Ted Borges Dias Luz · ícones Lucide (licença ISC)</footer>
@@ -501,7 +532,7 @@ const MEAL_SLOTS=[
 ];
 const FALLBACK={cafe:['lan','alm','jan'],lan:['cafe','jan','alm'],alm:['jan','lan','cafe'],jan:['alm','lan','cafe']};
 const WEEK=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
-function defaultSettings(){return{ajuste:null,protKg:null,fatKg:null,veg:300,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',
+function defaultSettings(){return{palette:'floresta',mode:'auto',ajuste:null,protKg:null,fatKg:null,veg:300,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',
   meals:Object.fromEntries(MEAL_SLOTS.map(m=>[m.k,{on:m.on,n:m.n,h:m.h}]))}}
 let S=defaultSettings();
 
@@ -722,6 +753,12 @@ function renderStreak(){
   $('ckTreinoS').textContent=tday?'Concluí o treino do dia':'Recuperar também conta. Treino opcional';
 }
 function toggleLog(f){const k=dkey(new Date());const L=LOG[k]||{};L[f]=L[f]?0:1;LOG[k]=L;saveLog();renderStreak()}
+const PALETTES=[['floresta','Floresta',['#0F3D30','#1F9D55','#F5C330']],['esmeralda','Esmeralda',['#065F46','#10B981','#FDE047']],['oceano','Oceano',['#0B2545','#0EA5E9','#FF9F1C']],['energia','Energia',['#4A0E33','#F97316','#FACC15']],['grafite','Grafite',['#18181B','#65A30D','#A3E635']]];
+function applyLook(){const r=document.documentElement;
+  if(S.palette&&S.palette!=='floresta')r.dataset.palette=S.palette;else delete r.dataset.palette;
+  if(S.mode==='light'||S.mode==='dark'){r.dataset.theme=S.mode;r.dataset.themeByApp='1'}
+  else if(r.dataset.themeByApp){delete r.dataset.theme;delete r.dataset.themeByApp}
+  const m=document.querySelector('meta[name=theme-color]');if(m)m.content=getComputedStyle(r).getPropertyValue('--brand').trim();}
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])}
 function buildSettings(){
   $('mealrows').innerHTML=MEAL_SLOTS.map(m=>{const v=S.meals[m.k];return `<div class="mealrow ${v.on?'':'off'}" data-k="${m.k}">
@@ -732,9 +769,13 @@ function buildSettings(){
   $('horaTreino').value=S.horaTreino;
   for(const k of ['ajuste','protKg','fatKg']){$(k).value=S[k]??''}
   $('veg').value=S.veg;
+  $('palettes').innerHTML=PALETTES.map(([k,n,c])=>`<label class="pal"><input type="radio" name="palette" id="pal-${k}" value="${k}" ${S.palette===k?'checked':''}><span><i>${c.map(x=>`<b style="background:${x}"></b>`).join('')}</i>${n}</span></label>`).join('');
+  const md=document.getElementById('mode-'+(S.mode||'auto'));if(md)md.checked=true;
 }
 function placeholders(){const F=readForm();$('ajuste').placeholder='auto: '+({cut:-20,man:0,bulk:10}[F.obj]);$('protKg').placeholder='auto: '+({cut:2.2,man:1.8,bulk:2.0}[F.obj]).toFixed(1).replace('.',',');$('fatKg').placeholder='auto: 0,8'}
-hydrate(document);load();buildPick();buildSettings();placeholders();
+hydrate(document);load();applyLook();buildPick();buildSettings();placeholders();
+$('palettes').addEventListener('change',e=>{S.palette=e.target.value;applyLook();save()});
+$('modeSeg').addEventListener('change',e=>{S.mode=e.target.value;applyLook();save()});
 $('ckDieta').addEventListener('click',()=>toggleLog('d'));$('ckTreino').addEventListener('click',()=>toggleLog('t'));
 document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.tabbar a').forEach(x=>x.classList.toggle('on',x===a))}));
 $('mealrows').addEventListener('input',e=>{const row=e.target.closest('.mealrow');const k=row.dataset.k,f=e.target.dataset.f;
@@ -745,7 +786,7 @@ $('weekdays').addEventListener('change',e=>{const d=e.target.value;
 $('horaTreino').addEventListener('input',e=>{S.horaTreino=e.target.value;render()});
 for(const k of ['ajuste','protKg','fatKg']){$(k).addEventListener('input',e=>{const v=e.target.value.trim();S[k]=v===''||isNaN(+v)?null:+v;render()})}
 $('veg').addEventListener('input',e=>{const v=+e.target.value;S.veg=isNaN(v)?300:Math.max(0,Math.min(800,v));render()});
-$('reset').addEventListener('click',()=>{S=defaultSettings();buildSettings();render()});
+$('reset').addEventListener('click',()=>{const pal=S.palette,mode=S.mode;S=defaultSettings();S.palette=pal;S.mode=mode;buildSettings();render()});
 $('f').addEventListener('change',placeholders);
 $('pick').addEventListener('change',e=>{const id=e.target.value;e.target.checked?sel.add(id):sel.delete(id);render()});
 $('f').addEventListener('input',render);$('f').addEventListener('change',render);
