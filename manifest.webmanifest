@@ -1,17 +1,26 @@
 {
+  "id": "/",
   "name": "SHAPE · dieta e treino",
   "short_name": "SHAPE",
   "description": "Calorias, macros, cardápio e treino sob medida. Criado por Ted Borges Dias Luz.",
   "lang": "pt-BR",
+  "dir": "ltr",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F0F4FA",
   "theme_color": "#0B2545",
+  "categories": ["health", "fitness", "lifestyle"],
   "icons": [
     {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
     {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
     {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "screenshots": [
+    {"src": "screenshots/tela-1.png", "sizes": "540x1080", "type": "image/png", "form_factor": "narrow", "label": "Sequência diária e calendário"},
+    {"src": "screenshots/tela-2.png", "sizes": "540x1080", "type": "image/png", "form_factor": "narrow", "label": "Calorias e macros"},
+    {"src": "screenshots/tela-3.png", "sizes": "540x1080", "type": "image/png", "form_factor": "narrow", "label": "Cardápio do dia"},
+    {"src": "screenshots/tela-4.png", "sizes": "540x1080", "type": "image/png", "form_factor": "narrow", "label": "Treino da semana"}
   ]
 }
