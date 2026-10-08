@@ -1,5 +1,5 @@
 // Cache para o SHAPE abrir sem internet. Troque a versão a cada publicação.
-const CACHE = 'shape-v5';
+const CACHE = 'shape-v6';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
