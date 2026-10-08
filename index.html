@@ -3,32 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#2E4BF0">
-<title>Forma</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%232E4BF0'/%3E%3Cpath d='M10 8h13v4h-9v3h7v4h-7v5h-4z' fill='%23fff'/%3E%3Ccircle cx='23.5' cy='22.5' r='3.2' fill='%23C8F25A'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#0F3D30">
+<meta name="description" content="SHAPE: calorias, macros, cardápio e treino sob medida. Criado por Ted Borges Dias Luz.">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="SHAPE">
+<title>SHAPE</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230F3D30'/%3E%3Cpath d='M17.5 5 9 18h6l-1.5 9L23 13.5h-6.2z' fill='%23F5C330'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800;900&family=Figtree:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 /* Layout: barra de marca no topo; painel "Seus dados" fixo à esquerda e o plano rolando à direita; uma coluna no celular */
 :root{
-  --bg:#F4F4FA; --surface:#FFFFFF; --sunk:#ECECF5; --ink:#17142B; --muted:#5F5C78; --line:#DEDDEB;
-  --brand:#2E4BF0; --brand-ink:#FFFFFF; --brand-soft:#E3E8FF; --lime:#C8F25A; --lime-ink:#1E2A00;
-  --prot:#E0457B; --carb:#EE9A0B; --fat:#16A898; --warn:#C2410C; --ok:#178A5B;
-  --display:"Unbounded",ui-sans-serif,system-ui,sans-serif;
+  --bg:#F5F1E6; --surface:#FFFFFF; --sunk:#EEE9DB; --ink:#0E2A22; --muted:#5D6B63; --line:#E2DCCB;
+  --brand:#0F3D30; --brand-ink:#FFFFFF; --brand-soft:#DCEEE3; --brand-text:#0F3D30; --go:#1F9D55;
+  --lime:#F5C330; --lime-ink:#3A2A00;
+  --prot:#D9485F; --carb:#E39B0F; --fat:#2F80C9; --warn:#B94713; --ok:#1F9D55;
+  --display:"Archivo",ui-sans-serif,system-ui,sans-serif;
   --body:"Figtree",ui-sans-serif,system-ui,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-  --shadow:0 1px 2px rgba(23,20,43,.06),0 8px 24px -12px rgba(23,20,43,.18);
+  --shadow:0 1px 2px rgba(14,42,34,.06),0 10px 24px -14px rgba(14,42,34,.22);
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E0D1A; --surface:#17162A; --sunk:#201E36; --ink:#EDEBFA; --muted:#A3A0BF; --line:#2C2A45;
-  --brand:#7C93FF; --brand-ink:#0E0D1A; --brand-soft:#232A55; --lime:#C8F25A; --lime-ink:#1E2A00;
-  --prot:#FF7BA6; --carb:#FFBF4D; --fat:#4FD6C4; --warn:#FF9466; --ok:#5BD69B;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark}}
+  --bg:#0A1813; --surface:#11241D; --sunk:#183128; --ink:#ECF3EE; --muted:#9BB2A7; --line:#22403A;
+  --brand:#1A5240; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
+  --lime:#F5C330; --lime-ink:#3A2A00;
+  --prot:#FF7D91; --carb:#FFC04D; --fat:#6AAEF0; --warn:#FF9A66; --ok:#3CC277;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 24px -14px rgba(0,0,0,.6); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E0D1A; --surface:#17162A; --sunk:#201E36; --ink:#EDEBFA; --muted:#A3A0BF; --line:#2C2A45;
-  --brand:#7C93FF; --brand-ink:#0E0D1A; --brand-soft:#232A55; --lime:#C8F25A; --lime-ink:#1E2A00;
-  --prot:#FF7BA6; --carb:#FFBF4D; --fat:#4FD6C4; --warn:#FF9466; --ok:#5BD69B;
-  --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.6); color-scheme:dark}
+  --bg:#0A1813; --surface:#11241D; --sunk:#183128; --ink:#ECF3EE; --muted:#9BB2A7; --line:#22403A;
+  --brand:#1A5240; --brand-ink:#FFFFFF; --brand-soft:#1B3A30; --brand-text:#74D6A0; --go:#3CC277;
+  --lime:#F5C330; --lime-ink:#3A2A00;
+  --prot:#FF7D91; --carb:#FFC04D; --fat:#6AAEF0; --warn:#FF9A66; --ok:#3CC277;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 24px -14px rgba(0,0,0,.6); color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 img{max-width:100%}
@@ -36,7 +46,8 @@ html{scroll-behavior:smooth;scroll-padding-top:80px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);margin:0}
 .i{width:1.15em;height:1.15em;flex:none;vertical-align:-.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;font-weight:700;letter-spacing:-.02em}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;font-weight:800;letter-spacing:-.01em}
+h2{text-transform:uppercase;letter-spacing:.01em}
 h2{font-size:1.3rem}
 h3{font-size:.95rem;font-weight:500;letter-spacing:0}
 .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
@@ -48,7 +59,7 @@ h3{font-size:.95rem;font-weight:500;letter-spacing:0}
 .topbar .in{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:12px;display:flex;align-items:center;gap:18px;justify-content:space-between}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
 .brand svg{width:34px;height:34px}
-.brand b{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.brand b{font-family:var(--display);font-weight:900;font-size:1.4rem;letter-spacing:.02em}
 .brand small{display:block;font-size:.72rem;color:var(--muted);font-weight:500;margin-top:-2px}
 nav{display:flex;gap:4px;flex-wrap:wrap}
 nav a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.9rem}
@@ -62,7 +73,7 @@ nav a:hover{background:var(--sunk);color:var(--ink)}
 aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);background:var(--surface);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:var(--shadow)}
 @media (max-width:900px){aside{position:static}}
 .panelhead{display:flex;align-items:center;gap:10px}
-.badge{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--brand-soft);color:var(--brand)}
+.badge{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--brand-soft);color:var(--brand-text)}
 .panelhead h2{font-size:1.05rem}
 .field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .field>.label,.field>label.label{display:flex;align-items:center;gap:6px}
@@ -70,13 +81,13 @@ aside{position:sticky;top:calc(env(safe-area-inset-top,0px) + 80px);background:v
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 input[type=number],select{width:100%;font:inherit;font-weight:500;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:9px 10px}
 input[type=number]:hover,select:hover{border-color:var(--line)}
-:focus-visible{outline:2.5px solid var(--brand);outline-offset:2px}
+:focus-visible{outline:2.5px solid var(--go);outline-offset:2px}
 .seg{display:flex;background:var(--sunk);border-radius:12px;padding:3px;gap:3px}
 .seg label{flex:1;position:relative;cursor:pointer;min-width:0}
 .seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
 .seg span{display:flex;align-items:center;justify-content:center;gap:5px;padding:8px 4px;border-radius:9px;font-size:.86rem;font-weight:500;color:var(--muted);text-align:center}
 .seg input:checked+span{background:var(--surface);color:var(--ink);font-weight:700;box-shadow:var(--shadow)}
-.seg input:focus-visible+span{outline:2.5px solid var(--brand);outline-offset:1px}
+.seg input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:1px}
 .note{font-size:.8rem;color:var(--muted);margin:0;display:flex;gap:6px}
 
 /* plano */
@@ -87,22 +98,22 @@ section{display:flex;flex-direction:column;gap:16px}
 .shead p{margin:0;color:var(--muted);font-size:.92rem;flex-basis:100%}
 .shead .tail{margin-left:auto}
 
-.hero{background:var(--brand);color:var(--brand-ink);border-radius:24px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--lime);opacity:.16}
+.hero{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);border-radius:24px;padding:24px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;align-items:center;position:relative;overflow:hidden}
+.hero::after{content:none}
 @media (max-width:620px){.hero{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}}
 .ring{position:relative;width:184px;height:184px}
 .ring>svg{width:100%;height:100%;transform:rotate(-90deg)}
 .ring .center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
 .ring .big{font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1;letter-spacing:-.03em}
-.ring small{font-size:.8rem;opacity:.85;display:flex;align-items:center;gap:4px}
+.ring small{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:4px}
 .herotext{display:flex;flex-direction:column;gap:14px;min-width:0;position:relative;z-index:1}
 .goalpill{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;background:var(--lime);color:var(--lime-ink);font-weight:700;font-size:.8rem;padding:5px 11px;border-radius:999px}
 @media (max-width:620px){.goalpill{align-self:center}}
 .herotext h1{font-size:clamp(1.4rem,3vw,1.9rem);line-height:1.15}
 .macros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.macro{background:color-mix(in srgb,var(--brand-ink) 12%,transparent);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.macro{background:var(--sunk);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px;text-align:left}
 .macro .mh{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;opacity:.9}
-.macro .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;box-shadow:0 0 0 2px color-mix(in srgb,var(--brand-ink) 40%,transparent)}
+.macro .dot{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none;}
 .macro b{font-family:var(--display);font-size:1.35rem;font-weight:700;letter-spacing:-.02em}
 .macro small{font-size:.74rem;opacity:.8}
 .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
@@ -125,7 +136,7 @@ section{display:flex;flex-direction:column;gap:16px}
 .chip span{display:inline-flex;align-items:center;gap:6px;padding:6px 11px 6px 9px;border-radius:999px;font-size:.84rem;font-weight:500;background:var(--sunk);color:var(--muted);border:1.5px solid transparent}
 .chip input:checked+span{background:color-mix(in srgb,var(--c) 14%,var(--surface));border-color:var(--c);color:var(--ink);font-weight:700}
 .chip input:checked+span .i{color:var(--c)}
-.chip input:focus-visible+span{outline:2.5px solid var(--brand);outline-offset:2px}
+.chip input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
 
 .hit{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
 @media (max-width:620px){.hit{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -163,7 +174,7 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .days{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
 .day{background:var(--surface);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
 .day .dh{display:flex;align-items:center;gap:10px}
-.day .dn{display:grid;place-items:center;width:38px;height:38px;border-radius:11px;background:var(--brand);color:var(--brand-ink);font-family:var(--display);font-weight:700;font-size:.85rem}
+.day .dn{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;background:var(--brand);color:var(--lime);font-family:var(--display);font-weight:800;font-size:.8rem}
 .day .dh small{display:block;color:var(--muted);font-size:.75rem}
 .day ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px;counter-reset:ex}
 .day li{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid var(--line);font-size:.9rem}
@@ -171,20 +182,20 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .day li .ex{display:flex;gap:8px;align-items:baseline;min-width:0}
 .day li .ex::before{counter-increment:ex;content:counter(ex);font-family:var(--mono);font-size:.72rem;color:var(--muted);min-width:1.1em}
 .day li .presc{font-family:var(--mono);font-size:.8rem;white-space:nowrap;background:var(--sunk);padding:2px 7px;border-radius:6px}
-.day li.comp .presc{background:var(--brand-soft);color:var(--brand)}
+.day li.comp .presc{background:var(--brand-soft);color:var(--brand-text)}
 .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tip{background:var(--surface);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;box-shadow:var(--shadow)}
 .tip .badge{width:32px;height:32px;border-radius:9px}
 
 /* ajustes */
-.tolink{display:flex;align-items:center;gap:8px;justify-content:center;padding:10px;border-radius:12px;background:var(--brand-soft);color:var(--brand);font-weight:700;text-decoration:none;font-size:.9rem}
+.tolink{display:flex;align-items:center;gap:8px;justify-content:center;padding:10px;border-radius:12px;background:var(--brand-soft);color:var(--brand-text);font-weight:700;text-decoration:none;font-size:.9rem}
 .tolink:hover{filter:brightness(.97)}
 button.ghost{font:inherit;font-size:.85rem;font-weight:500;display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1.5px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 14px;cursor:pointer}
-button.ghost:hover{border-color:var(--brand);color:var(--brand)}
+button.ghost:hover{border-color:var(--go);color:var(--brand-text)}
 .settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start}
 .card{background:var(--surface);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--shadow)}
 .card .ch{display:flex;align-items:center;gap:8px;font-weight:700}
-.card .ch .i{color:var(--brand)}
+.card .ch .i{color:var(--brand-text)}
 .hint{margin:-6px 0 0;font-size:.82rem;color:var(--muted)}
 .mealrows{display:flex;flex-direction:column;gap:8px}
 .mealrow{display:grid;grid-template-columns:auto minmax(0,1fr) 104px;gap:8px;align-items:center}
@@ -195,17 +206,71 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
 .switch input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
 .switch span{position:absolute;inset:0;border-radius:999px;background:var(--line);transition:background .2s}
 .switch span::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .2s}
-.switch input:checked+span{background:var(--brand)}
+.switch input:checked+span{background:var(--go)}
 .switch input:checked+span::after{transform:translateX(16px)}
-.switch input:focus-visible+span{outline:2.5px solid var(--brand);outline-offset:2px}
+.switch input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
 .weekdays{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .weekdays label{position:relative;cursor:pointer}
 .weekdays input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
 .weekdays span{display:grid;place-items:center;height:42px;border-radius:11px;background:var(--sunk);font-family:var(--display);font-size:.72rem;font-weight:700;color:var(--muted)}
-.weekdays input:checked+span{background:var(--brand);color:var(--brand-ink)}
-.weekdays input:focus-visible+span{outline:2.5px solid var(--brand);outline-offset:2px}
+.weekdays input:checked+span{background:var(--go);color:#fff}
+.weekdays input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
 .day .time{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:4px}
 .meal .time{margin-left:auto;font-family:var(--mono);font-size:.85rem;font-weight:500;background:var(--sunk);padding:3px 8px;border-radius:7px}
+/* hoje: sequência e meu dia */
+.streak{background:var(--brand);color:#fff;border-radius:24px;padding:22px 22px 0;display:flex;flex-direction:column;gap:18px}
+.sk-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.sk-label{color:var(--lime);font-weight:800;font-size:.78rem;letter-spacing:.1em}
+.sk-num{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:900;line-height:1}
+.sk-num .i{width:44px;height:44px;color:var(--lime);fill:var(--lime);stroke:var(--lime)}
+.sk-num b{font-size:3.4rem;letter-spacing:-.02em}
+.sk-num span{font-size:1.6rem}
+.sk-top small{opacity:.8;font-size:.82rem}
+.gauge{width:130px;flex:none}
+@media (max-width:420px){.gauge{width:96px}.sk-num b{font-size:2.8rem}}
+.calcard{background:var(--surface);color:var(--ink);border-radius:18px;padding:14px 14px 12px;margin-bottom:-26px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.calhead{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);font-weight:800;font-size:.85rem;letter-spacing:.04em}
+.calhead .muted{font-family:var(--body);font-weight:500;font-size:.8rem;letter-spacing:0}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal .wd{font-size:.7rem;font-weight:700;color:var(--muted);padding-bottom:2px}
+.cal .d{display:grid;place-items:center;height:34px;font-family:var(--display);font-weight:800;font-size:.88rem;border-radius:50%;width:34px;margin:0 auto}
+.cal .d.fut{color:var(--muted);opacity:.45}
+.cal .d.miss{color:var(--muted)}
+.cal .d.half{position:relative}
+.cal .d.half::after{content:"";position:absolute;bottom:2px;width:6px;height:6px;border-radius:50%;background:var(--lime)}
+.cal .d.done{background:var(--go);color:#fff}
+.cal .d.done .i{width:18px;height:18px;stroke-width:3}
+.cal .d.today{box-shadow:0 0 0 2.5px var(--lime)}
+.checkin{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:38px}
+.ck{font:inherit;display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-align:left;box-shadow:var(--shadow)}
+.ck .box{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;border:2px solid var(--line);flex:none;color:transparent}
+.ck b{display:block;font-size:.92rem}
+.ck small{display:block;color:var(--muted);font-size:.76rem}
+.ck[aria-pressed="true"]{border-color:var(--go);background:color-mix(in srgb,var(--go) 10%,var(--surface))}
+.ck[aria-pressed="true"] .box{background:var(--go);border-color:var(--go);color:#fff}
+.ck:disabled{opacity:.6;cursor:default}
+.myday{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.mcard{background:var(--surface);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink)}
+.mcard:hover{box-shadow:0 0 0 2px var(--go),var(--shadow)}
+.mcard .mt{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;letter-spacing:.03em;font-size:.9rem}
+.mcard .mt .badge{background:var(--lime);color:var(--lime-ink)}
+.mcard .mt .go{margin-left:auto;color:var(--muted);font-family:var(--mono)}
+.pill{display:flex;align-items:center;background:var(--sunk);border-radius:999px;height:30px;overflow:hidden;position:relative;font-weight:700;font-size:.82rem}
+.pill i{position:absolute;inset:0 auto 0 0;background:var(--go);border-radius:999px}
+.pill span{position:relative;padding:0 12px;color:#fff;mix-blend-mode:normal}
+.mcard .sub{font-size:.85rem;color:var(--muted)}
+.mcard .sub b{color:var(--ink)}
+/* barra de abas no celular */
+.tabbar{display:none}
+@media (max-width:640px){
+  .topbar nav{display:none}
+  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;font-weight:700;color:var(--muted);text-decoration:none;padding:4px 0}
+  .tabbar a .i{width:22px;height:22px}
+  .tabbar a.on{color:var(--go)}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  .checkin{grid-template-columns:minmax(0,1fr)}
+}
 details.method{background:var(--surface);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow)}
 details.method summary{cursor:pointer;font-weight:700;display:flex;align-items:center;gap:8px;list-style:none}
 details.method summary::-webkit-details-marker{display:none}
@@ -216,15 +281,19 @@ details.method[open] summary::after{content:"−"}
 .method strong{color:var(--ink)}
 footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;font-size:.78rem;color:var(--muted)}
 @media (prefers-reduced-motion:no-preference){.meter i,.ring circle{transition:all .35s ease}}
+.install{font:inherit;display:inline-flex;align-items:center;gap:6px;background:var(--lime);color:var(--lime-ink);border:0;border-radius:999px;padding:8px 14px;font-weight:800;cursor:pointer}
+.iosnote{background:var(--surface);border-radius:16px;padding:12px 14px;font-size:.86rem;box-shadow:var(--shadow);display:flex;gap:10px;align-items:center}
 </style>
 </head>
 <body>
 <header class="topbar"><div class="in">
-  <a class="brand" href="#resumo" aria-label="Forma, início">
-    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="var(--brand)"/><path d="M10 8h13v4h-9v3h7v4h-7v5h-4z" fill="var(--brand-ink)"/><circle cx="23.5" cy="22.5" r="3.2" fill="var(--lime)"/></svg>
-    <span><b>Forma</b><small>dieta e treino sob medida</small></span>
+  <a class="brand" href="#hoje" aria-label="SHAPE, início">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="var(--brand)"/><path d="M17.5 5 9 18h6l-1.5 9L23 13.5h-6.2z" fill="var(--lime)"/></svg>
+    <span><b>SHAPE</b><small>criado por Ted Borges Dias Luz</small></span>
   </a>
+  <button type="button" class="install" id="installBtn" hidden>Instalar app</button>
   <nav aria-label="Seções">
+    <a href="#hoje" data-i="flame"><span>Hoje</span></a>
     <a href="#resumo" data-i="target"><span>Metas</span></a>
     <a href="#alimentos" data-i="utensils"><span>Cardápio</span></a>
     <a href="#treino" data-i="dumbbell"><span>Treino</span></a>
@@ -273,10 +342,34 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
   </aside>
 
   <main>
+    <section id="hoje">
+      <div class="streak">
+        <div class="sk-top">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span class="sk-label">SEQUÊNCIA DIÁRIA</span>
+            <div class="sk-num" aria-live="polite"><span data-i="flame"></span><b id="skN">0</b><span id="skUnit">DIAS</span></div>
+            <small id="skNext"></small>
+          </div>
+          <svg class="gauge" viewBox="0 0 120 70" aria-hidden="true"><path d="M12 62a48 48 0 0 1 96 0" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="12" stroke-linecap="round"/><path id="gArc" d="M12 62a48 48 0 0 1 96 0" fill="none" stroke="var(--go)" stroke-width="12" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100"/></svg>
+        </div>
+        <div class="calcard">
+          <div class="calhead"><span>CALENDÁRIO</span><span class="muted" id="calMonth"></span></div>
+          <div class="cal" id="cal"></div>
+        </div>
+      </div>
+      <div class="iosnote" id="iosNote" hidden><b>Instale no iPhone:</b><span>toque em Compartilhar e depois em Adicionar à Tela de Início.</span></div>
+      <div class="checkin">
+        <button type="button" class="ck" id="ckDieta" aria-pressed="false"><span class="box" data-i="check"></span><span><b>Bati a dieta hoje</b><small>Segui o cardápio e os macros</small></span></button>
+        <button type="button" class="ck" id="ckTreino" aria-pressed="false"><span class="box" data-i="check"></span><span><b id="ckTreinoT">Treinei hoje</b><small id="ckTreinoS"></small></span></button>
+      </div>
+      <h2 style="margin-top:8px">Meu dia</h2>
+      <div class="myday" id="myday"></div>
+    </section>
+
     <section id="resumo">
       <div class="hero">
         <div class="ring" aria-label="Divisão das calorias entre os macros">
-          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--brand-ink)" stroke-opacity=".18" stroke-width="10"/>
+          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="var(--sunk)" stroke-width="10"/>
             <circle id="rP" cx="50" cy="50" r="42" fill="none" stroke="var(--prot)" stroke-width="10" pathLength="100"/>
             <circle id="rC" cx="50" cy="50" r="42" fill="none" stroke="var(--carb)" stroke-width="10" pathLength="100"/>
             <circle id="rF" cx="50" cy="50" r="42" fill="none" stroke="var(--fat)" stroke-width="10" pathLength="100"/></svg>
@@ -343,7 +436,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
     </section>
 
     <details class="method">
-      <summary><span data-i="calculator"></span>Como o Forma calcula seu plano</summary>
+      <summary><span data-i="calculator"></span>Como o SHAPE calcula seu plano</summary>
       <div class="body">
         <p><strong>Metabolismo basal</strong> pela fórmula de Mifflin-St Jeor: 10 × peso + 6,25 × altura − 5 × idade, somando 5 para homens e subtraindo 161 para mulheres.</p>
         <p><strong>Gasto total</strong> é o basal multiplicado pelo fator da sua rotina (1,2 a 1,9).</p>
@@ -354,7 +447,14 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
     </details>
   </main>
 </div>
-<footer>Forma · ícones Lucide (licença ISC)</footer>
+<nav class="tabbar" aria-label="Navegação">
+  <a href="#hoje" class="on" data-i="flame">Hoje</a>
+  <a href="#resumo" data-i="target">Metas</a>
+  <a href="#alimentos" data-i="utensils">Dieta</a>
+  <a href="#treino" data-i="dumbbell">Treino</a>
+  <a href="#ajustes" data-i="sliders-horizontal">Ajustes</a>
+</nav>
+<footer><b>SHAPE</b> · criado por Ted Borges Dias Luz · ícones Lucide (licença ISC)</footer>
 
 <script>
 const ICONS={"drumstick":"<path d=\"M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23\" /><path d=\"m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59\" />","beef":"<circle cx=\"12.5\" cy=\"8.5\" r=\"2.5\" /><path d=\"M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z\" /><path d=\"m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5\" />","fish":"<path d=\"M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z\" /><path d=\"M18 12v.5\" /><path d=\"M16 17.93a9.77 9.77 0 0 1 0-11.86\" /><path d=\"M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33\" /><path d=\"M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4\" /><path d=\"m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98\" />","egg":"<path d=\"M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z\" />","milk":"<path d=\"M8 2h8\" /><path d=\"M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2\" /><path d=\"M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" />","wheat":"<path d=\"M2 22 16 8\" /><path d=\"M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z\" /><path d=\"M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" />","bean":"<path d=\"M10.165 6.598C9.954 7.478 9.64 8.36 9 9c-.64.64-1.521.954-2.402 1.165A6 6 0 0 0 8 22c7.732 0 14-6.268 14-14a6 6 0 0 0-11.835-1.402Z\" /><path d=\"M5.341 10.62a4 4 0 1 0 5.279-5.28\" />","carrot":"<path d=\"M2.27 21.7s9.87-3.5 12.73-6.36a4.5 4.5 0 0 0-6.36-6.37C5.77 11.84 2.27 21.7 2.27 21.7zM8.64 14l-2.05-2.04M15.34 15l-2.46-2.46\" /><path d=\"M22 9s-1.33-2-3.5-2C16.86 7 15 9 15 9s1.33 2 3.5 2S22 9 22 9z\" /><path d=\"M15 2s-2 1.33-2 3.5S15 9 15 9s2-1.84 2-3.5C17 3.33 15 2 15 2z\" />","croissant":"<path d=\"m4.6 13.11 5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11Z\" /><path d=\"m10.5 9.5-1-2.29C9.2 6.48 8.8 6 8 6H4.5C2.79 6 2 6.5 2 8.5a7.71 7.71 0 0 0 2 4.83\" /><path d=\"M8 6c0-1.55.24-4-2-4-2 0-2.5 2.17-2.5 4\" /><path d=\"m14.5 13.5 2.29 1c.73.3 1.21.7 1.21 1.5v3.5c0 1.71-.5 2.5-2.5 2.5a7.71 7.71 0 0 1-4.83-2\" /><path d=\"M18 16c1.55 0 4-.24 4 2 0 2-2.17 2.5-4 2.5\" />","banana":"<path d=\"M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5\" /><path d=\"M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z\" />","apple":"<path d=\"M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z\" /><path d=\"M10 2c1 .5 2 2 2 5\" />","droplet":"<path d=\"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z\" />","nut":"<path d=\"M12 4V2\" /><path d=\"M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4\" /><path d=\"M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z\" />","leaf":"<path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z\" /><path d=\"M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12\" />","salad":"<path d=\"M7 21h10\" /><path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1\" /><path d=\"m13 12 4-4\" /><path d=\"M10.9 7.25A3.99 3.99 0 0 0 4 10c0 .73.2 1.41.54 2\" />","cooking-pot":"<path d=\"M2 12h20\" /><path d=\"M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8\" /><path d=\"m4 8 16-4\" /><path d=\"m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8\" />","sprout":"<path d=\"M7 20h10\" /><path d=\"M10 20c5.5-2.5.8-6.4 3-10\" /><path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\" /><path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\" />","cup-soda":"<path d=\"m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8\" /><path d=\"M5 8h14\" /><path d=\"M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" /><path d=\"m12 8 1-6h2\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /><path d=\"M12 2v2\" /><path d=\"M12 20v2\" /><path d=\"m4.93 4.93 1.41 1.41\" /><path d=\"m17.66 17.66 1.41 1.41\" /><path d=\"M2 12h2\" /><path d=\"M20 12h2\" /><path d=\"m6.34 17.66-1.41 1.41\" /><path d=\"m19.07 4.93-1.41 1.41\" />","moon":"<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z\" />","utensils":"<path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\" /><path d=\"M7 2v20\" /><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\" />","cookie":"<path d=\"M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5\" /><path d=\"M8.5 8.5v.01\" /><path d=\"M16 15.5v.01\" /><path d=\"M12 12v.01\" /><path d=\"M11 17v.01\" /><path d=\"M7 14v.01\" />","dumbbell":"<path d=\"M14.4 14.4 9.6 9.6\" /><path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\" /><path d=\"m21.5 21.5-1.4-1.4\" /><path d=\"M3.9 3.9 2.5 2.5\" /><path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\" />","flame":"<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\" />","scale":"<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"M7 21h10\" /><path d=\"M12 3v18\" /><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\" />","ruler":"<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z\" /><path d=\"m14.5 12.5 2-2\" /><path d=\"m11.5 9.5 2-2\" /><path d=\"m8.5 6.5 2-2\" /><path d=\"m17.5 15.5 2-2\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><circle cx=\"12\" cy=\"12\" r=\"6\" /><circle cx=\"12\" cy=\"12\" r=\"2\" />","glass-water":"<path d=\"M5.116 4.104A1 1 0 0 1 6.11 3h11.78a1 1 0 0 1 .994 1.105L17.19 20.21A2 2 0 0 1 15.2 22H8.8a2 2 0 0 1-2-1.79z\" /><path d=\"M6 12a5 5 0 0 1 6 0 5 5 0 0 0 6 0\" />","footprints":"<path d=\"M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z\" /><path d=\"M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z\" /><path d=\"M16 17h4\" /><path d=\"M4 13h4\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","building-2":"<path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\" /><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\" /><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\" /><path d=\"M10 6h4\" /><path d=\"M10 10h4\" /><path d=\"M10 14h4\" /><path d=\"M10 18h4\" />","heart-pulse":"<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\" /><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /><circle cx=\"12\" cy=\"14\" r=\"8\" />","trending-up":"<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\" /><polyline points=\"16 7 22 7 22 13\" />","activity":"<path d=\"M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2\" />","user":"<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\" /><circle cx=\"12\" cy=\"7\" r=\"4\" />","sparkles":"<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\" /><path d=\"M20 3v4\" /><path d=\"M22 5h-4\" /><path d=\"M4 17v2\" /><path d=\"M5 18H3\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><path d=\"M12 16v-4\" /><path d=\"M12 8h.01\" />","chef-hat":"<path d=\"M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z\" /><path d=\"M6 17h12\" />","calculator":"<rect width=\"16\" height=\"20\" x=\"4\" y=\"2\" rx=\"2\" /><line x1=\"8\" x2=\"16\" y1=\"6\" y2=\"6\" /><line x1=\"16\" x2=\"16\" y1=\"14\" y2=\"18\" /><path d=\"M16 10h.01\" /><path d=\"M12 10h.01\" /><path d=\"M8 10h.01\" /><path d=\"M12 14h.01\" /><path d=\"M8 14h.01\" /><path d=\"M12 18h.01\" /><path d=\"M8 18h.01\" />","biceps-flexed":"<path d=\"M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1\" /><path d=\"M15 14a5 5 0 0 0-7.584 2\" /><path d=\"M9.964 6.825C8.019 7.977 9.5 13 8 15\" />","soup":"<path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M7 21h10\" /><path d=\"M19.5 12 22 6\" /><path d=\"M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62\" /><path d=\"M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62\" /><path d=\"M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62\" />","sandwich":"<path d=\"m2.37 11.223 8.372-6.777a2 2 0 0 1 2.516 0l8.371 6.777\" /><path d=\"M21 15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-5.25\" /><path d=\"M3 15a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h9\" /><path d=\"m6.67 15 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2\" /><rect width=\"20\" height=\"4\" x=\"2\" y=\"11\" rx=\"1\" />","zap":"<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\" />","cherry":"<path d=\"M2 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M12 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M7 14c3.22-2.91 4.29-8.75 5-12 1.66 2.38 4.94 9 5 12\" /><path d=\"M22 9c-4.29 0-7.14-2.33-10-7 5.71 0 10 4.67 10 7Z\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","sliders-horizontal":"<line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\" /><line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\" /><line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\" /><line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\" /><line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\" /><line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\" /><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\" /><line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\" /><line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\" />","clock":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><polyline points=\"12 6 12 12 16 14\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /><path d=\"M3 3v5h5\" />","calendar-days":"<path d=\"M8 2v4\" /><path d=\"M16 2v4\" /><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\" /><path d=\"M3 10h18\" /><path d=\"M8 14h.01\" /><path d=\"M12 14h.01\" /><path d=\"M16 14h.01\" /><path d=\"M8 18h.01\" /><path d=\"M12 18h.01\" /><path d=\"M16 18h.01\" />","coffee":"<path d=\"M10 2v2\" /><path d=\"M14 2v2\" /><path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /><path d=\"M6 2v2\" />","bed":"<path d=\"M2 4v16\" /><path d=\"M2 8h18a2 2 0 0 1 2 2v10\" /><path d=\"M2 17h20\" /><path d=\"M6 8v9\" />","plus":"<path d=\"M5 12h14\" /><path d=\"M12 5v14\" />","minus":"<path d=\"M5 12h14\" />"};
@@ -409,10 +509,10 @@ const $=id=>document.getElementById(id);
 const fmt=(n,d=0)=>n.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
 let sel=new Set(DEFAULT_SEL);
 
-const KEY='forma-v1';
+const KEY='shape-v1';const LOGKEY='shape-log';
 function save(){try{localStorage.setItem(KEY,JSON.stringify({form:readForm(),sel:[...sel],S}))}catch(e){}}
 function load(){
-  try{const s=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('dieta-treino-v1')||'null');if(!s)return;
+  try{const s=JSON.parse(localStorage.getItem(KEY)||localStorage.getItem('forma-v1')||localStorage.getItem('dieta-treino-v1')||'null');if(!s)return;
     const F=s.form;
     $('sexo-'+F.sexo).checked=true;$('idade').value=F.idade;$('peso').value=F.peso;$('altura').value=F.altura;
     $('atividade').value=F.atividade;$('obj-'+F.obj).checked=true;$('nivel').value=F.nivel;$('local-'+F.local).checked=true;
@@ -568,6 +668,23 @@ function render(){
   const P=plan(F);
   $('splitLabel').textContent=P.nome;
   $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||''}</small></div><span class="time">${ic('clock')}${S.horaTreino||''}</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex">${e.n}</span><span class="presc">${e.presc}</span></li>`).join('')}</ol></div>`).join('');
+  const now=new Date(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const nextMeal=active.find(m=>m.h>hm)||active[0];
+  const todayW=DOW[now.getDay()];const td=P.days.find(d=>d.dia===todayW);
+  const nextT=td?null:(()=>{for(let j=1;j<8;j++){const w=DOW[(now.getDay()+j)%7];const d=P.days.find(x=>x.dia===w);if(d)return d}})();
+  let mk={k:0,n:0};if(nextMeal)(per[nextMeal.k]||[]).forEach(({x,g})=>{mk.k+=macrosOf(x,g).k;mk.n++});
+  const kpct=Math.min(100,T.k/R.kcal*100);
+  $('myday').innerHTML=`
+   <a class="mcard" href="#alimentos"><span class="mt"><span class="badge">${ic('salad')}</span>DIETA<span class="go">›</span></span>
+     <div class="pill"><i style="width:${kpct}%"></i><span>${fmt(R.kcal)} kcal por dia</span></div>
+     <span class="sub">Proteína <b>${R.p} g</b> · Carbo <b>${R.c} g</b> · Gordura <b>${R.f} g</b></span></a>
+   <a class="mcard" href="#treino"><span class="mt"><span class="badge">${ic('dumbbell')}</span>TREINO<span class="go">›</span></span>
+     <span><b>${td?esc(td.nome):'Descanso hoje'}</b></span>
+     <span class="sub">${td?`Foco: <b>${FOCUS[td.nome]||''}</b> · ${S.horaTreino||''}`:nextT?`Próximo: <b>${esc(nextT.nome)}</b> (${nextT.dia})`:''}</span></a>
+   ${nextMeal?`<a class="mcard" href="#alimentos"><span class="mt"><span class="badge">${ic('clock')}</span>PRÓXIMA REFEIÇÃO<span class="go">›</span></span>
+     <span><b>${esc(nextMeal.n)}</b> às <b>${nextMeal.h}</b></span>
+     <span class="sub">${mk.n} alimentos · <b>${fmt(mk.k)} kcal</b></span></a>`:''}`;
+  renderStreak();
   $('tips').innerHTML=P.tips.map(([i,t,s])=>`<div class="tip"><span class="badge">${ic(i)}</span><div><b>${t}</b><br><span class="muted">${s}</span></div></div>`).join('');
   save();
 }
@@ -575,6 +692,36 @@ function buildPick(){
   $('pick').innerHTML=GROUPS.map(([g,n,i,c])=>`<div class="pickgroup" style="--c:var(${c})"><span class="gh">${ic(i)}${n}</span><div class="chips">${
     FOODS.filter(x=>x.g===g).map(x=>`<label class="chip"><input type="checkbox" id="food-${x.id}" value="${x.id}" ${sel.has(x.id)?'checked':''}><span>${ic(x.i)}${x.n}</span></label>`).join('')}</div></div>`).join('');
 }
+// ---------- sequência ----------
+const DOW=['DOM','SEG','TER','QUA','QUI','SEX','SÁB'];
+const dkey=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+let LOG={};try{LOG=JSON.parse(localStorage.getItem(LOGKEY)||'{}')||{}}catch(e){}
+function saveLog(){try{localStorage.setItem(LOGKEY,JSON.stringify(LOG))}catch(e){}}
+const isTrainDay=d=>S.dias.includes(DOW[d.getDay()]);
+function isDone(d){const L=LOG[dkey(d)];return !!(L&&L.d&&(L.t||!isTrainDay(d)))}
+function streakCount(){const d=new Date();if(!isDone(d))d.setDate(d.getDate()-1);let n=0;while(isDone(d)&&n<2000){n++;d.setDate(d.getDate()-1)}return n}
+function renderStreak(){
+  const n=streakCount();
+  $('skN').textContent=n;$('skUnit').textContent=n===1?'DIA':'DIAS';
+  const ms=[3,7,14,21,30,60,100,180,365,730];const next=ms.find(m=>m>n)||n+100;
+  $('skNext').textContent=n?`Faltam ${next-n} para ${next} dias seguidos`:'Marque a dieta e o treino de hoje para começar';
+  $('gArc').setAttribute('stroke-dasharray',Math.max(0.01,n/next*100)+' 100');
+  const today=new Date();today.setHours(12,0,0,0);
+  const start=new Date(today);const back=(today.getDay()+6)%7;start.setDate(today.getDate()-back-21);
+  let h=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'].map(w=>`<span class="wd">${w}</span>`).join('');
+  for(let i=0;i<28;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=dkey(d),L=LOG[k];
+    const fut=d>today&&k!==dkey(today),isT=k===dkey(today),done=isDone(d);
+    const cls=['d',fut?'fut':done?'done':(L&&(L.d||L.t))?'half':'miss',isT?'today':''].join(' ');
+    h+=`<span class="${cls}" title="${d.toLocaleDateString('pt-BR')}">${done?ic('check'):d.getDate()}</span>`}
+  $('cal').innerHTML=h;
+  $('calMonth').textContent=today.toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+  const L=LOG[dkey(new Date())]||{};const tday=isTrainDay(new Date());
+  $('ckDieta').setAttribute('aria-pressed',!!L.d);
+  $('ckTreino').setAttribute('aria-pressed',!!L.t);
+  $('ckTreinoT').textContent=tday?'Treinei hoje':'Dia de descanso';
+  $('ckTreinoS').textContent=tday?'Concluí o treino do dia':'Recuperar também conta. Treino opcional';
+}
+function toggleLog(f){const k=dkey(new Date());const L=LOG[k]||{};L[f]=L[f]?0:1;LOG[k]=L;saveLog();renderStreak()}
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c])}
 function buildSettings(){
   $('mealrows').innerHTML=MEAL_SLOTS.map(m=>{const v=S.meals[m.k];return `<div class="mealrow ${v.on?'':'off'}" data-k="${m.k}">
@@ -588,6 +735,8 @@ function buildSettings(){
 }
 function placeholders(){const F=readForm();$('ajuste').placeholder='auto: '+({cut:-20,man:0,bulk:10}[F.obj]);$('protKg').placeholder='auto: '+({cut:2.2,man:1.8,bulk:2.0}[F.obj]).toFixed(1).replace('.',',');$('fatKg').placeholder='auto: 0,8'}
 hydrate(document);load();buildPick();buildSettings();placeholders();
+$('ckDieta').addEventListener('click',()=>toggleLog('d'));$('ckTreino').addEventListener('click',()=>toggleLog('t'));
+document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.tabbar a').forEach(x=>x.classList.toggle('on',x===a))}));
 $('mealrows').addEventListener('input',e=>{const row=e.target.closest('.mealrow');const k=row.dataset.k,f=e.target.dataset.f;
   S.meals[k][f]=f==='on'?e.target.checked:e.target.value;if(f==='on')row.classList.toggle('off',!e.target.checked);render()});
 $('weekdays').addEventListener('change',e=>{const d=e.target.value;
@@ -601,6 +750,18 @@ $('f').addEventListener('change',placeholders);
 $('pick').addEventListener('change',e=>{const id=e.target.value;e.target.checked?sel.add(id):sel.delete(id);render()});
 $('f').addEventListener('input',render);$('f').addEventListener('change',render);
 render();
+</script>
+<script>
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+(function(){
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  if(standalone)return;
+  let ev=null;const btn=document.getElementById('installBtn');
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;btn.hidden=false});
+  btn.addEventListener('click',async()=>{if(!ev)return;ev.prompt();await ev.userChoice;ev=null;btn.hidden=true});
+  addEventListener('appinstalled',()=>{btn.hidden=true});
+  if(/iphone|ipad|ipod/i.test(navigator.userAgent))document.getElementById('iosNote').hidden=false;
+})();
 </script>
 </body>
 </html>
