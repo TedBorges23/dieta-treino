@@ -55,7 +55,8 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 img{max-width:100%}
-html{scroll-behavior:smooth;scroll-padding-top:80px}
+html{scroll-padding-top:80px}
+main>.pg-off{display:none!important}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--body);margin:0}
 .i{width:1.15em;height:1.15em;flex:none;vertical-align:-.2em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
@@ -77,6 +78,7 @@ h3{font-size:.95rem;font-weight:500;letter-spacing:0}
 nav{display:flex;gap:4px;flex-wrap:wrap}
 nav a{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font-weight:500;font-size:.9rem}
 nav a:hover{background:var(--sunk);color:var(--ink)}
+.topbar nav a.on{background:var(--sunk);color:var(--ink);font-weight:700}
 @media (max-width:640px){nav a span{display:none} nav a{padding:8px}}
 
 .wrap{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:24px 56px;display:grid;grid-template-columns:330px minmax(0,1fr);gap:28px;align-items:start}
@@ -335,6 +337,7 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
   .tabbar a.on{color:var(--go)}
   body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
   .checkin{grid-template-columns:minmax(0,1fr)}
+  aside.pg-off{display:none}
 }
 .palettes{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
 .pal{position:relative;cursor:pointer}
@@ -376,8 +379,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
   <button type="button" class="install" id="installBtn" hidden>Instalar app</button>
   <nav aria-label="Seções">
     <a href="#hoje" data-i="flame"><span>Hoje</span></a>
-    <a href="#resumo" data-i="target"><span>Metas</span></a>
-    <a href="#alimentos" data-i="utensils"><span>Cardápio</span></a>
+    <a href="#alimentos" data-i="utensils"><span>Dieta</span></a>
     <a href="#treino" data-i="dumbbell"><span>Treino</span></a>
     <a href="#fotos" data-i="camera"><span>Fotos</span></a>
     <a href="#ajustes" data-i="sliders-horizontal"><span>Ajustes</span></a>
@@ -597,7 +599,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
       </div>
     </section>
 
-    <details class="method">
+    <details class="method" id="metodo">
       <summary><span data-i="calculator"></span>Como o SHAPE calcula seu plano</summary>
       <div class="body">
         <p><strong>Metabolismo basal</strong> pela fórmula de Mifflin-St Jeor: 10 × peso + 6,25 × altura − 5 × idade, somando 5 para homens e subtraindo 161 para mulheres.</p>
@@ -1096,7 +1098,32 @@ hydrate(document);load();applyLook();buildPick();buildSettings();placeholders();
 $('palettes').addEventListener('change',e=>{S.palette=e.target.value;applyLook();save()});
 $('modeSeg').addEventListener('change',e=>{S.mode=e.target.value;applyLook();save()});
 $('ckDieta').addEventListener('click',()=>toggleLog('d'));$('ckTreino').addEventListener('click',()=>toggleLog('t'));
-document.querySelectorAll('.tabbar a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.tabbar a').forEach(x=>x.classList.toggle('on',x===a))}));
+// Abas: cada item do menu mostra só a sua tela, sem rolar a página.
+const PAGES={hoje:['hoje'],dieta:['resumo','alimentos'],treino:['treino'],fotos:['fotos'],ajustes:['ajustes','metodo'],perfil:[]};
+const H2P={hoje:'hoje',resumo:'dieta',alimentos:'dieta',treino:'treino',fotos:'fotos',ajustes:'ajustes',metodo:'ajustes',dados:'perfil'};
+const mobQ=matchMedia('(max-width:640px)');
+if('scrollRestoration' in history)history.scrollRestoration='manual';
+let curPage=null;
+function goPage(hash,push){
+  const id=(hash||'').replace('#','')||'hoje',p=H2P[id];
+  if(!p)return false;
+  const show=PAGES[p==='perfil'&&!mobQ.matches?'hoje':p];
+  Object.keys(H2P).forEach(k=>{const el=$(k);if(el&&k!=='dados')el.classList.toggle('pg-off',!show.includes(k))});
+  $('dados').classList.toggle('pg-off',p!=='perfil');
+  document.querySelectorAll('.tabbar a, .topbar nav a').forEach(a=>a.classList.toggle('on',H2P[a.getAttribute('href').slice(1)]===p));
+  if(push&&location.hash!=='#'+id)history.pushState(null,'','#'+id);
+  const changed=curPage!==p;curPage=p;
+  if(p==='perfil'&&!mobQ.matches)$('dados').scrollIntoView({block:'start'});
+  else if(changed||push)window.scrollTo({top:0,behavior:'instant'});
+  return true;
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a[href^="#"]');
+  if(a&&!e.defaultPrevented&&goPage(a.getAttribute('href'),true))e.preventDefault();
+});
+addEventListener('popstate',()=>goPage(location.hash));
+mobQ.addEventListener('change',()=>goPage('#'+(curPage==='perfil'?'dados':(PAGES[curPage]||['hoje'])[0])));
+goPage(location.hash);
 $('mealrows').addEventListener('input',e=>{const row=e.target.closest('.mealrow');const k=row.dataset.k,f=e.target.dataset.f;
   S.meals[k][f]=f==='on'?e.target.checked:e.target.value;if(f==='on')row.classList.toggle('off',!e.target.checked);render()});
 $('weekdays').addEventListener('change',e=>{const d=e.target.value;
