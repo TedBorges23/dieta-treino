@@ -238,6 +238,16 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .medtable th,.medtable td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}
 .medtable th:first-child,.medtable td:first-child{text-align:left}
 .medtable .dn{color:var(--go)}.medtable .up{color:var(--warn)}
+.lvl summary{cursor:pointer;font-size:.82rem;color:var(--brand-text);font-weight:600;margin-top:6px}
+.lvlgrid{display:grid;grid-template-columns:minmax(0,1.2fr) 1fr 1fr;gap:6px;align-items:center;font-size:.84rem}
+.lvlgrid input{width:100%;font:inherit;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:7px 8px}
+.lvlgrid .label{font-size:.7rem}
+.supl{display:flex;flex-direction:column;gap:8px}
+.supl div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;font-size:.85rem;align-items:baseline}
+.supl b.t{font-size:.72rem;letter-spacing:.03em;text-transform:uppercase;padding:2px 8px;border-radius:999px;text-align:center}
+.supl .t1{background:color-mix(in srgb,var(--go) 18%,var(--surface));color:var(--go)}
+.supl .t2{background:var(--brand-soft);color:var(--brand-text)}
+.supl .t3{background:var(--sunk);color:var(--muted)}
 .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tip{background:var(--surface);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;box-shadow:var(--shadow)}
 .tip .badge{width:32px;height:32px;border-radius:9px}
@@ -403,7 +413,17 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
           <label><input type="radio" name="obj" id="obj-bulk" value="bulk"><span>Crescer</span></label>
         </div></div>
       <div class="field"><label class="label" for="nivel" data-i="trending-up">Experiência no treino</label>
-        <select id="nivel"><option value="ini">Iniciante</option><option value="int" selected>Intermediário</option></select></div>
+        <select id="nivel"><option value="ini">Iniciante</option><option value="int" selected>Intermediário</option><option value="adv">Avançado</option></select>
+        <details class="lvl"><summary>Não sabe? Descubra pela sua força</summary>
+          <p class="note" style="margin:6px 0">Faça cada exercício com boa técnica, numa carga que você aguente de 6 a 10 repetições. Coloque a carga e as repetições.</p>
+          <div class="lvlgrid">
+            <span></span><span class="label">kg</span><span class="label">reps</span>
+            <span>Supino</span><input type="number" id="lvSupKg" min="0" inputmode="decimal"><input type="number" id="lvSupR" min="1" max="15" inputmode="numeric">
+            <span>Agachamento</span><input type="number" id="lvAgKg" min="0" inputmode="decimal"><input type="number" id="lvAgR" min="1" max="15" inputmode="numeric">
+            <span>Terra</span><input type="number" id="lvTeKg" min="0" inputmode="decimal"><input type="number" id="lvTeR" min="1" max="15" inputmode="numeric">
+          </div>
+          <p class="note" id="lvOut" style="margin:6px 0;display:block"></p>
+        </details></div>
       <div class="field"><span class="label">Onde treina</span>
         <div class="seg">
           <label><input type="radio" name="local" id="local-gym" value="gym" checked><span data-i="building-2">Academia</span></label>
@@ -478,6 +498,17 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
       </div>
       <h3 class="label" style="margin-top:6px">Como dividir nas refeições</h3>
       <div class="meals" id="meals"></div>
+      <div class="card">
+        <h3 class="ch" data-i="sparkles">Suplementos: o que tem evidência</h3>
+        <div class="supl">
+          <div><b class="t t1">Funciona</b><span><b>Creatina</b> 3 a 5 g por dia, todo dia, em qualquer horário. Mais força e mais massa magra ao longo do tempo.</span></div>
+          <div><b class="t t1">Funciona</b><span><b>Cafeína</b> 3 a 6 mg/kg, 30 a 60 min antes do treino. Evite à noite para não atrapalhar o sono.</span></div>
+          <div><b class="t t2">Praticidade</b><span><b>Whey, caseína, albumina</b>: são comida em pó. Ajudam a bater a proteína do dia, mas não fazem nada que a comida não faça.</span></div>
+          <div><b class="t t2">Depende</b><span><b>Beta-alanina</b> ajuda em esforços de 1 a 4 min. <b>Ômega 3</b> se você come pouco peixe. <b>Vitamina D</b> só com exame mostrando falta.</span></div>
+          <div><b class="t t3">Não vale</b><span><b>BCAA, glutamina, L-carnitina e termogênicos</b>: com proteína suficiente na dieta, não mostram ganho em músculo ou perda de gordura.</span></div>
+        </div>
+        <p class="note" style="margin:0">Fontes: posições da ISSN sobre creatina (Kreider, 2017), cafeína (Guest, 2021) e beta-alanina (Trexler, 2015), e consenso do Comitê Olímpico Internacional (Maughan, 2018).</p>
+      </div>
       <p class="note" id="dietNote"></p>
       <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO (4ª edição) e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
     </section>
@@ -575,7 +606,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         <p><strong>Macros</strong>: proteína de 2,2 g/kg para secar, 1,8 g/kg para manter e 2,0 g/kg para crescer. Com IMC 30 ou mais, a conta usa o peso de referência (IMC 25). Gordura de 0,8 g/kg, com mínimo de 20% das calorias. O carboidrato completa o restante.</p>
         <p><strong>Ritmo previsto</strong>: diferença entre a meta e o gasto, vezes 7 dias, dividida por 7.700 kcal por kg. É uma estimativa: confira a balança e ajuste a meta em Ajustes se o peso não andar em 2 a 3 semanas.</p>
         <p><strong>Volume de treino</strong>: o app soma as séries semanais de cada músculo, contando meia série para os que ajudam nos compostos. A faixa de 10 a 20 séries (8 para iniciantes) vem das meta-análises de volume.</p>
-        <p><strong>Fontes</strong>: ISSN, posição sobre proteína e exercício (Jäger et al., 2017) e sobre creatina (Kreider et al., 2017); Helms et al., 2014, recomendações para preparação natural; Schoenfeld e Aragon, 2018, proteína por refeição; Schoenfeld et al., 2017, e Pelland et al., 2024, volume e hipertrofia; Schoenfeld et al., 2016, e Singer et al., 2024, descanso entre séries; Iraki et al., 2019, ganho de massa; Stronger by Science, Renaissance Periodization (Mike Israetel) e Jeff Nippard como divulgação desses estudos.</p>
+        <p><strong>Fontes</strong>: ISSN, posição sobre proteína e exercício (Jäger et al., 2017) e sobre creatina (Kreider et al., 2017); Helms et al., 2014, recomendações para preparação natural; Schoenfeld e Aragon, 2018, proteína por refeição; Schoenfeld et al., 2017, e Pelland et al., 2024, volume e hipertrofia; Schoenfeld et al., 2016, e Singer et al., 2024, descanso entre séries; níveis de força, treinos de adaptação e divisões com foco em glúteos do Curso de Treino de Leandro Twin; Iraki et al., 2019, ganho de massa; Stronger by Science, Renaissance Periodization (Mike Israetel) e Jeff Nippard como divulgação desses estudos.</p>
         <p><strong>Cardápio</strong>: cada alimento entra no grupo do seu macro principal. O que falta de cada macro é repartido entre os alimentos do grupo, dando mais peso às bases da refeição (carnes, arroz, batata) do que aos complementos. O app desconta o que os outros grupos já trazem e repete até estabilizar.</p>
       </div>
     </details>
@@ -734,6 +765,8 @@ const EQ={
  legpress:{g:'Quadríceps',c:1,opts:[['Leg press 45°','g'],['Leg press horizontal','g'],['Agachamento búlgaro com halteres','g'],['Agachamento búlgaro','h'],['Agachamento sumô com mochila','h']]},
  terra:{g:'Posterior e glúteos',c:1,opts:[['Levantamento terra romeno','g'],['Stiff com barra','g'],['Good morning','g'],['Stiff com halteres ou mochila','h'],['Ponte de glúteo com carga','h']]},
  elevpelv:{g:'Glúteos',c:1,opts:[['Elevação pélvica com barra','g'],['Elevação pélvica na máquina','g'],['Elevação pélvica com halter','g'],['Elevação pélvica com mochila','h'],['Ponte de glúteo unilateral','h']]},
+ abdutora:{g:'Glúteos',c:0,opts:[['Cadeira abdutora','g'],['Abdução no cabo','g'],['Abdução com elástico','h'],['Abdução deitada de lado','h']]},
+ gluteo:{g:'Glúteos',c:0,opts:[['Glúteo no cabo','g'],['Glúteo 4 apoios na máquina','g'],['Glúteo 4 apoios com caneleira','h'],['Glúteo 4 apoios sem carga','h']]},
  extensora:{g:'Quadríceps',c:0,opts:[['Cadeira extensora','g'],['Afundo no Smith','g'],['Afundo alternado','h'],['Subida no banco (step-up)','h']]},
  flexora:{g:'Posterior',c:0,opts:[['Mesa flexora','g'],['Cadeira flexora','g'],['Flexora em pé com caneleira','h'],['Ponte de glúteo unilateral','h']]},
  pant:{g:'Panturrilha',c:0,opts:[['Panturrilha em pé','g'],['Panturrilha sentado','g'],['Panturrilha no leg press','g'],['Panturrilha unilateral no degrau','h']]},
@@ -777,20 +810,31 @@ const T={
  EC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  ED:['D · Ombros',['desenv','elevlat','facepull','abd']],
  EE:['E · Braços',['rosca','triceps','rosca2','triceps2']],
+ HA:['A · Quadríceps e glúteos',['agach','legpress','extensora','abdutora','pant']],
+ HB:['B · Peito, ombros e tríceps',['supino','supinoinc','desenv','elevlat','triceps']],
+ HC:['C · Posterior e glúteos',['terra','flexora','elevpelv','gluteo','pant']],
+ HD:['D · Costas e bíceps',['puxada','remada','pullover','rosca','abd']],
+ GA:['A · Quadríceps e peito',['agach','legpress','extensora','supino','supinoinc']],
+ GB:['B · Glúteos e panturrilha',['elevpelv','abdutora','gluteo','pant','abd']],
+ GC:['C · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2']],
+ GD:['D · Posterior, ombros e tríceps',['terra','flexora','desenv','elevlat','triceps']],
+ GE:['E · Glúteos e core',['elevpelv','gluteo','abdutora','pant','prancha']],
 };
 const AUTO={2:['FA','FB'],3:['FA','FB','FA'],4:['SA','IA','SB','IB'],5:['PU','PL','LG','SU','IN'],6:['PU','PL','LG','PU','PL','LG']};
 const SPLITS={
- auto:{n:'Automática',d:'O app escolhe pela quantidade de dias.'},
+ auto:{n:'Automática',d:'O app escolhe pela quantidade de dias e pelo sexo.'},
  full:{n:'Corpo inteiro (A/B)',d:'Todo o corpo em cada treino. Ótimo para 2 a 3 dias.',k:['FA','FB']},
  ul:{n:'Superior / Inferior',d:'Alterna tronco e pernas. Ideal para 4 dias.',k:['SA','IA','SB','IB']},
  ppl:{n:'Empurrar · Puxar · Pernas',d:'Três treinos que se repetem. Bom para 3 ou 6 dias.',k:['PU','PL','LG']},
  abc:{n:'ABC',d:'A peito, ombros e tríceps. B costas e bíceps. C pernas.',k:['CA','CB','CC']},
  abcd:{n:'ABCD',d:'Peito e tríceps, costas e bíceps, pernas, ombros e core.',k:['DA','DB','DC','DD']},
  abcde:{n:'ABCDE',d:'Um grupo por dia: peito, costas, pernas, ombros, braços.',k:['EA','EB','EC','ED','EE']},
+ fem4:{n:'Foco em pernas e glúteos (ABCD)',d:'Dois dias de membros inferiores, um de empurrar e um de puxar. Padrão automático para mulheres com 4 dias.',k:['HA','HB','HC','HD']},
+ fem5:{n:'Foco em pernas e glúteos (ABCDE)',d:'Três dias de membros inferiores e glúteos. Padrão automático para mulheres com 5 dias.',k:['GA','GB','GC','GD','GE']},
 };
 const FOCUS={'Corpo inteiro A':'Pernas, peito e costas','Corpo inteiro B':'Posterior, ombros e braços','Superior A':'Peito, costas e braços','Superior B':'Peito alto, costas e ombros','Inferior A':'Quadríceps e posterior','Inferior B':'Posterior e glúteos','Empurrar':'Peito, ombros e tríceps','Puxar':'Costas, ombro posterior e bíceps','Pernas':'Pernas completas','Superior':'Tronco completo','Inferior':'Pernas e core'};
 // Séries semanais por músculo: 1 para o alvo direto, 0,5 para quem ajuda (contagem fracionada de Pelland et al., 2024).
-const VOL={agach:['Quadríceps',['Glúteos']],legpress:['Quadríceps',['Glúteos']],terra:['Posterior',['Glúteos']],elevpelv:['Glúteos',['Posterior']],extensora:['Quadríceps',[]],flexora:['Posterior',[]],pant:['Panturrilha',[]],
+const VOL={agach:['Quadríceps',['Glúteos']],legpress:['Quadríceps',['Glúteos']],terra:['Posterior',['Glúteos']],elevpelv:['Glúteos',['Posterior']],abdutora:['Glúteos',[]],gluteo:['Glúteos',[]],extensora:['Quadríceps',[]],flexora:['Posterior',[]],pant:['Panturrilha',[]],
  supino:['Peito',['Tríceps']],supinoinc:['Peito',['Tríceps']],crucifixo:['Peito',[]],remada:['Costas',['Bíceps']],puxada:['Costas',['Bíceps']],pullover:['Costas',[]],
  desenv:['Ombros',['Tríceps']],elevlat:['Ombros',[]],facepull:['Ombros',[]],rosca:['Bíceps',[]],rosca2:['Bíceps',[]],triceps:['Tríceps',[]],triceps2:['Tríceps',[]]};
 const MUSC=['Peito','Costas','Ombros','Bíceps','Tríceps','Quadríceps','Posterior','Glúteos','Panturrilha'];
@@ -799,29 +843,41 @@ function weeklyVolume(days){
   days.forEach(d=>d.ex.forEach(e=>{const r=VOL[e.k];if(!r)return;const n=+e.presc.split(' ')[0];v[r[0]]+=n;r[1].forEach(m=>v[m]+=n/2)}));
   return v;
 }
+// Nível pela força: 1RM estimado (Epley) em % do peso corporal, com as faixas do material de apoio do Curso de Treino.
+const LVSTD={m:{sup:[60,100,120],ag:[80,120,150],te:[100,150,180]},f:{sup:[40,60,80],ag:[60,100,130],te:[80,120,160]}};
+function strengthLevel(F){
+  const L=LVSTD[F.sexo],res=[];
+  for(const [k,a,b] of [['sup','lvSupKg','lvSupR'],['ag','lvAgKg','lvAgR'],['te','lvTeKg','lvTeR']]){
+    const kg=+$(a).value,r=+$(b).value;if(!(kg>0&&r>0))continue;
+    const rm=r===1?kg:kg*(1+r/30),pct=rm/F.peso*100,t=L[k];res.push({k,rm,lv:pct<t[0]?0:pct<t[1]?1:pct<t[2]?2:3})}
+  if(!res.length)return null;
+  const lv=Math.round(res.reduce((x,y)=>x+y.lv,0)/res.length);return{lv,res};
+}
 function exChoice(k,F){
   const e=EQ[k],loc=F.local==='casa'?'h':'g';
   const saved=S.swaps&&S.swaps[F.local+':'+k];
   return e.opts.find(o=>o[0]===saved)||e.opts.find(o=>o[1]===loc)||e.opts[0];
 }
 function plan(F){
-  const ini=F.nivel==='ini';
+  const ini=F.nivel==='ini',adv=F.nivel==='adv';
   const reps={cut:['8–12','12–15'],man:['8–12','10–15'],bulk:['6–10','10–12']}[F.obj];
   const dias=WEEK.filter(d=>S.dias.includes(d));
   const sp=SPLITS[S.split]||SPLITS.auto;
-  const keys=sp.k?dias.map((_,j)=>sp.k[j%sp.k.length]):AUTO[Math.min(6,Math.max(2,dias.length))];
+  const nd=Math.min(6,Math.max(2,dias.length)),femAuto=!sp.k&&F.sexo==='f'&&(nd===4||nd===5);
+  const keys=sp.k?dias.map((_,j)=>sp.k[j%sp.k.length]):femAuto?SPLITS['fem'+nd].k:AUTO[nd];
   const leftOut=sp.k&&sp.k.length>dias.length?sp.k.slice(dias.length).map(t=>T[t][0]):[];
-  const splitName=sp.k?sp.n:({2:'Corpo inteiro A/B',3:'Corpo inteiro A/B',4:'Superior / Inferior',5:'Empurrar · Puxar · Pernas + Sup/Inf',6:'Empurrar · Puxar · Pernas, 2 voltas'})[Math.min(6,Math.max(2,dias.length))];
+  const splitName=sp.k?sp.n:femAuto?SPLITS['fem'+nd].n:({2:'Corpo inteiro A/B',3:'Corpo inteiro A/B',4:'Superior / Inferior',5:'Empurrar · Puxar · Pernas + Sup/Inf',6:'Empurrar · Puxar · Pernas, 2 voltas'})[Math.min(6,Math.max(2,dias.length))];
   const days=keys.map((t,j)=>({dia:dias[j],nome:T[t][0],ex:T[t][1].map(k=>{
     const e=EQ[k],o=exChoice(k,F),comp=e.c===1;
-    return{k,n:o[0],g:e.g,comp,presc:(comp?(ini?3:4):3)+' × '+(o[2]||(comp?reps[0]:reps[1]))};
+    // Iniciante começa pela adaptação: 3 séries de 12 a 15, como nos treinos de adaptação do curso.
+    return{k,n:o[0],g:e.g,comp,presc:(comp?(ini?3:4):3)+' × '+(o[2]||(ini?'12–15':comp?reps[0]:reps[1]))};
   })}));
   const cardio={cut:'3 sessões de 30 min em ritmo moderado, ou 8 a 10 mil passos por dia',
     man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
-  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:10,tips:[
+  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:adv?12:10,tips:[
     ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
     ['heart-pulse','Cardio',cardio+'. Em jejum ou alimentado o resultado é o mesmo quando as calorias do dia são iguais; escolha o que for mais confortável'],
-    ['zap','Intensidade',ini?'Pare 2 a 3 repetições antes da falha':'Última série perto da falha, com 1 a 2 repetições de reserva'],
+    ['zap','Intensidade',ini?'Fase de adaptação: 4 a 8 semanas parando 2 a 3 repetições antes da falha, aprendendo a técnica':adv?'Séries até 0 a 1 repetição da falha. Drop-set ou rest-pause na última série de um isolador economizam tempo com resultado parecido':'Última série perto da falha, com 1 a 2 repetições de reserva'],
     ['trending-up','Progressão','Use a progressão dupla: suba repetições até o topo da faixa em todas as séries, então aumente 2 a 5% da carga e volte ao início da faixa'],
     ['repeat','Execução','Controle a descida e use a amplitude completa, dando ênfase à parte em que o músculo está alongado'],
     ['rotate-ccw','Semana leve','A cada 4 a 8 semanas, ou quando as cargas travarem, faça uma semana com metade das séries'],
@@ -1061,6 +1117,11 @@ loadFotos();renderMed();
 $('medSave').addEventListener('click',()=>{const v={};$('medInputs').querySelectorAll('input').forEach(i=>{const n=parseFloat(i.value.replace(',','.'));if(n>0)v[i.dataset.m]=n});
   const k=dkey(new Date());if(Object.keys(v).length)MED[k]=v;else delete MED[k];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
 $('medTable').addEventListener('click',e=>{if(!e.target.closest('#medDel'))return;const days=Object.keys(MED).sort();const b=days[days.length-1];if(!confirm('Apagar as medidas de '+dfmt(b)+'?'))return;delete MED[b];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
+function renderLevel(){const F=readForm(),r=strengthLevel(F);const N=['Iniciante','Intermediário','Avançado','Extremamente avançado'];
+  if(!r){$('lvOut').textContent='';return}
+  $('lvOut').innerHTML=`Seu nível pela força: <b>${N[r.lv]}</b> (1RM estimado: ${r.res.map(x=>({sup:'supino',ag:'agachamento',te:'terra'})[x.k]+' '+fmt(x.rm)+' kg').join(', ')}). <br><button type="button" class="ghost" id="lvUse" style="margin-top:6px">Usar este nível</button>`}
+document.querySelector('.lvlgrid').addEventListener('input',renderLevel);
+$('lvOut').addEventListener('click',e=>{if(e.target.id!=='lvUse')return;const r=strengthLevel(readForm());if(!r)return;$('nivel').value=['ini','int','adv','adv'][r.lv];$('nivel').dispatchEvent(new Event('change',{bubbles:true}));render();renderLevel()});
 $('subsSel').addEventListener('change',e=>{SUBSK=e.target.value;render()});
 $('reset').addEventListener('click',()=>{const pal=S.palette,mode=S.mode;S=defaultSettings();S.palette=pal;S.mode=mode;buildSettings();render()});
 $('f').addEventListener('change',placeholders);
