@@ -196,6 +196,13 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .day li .ex::before{counter-increment:ex;content:counter(ex);font-family:var(--mono);font-size:.72rem;color:var(--muted);min-width:1.1em}
 .day li .presc{font-family:var(--mono);font-size:.8rem;white-space:nowrap;background:var(--sunk);padding:2px 7px;border-radius:6px}
 .day li.comp .presc{background:var(--brand-soft);color:var(--brand-text)}
+.vh{display:flex;flex-direction:column;gap:2px;font-size:.88rem}.vh b{display:flex;gap:6px;align-items:center}
+.vrow{display:grid;grid-template-columns:92px minmax(0,1fr) 36px 56px;gap:10px;align-items:center;font-size:.85rem}
+.vrow small{color:var(--muted)}.vrow.ok small{color:var(--go)}.vrow.low small,.vrow.high small{color:var(--warn)}
+.vbar{position:relative;height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}
+.vbar .zone{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--go) 22%,transparent)}
+.vbar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--brand2);border-radius:4px;opacity:.85}
+.vrow.ok .vbar .fill{background:var(--go)}
 .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tip{background:var(--surface);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;box-shadow:var(--shadow)}
 .tip .badge{width:32px;height:32px;border-radius:9px}
@@ -429,6 +436,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
       </table></div>
       <h3 class="label" style="margin-top:6px">Como dividir nas refeições</h3>
       <div class="meals" id="meals"></div>
+      <p class="note" id="dietNote"></p>
       <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
     </section>
 
@@ -437,6 +445,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
       <p class="hint" style="margin:0" data-i="repeat">Toque no nome de um exercício para trocar por um equivalente. Séries e repetições continuam calculadas pelo seu objetivo.</p>
       <div class="warnbox" id="splitWarn" hidden></div>
       <div class="days" id="days"></div>
+      <div class="card" id="volume"></div>
       <div class="tips" id="tips"></div>
     </section>
 
@@ -484,7 +493,10 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         <p><strong>Metabolismo basal</strong> pela fórmula de Mifflin-St Jeor: 10 × peso + 6,25 × altura − 5 × idade, somando 5 para homens e subtraindo 161 para mulheres.</p>
         <p><strong>Gasto total</strong> é o basal multiplicado pelo fator da sua rotina (1,2 a 1,9).</p>
         <p><strong>Meta</strong>: secar usa 20% abaixo do gasto, manter usa o gasto, crescer usa 10% acima. Nunca abaixo de 1.200 kcal (mulheres) ou 1.500 kcal (homens).</p>
-        <p><strong>Macros</strong>: proteína de 2,2 g/kg para secar, 1,8 g/kg para manter e 2,0 g/kg para crescer. Gordura de 0,8 g/kg, com mínimo de 20% das calorias. O carboidrato completa o restante.</p>
+        <p><strong>Macros</strong>: proteína de 2,2 g/kg para secar, 1,8 g/kg para manter e 2,0 g/kg para crescer. Com IMC 30 ou mais, a conta usa o peso de referência (IMC 25). Gordura de 0,8 g/kg, com mínimo de 20% das calorias. O carboidrato completa o restante.</p>
+        <p><strong>Ritmo previsto</strong>: diferença entre a meta e o gasto, vezes 7 dias, dividida por 7.700 kcal por kg. É uma estimativa: confira a balança e ajuste a meta em Ajustes se o peso não andar em 2 a 3 semanas.</p>
+        <p><strong>Volume de treino</strong>: o app soma as séries semanais de cada músculo, contando meia série para os que ajudam nos compostos. A faixa de 10 a 20 séries (8 para iniciantes) vem das meta-análises de volume.</p>
+        <p><strong>Fontes</strong>: ISSN, posição sobre proteína e exercício (Jäger et al., 2017) e sobre creatina (Kreider et al., 2017); Helms et al., 2014, recomendações para preparação natural; Schoenfeld e Aragon, 2018, proteína por refeição; Schoenfeld et al., 2017, e Pelland et al., 2024, volume e hipertrofia; Schoenfeld et al., 2016, e Singer et al., 2024, descanso entre séries; Iraki et al., 2019, ganho de massa; Stronger by Science, Renaissance Periodization (Mike Israetel) e Jeff Nippard como divulgação desses estudos.</p>
         <p><strong>Cardápio</strong>: cada alimento entra no grupo do seu macro principal. O que falta de cada macro é repartido entre os alimentos do grupo, dando mais peso às bases da refeição (carnes, arroz, batata) do que aos complementos. O app desconta o que os outros grupos já trazem e repete até estabilizar.</p>
       </div>
     </details>
@@ -574,11 +586,14 @@ function calc(F){
   const floor=F.sexo==='m'?1500:1200;
   let kcal=Math.round(get*mult/10)*10, floored=false;
   if(kcal<floor){kcal=floor;floored=true}
-  const p=Math.round((S.protKg??{cut:2.2,man:1.8,bulk:2.0}[F.obj])*F.peso);
+  // Com IMC 30 ou mais, a proteína usa o peso de referência (IMC 25) para não inflar a meta com massa gorda.
+  const imc=F.peso/((F.altura/100)**2), pRef=imc>=30?25*(F.altura/100)**2:F.peso;
+  const p=Math.round((S.protKg??{cut:2.2,man:1.8,bulk:2.0}[F.obj])*pRef);
   const f=Math.round(S.fatKg!=null?S.fatKg*F.peso:Math.max(.8*F.peso,.2*kcal/9));
   let c=Math.round((kcal-p*4-f*9)/4), lowC=false;
   if(c<50){c=50;lowC=true}
-  return{tmb,get,kcal,p,c,f,floored,lowC,ajuste,auto};
+  const semana=(kcal-get)*7/7700, semanaPct=semana/F.peso*100;
+  return{tmb,get,kcal,p,c,f,floored,lowC,ajuste,auto,pRef,semana,semanaPct};
 }
 
 function solve(T){
@@ -613,6 +628,7 @@ const EQ={
  agach:{g:'Quadríceps',c:1,opts:[['Agachamento livre','g'],['Agachamento no Smith','g'],['Hack machine','g'],['Agachamento goblet com halter ou mochila','h'],['Agachamento búlgaro','h']]},
  legpress:{g:'Quadríceps',c:1,opts:[['Leg press 45°','g'],['Leg press horizontal','g'],['Agachamento búlgaro com halteres','g'],['Agachamento búlgaro','h'],['Agachamento sumô com mochila','h']]},
  terra:{g:'Posterior e glúteos',c:1,opts:[['Levantamento terra romeno','g'],['Stiff com barra','g'],['Good morning','g'],['Stiff com halteres ou mochila','h'],['Ponte de glúteo com carga','h']]},
+ elevpelv:{g:'Glúteos',c:1,opts:[['Elevação pélvica com barra','g'],['Elevação pélvica na máquina','g'],['Elevação pélvica com halter','g'],['Elevação pélvica com mochila','h'],['Ponte de glúteo unilateral','h']]},
  extensora:{g:'Quadríceps',c:0,opts:[['Cadeira extensora','g'],['Afundo no Smith','g'],['Afundo alternado','h'],['Subida no banco (step-up)','h']]},
  flexora:{g:'Posterior',c:0,opts:[['Mesa flexora','g'],['Cadeira flexora','g'],['Flexora em pé com caneleira','h'],['Ponte de glúteo unilateral','h']]},
  pant:{g:'Panturrilha',c:0,opts:[['Panturrilha em pé','g'],['Panturrilha sentado','g'],['Panturrilha no leg press','g'],['Panturrilha unilateral no degrau','h']]},
@@ -638,22 +654,22 @@ const T={
  SA:['Superior A',['supino','remada','desenv','puxada','rosca','triceps']],
  IA:['Inferior A',['agach','flexora','extensora','pant','prancha']],
  SB:['Superior B',['supinoinc','puxada','remada','elevlat','crucifixo','facepull']],
- IB:['Inferior B',['terra','legpress','extensora','pant','abd']],
+ IB:['Inferior B',['terra','legpress','elevpelv','flexora','pant','abd']],
  PU:['Empurrar',['supino','supinoinc','desenv','elevlat','triceps']],
  PL:['Puxar',['puxada','remada','facepull','rosca','abd']],
- LG:['Pernas',['agach','terra','extensora','flexora','pant']],
+ LG:['Pernas',['agach','terra','elevpelv','extensora','flexora','pant']],
  SU:['Superior',['supinoinc','remada','desenv','puxada','rosca','triceps']],
- IN:['Inferior',['legpress','terra','flexora','pant','prancha']],
- CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','facepull','triceps']],
+ IN:['Inferior',['legpress','terra','elevpelv','flexora','pant','prancha']],
+ CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','triceps']],
  CB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2','abd']],
- CC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ CC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  DA:['A · Peito e tríceps',['supino','supinoinc','crucifixo','triceps','triceps2']],
  DB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2']],
- DC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ DC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  DD:['D · Ombros e core',['desenv','elevlat','facepull','abd','prancha']],
  EA:['A · Peito',['supino','supinoinc','crucifixo','abd']],
  EB:['B · Costas',['puxada','remada','pullover','prancha']],
- EC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ EC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  ED:['D · Ombros',['desenv','elevlat','facepull','abd']],
  EE:['E · Braços',['rosca','triceps','rosca2','triceps2']],
 };
@@ -668,6 +684,16 @@ const SPLITS={
  abcde:{n:'ABCDE',d:'Um grupo por dia: peito, costas, pernas, ombros, braços.',k:['EA','EB','EC','ED','EE']},
 };
 const FOCUS={'Corpo inteiro A':'Pernas, peito e costas','Corpo inteiro B':'Posterior, ombros e braços','Superior A':'Peito, costas e braços','Superior B':'Peito alto, costas e ombros','Inferior A':'Quadríceps e posterior','Inferior B':'Posterior e glúteos','Empurrar':'Peito, ombros e tríceps','Puxar':'Costas, ombro posterior e bíceps','Pernas':'Pernas completas','Superior':'Tronco completo','Inferior':'Pernas e core'};
+// Séries semanais por músculo: 1 para o alvo direto, 0,5 para quem ajuda (contagem fracionada de Pelland et al., 2024).
+const VOL={agach:['Quadríceps',['Glúteos']],legpress:['Quadríceps',['Glúteos']],terra:['Posterior',['Glúteos']],elevpelv:['Glúteos',['Posterior']],extensora:['Quadríceps',[]],flexora:['Posterior',[]],pant:['Panturrilha',[]],
+ supino:['Peito',['Tríceps']],supinoinc:['Peito',['Tríceps']],crucifixo:['Peito',[]],remada:['Costas',['Bíceps']],puxada:['Costas',['Bíceps']],pullover:['Costas',[]],
+ desenv:['Ombros',['Tríceps']],elevlat:['Ombros',[]],facepull:['Ombros',[]],rosca:['Bíceps',[]],rosca2:['Bíceps',[]],triceps:['Tríceps',[]],triceps2:['Tríceps',[]]};
+const MUSC=['Peito','Costas','Ombros','Bíceps','Tríceps','Quadríceps','Posterior','Glúteos','Panturrilha'];
+function weeklyVolume(days){
+  const v={};MUSC.forEach(m=>v[m]=0);
+  days.forEach(d=>d.ex.forEach(e=>{const r=VOL[e.k];if(!r)return;const n=+e.presc.split(' ')[0];v[r[0]]+=n;r[1].forEach(m=>v[m]+=n/2)}));
+  return v;
+}
 function exChoice(k,F){
   const e=EQ[k],loc=F.local==='casa'?'h':'g';
   const saved=S.swaps&&S.swaps[F.local+':'+k];
@@ -687,11 +713,14 @@ function plan(F){
   })}));
   const cardio={cut:'3 sessões de 30 min em ritmo moderado, ou 8 a 10 mil passos por dia',
     man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
-  return{nome:splitName,days,leftOut,tips:[
-    ['timer','Descanso','90 a 120 s nos exercícios principais, 60 s nos demais'],
+  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:10,tips:[
+    ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
     ['heart-pulse','Cardio',cardio],
     ['zap','Intensidade',ini?'Pare 2 a 3 repetições antes da falha':'Última série perto da falha, com 1 a 2 repetições de reserva'],
-    ['trending-up','Progressão','Bateu o topo da faixa em todas as séries? Suba 2 a 5% da carga']]};
+    ['trending-up','Progressão','Use a progressão dupla: suba repetições até o topo da faixa em todas as séries, então aumente 2 a 5% da carga e volte ao início da faixa'],
+    ['repeat','Execução','Controle a descida e use a amplitude completa, dando ênfase à parte em que o músculo está alongado'],
+    ['rotate-ccw','Semana leve','A cada 4 a 8 semanas, ou quando as cargas travarem, faça uma semana com metade das séries'],
+    ['bed','Recuperação','Durma 7 a 9 horas. Creatina (3 a 5 g por dia) é o suplemento com mais evidência, se quiser usar']]};
 }
 
 function render(){
@@ -703,17 +732,21 @@ function render(){
   $('heroTitle').textContent={cut:'Menos gordura, músculo preservado',man:'Energia na medida certa',bulk:'Combustível para crescer'}[F.obj];
   const pct=(g,k)=>Math.round(g*k/R.kcal*100);
   $('pG').textContent=R.p+' g';$('cG').textContent=R.c+' g';$('fG').textContent=R.f+' g';
-  $('pInfo').textContent=fmt(R.p/F.peso,1)+' g/kg · '+pct(R.p,4)+'%';
+  $('pInfo').textContent=fmt(R.p/R.pRef,1)+' g/kg'+(R.pRef!==F.peso?' ref.':'')+' · '+pct(R.p,4)+'%';
   $('cInfo').textContent=fmt(R.c/F.peso,1)+' g/kg · '+pct(R.c,4)+'%';
   $('fInfo').textContent=fmt(R.f/F.peso,1)+' g/kg · '+pct(R.f,9)+'%';
   const tot=R.p*4+R.c*4+R.f*9, gap=1.2;
   let off=0;[['rP',R.p*4],['rC',R.c*4],['rF',R.f*9]].forEach(([id,v])=>{const len=v/tot*100;const el=$(id);el.setAttribute('stroke-dasharray',Math.max(0,len-gap)+' '+(100-len+gap));el.setAttribute('stroke-dashoffset',-off);off+=len});
   const imc=F.peso/((F.altura/100)**2);
   const imcTxt=imc<18.5?'abaixo do ideal':imc<25?'faixa saudável':imc<30?'sobrepeso':'obesidade';
-  $('facts').innerHTML=[['flame','Basal',fmt(R.tmb)+' kcal','em repouso'],['activity','Gasto total',fmt(R.get)+' kcal','com sua rotina'],['scale','IMC',fmt(imc,1),imcTxt],['glass-water','Água',fmt(F.peso*.035,1)+' L','por dia']]
+  const ritmo=Math.abs(R.semana)<0.05?'estável':(R.semana>0?'+':'−')+fmt(Math.abs(R.semana),2)+' kg';
+  $('facts').innerHTML=[['activity','Gasto total',fmt(R.get)+' kcal','basal '+fmt(R.tmb)+' kcal'],['trending-up','Ritmo previsto',ritmo,'por semana · '+fmt(Math.abs(R.semanaPct),1)+'% do peso'],['scale','IMC',fmt(imc,1),imcTxt],['glass-water','Água',fmt(F.peso*.035,1)+' L','por dia']]
     .map(([i,l,v,s])=>`<div class="fact"><span class="badge">${ic(i)}</span><div><span>${l}</span><b class="num">${v}</b><span>${s}</span></div></div>`).join('');
   const w=[];
   if(R.floored)w.push('A meta foi elevada ao mínimo seguro de '+fmt(R.kcal)+' kcal. Para cortar mais que isso, procure acompanhamento profissional.');
+  if(R.semanaPct<-1)w.push('Esse ritmo passa de 1% do peso por semana. Para preservar músculo, o ideal é perder 0,5 a 1% por semana.');
+  if(R.semanaPct>0.5)w.push('Esse ritmo passa de 0,5% do peso por semana. Ganhar mais rápido que isso tende a virar gordura.');
+  if(R.pRef!==F.peso)w.push('Proteína calculada pelo peso de referência ('+fmt(R.pRef)+' kg, IMC 25), que é o que importa para preservar e construir músculo.');
   if(R.lowC)w.push('O carboidrato ficou no mínimo de 50 g, então o total passa um pouco da meta.');
   $('warn').hidden=!w.length;$('warn').innerHTML=ic('info')+'<span>'+w.join(' ')+'</span>';
 
@@ -741,6 +774,8 @@ function render(){
     return `<div class="meal"><div class="mh"><span class="badge">${ic(m.i)}</span><div><h3>${esc(m.n)}</h3></div><span class="time">${m.h}</span></div><ul>${li}</ul><div class="mtot num"><span>${fmt(s2.k)} kcal</span><span>${fmt(s2.p)} g proteína</span></div></div>`}).join('')
     ||'<p class="muted">Ligue pelo menos uma refeição em Ajustes.</p>';
 
+  const protMeal=Math.round(.4*R.pRef);
+  $('dietNote').innerHTML=ic('target')+`<span>Mire pelo menos <b>${protMeal} g de proteína</b> em 3 a 5 refeições do dia e <b>${fmt(R.kcal*14/1000)} g de fibras</b> (frutas, verduras, feijão, aveia).${active.length<3?' Você tem menos de 3 refeições ligadas, o que dificulta distribuir a proteína.':''}</span>`;
   const P=plan(F);
   $('splitLabel').textContent=P.nome;
   $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||[...new Set(d.ex.map(e=>e.g))].slice(0,3).join(', ')}</small></div><span class="time">${ic('clock')}${S.horaTreino||''}</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex"><span class="exwrap"><select class="exsel" data-k="${e.k}" aria-label="Trocar ${esc(e.n)} por equivalente"><optgroup label="Academia">${EQ[e.k].opts.filter(o=>o[1]==='g').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup><optgroup label="Em casa">${EQ[e.k].opts.filter(o=>o[1]==='h').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup></select>${ic('chevron-down')}</span><small>${e.g}</small></span><span class="presc">${e.presc}</span></li>`).join('')}</ol></div>`).join('');
@@ -763,6 +798,10 @@ function render(){
      <span><b>${esc(nextMeal.n)}</b> às <b>${nextMeal.h}</b></span>
      <span class="sub">${mk.n} alimentos · <b>${fmt(mk.k)} kcal</b></span></a>`:''}`;
   renderStreak();
+  const VMAX=20;
+  $('volume').innerHTML=`<div class="vh"><b>${ic('activity')}Séries por semana em cada músculo</b><span class="muted">Faixa ideal: ${P.volMin} a ${VMAX}. Exercícios compostos contam meia série para os músculos que ajudam.</span></div>`+
+    MUSC.map(m=>{const n=Math.round(P.vol[m]*2)/2,st=n<P.volMin?'low':n>VMAX?'high':'ok';
+      return `<div class="vrow ${st}"><span>${m}</span><div class="vbar"><i class="zone" style="left:${P.volMin/25*100}%;width:${(VMAX-P.volMin)/25*100}%"></i><i class="fill" style="width:${Math.min(100,n/25*100)}%"></i></div><span class="num">${fmt(n,n%1?1:0)}</span><small>${st==='ok'?'na faixa':st==='low'?'pouco':'muito'}</small></div>`}).join('');
   $('tips').innerHTML=P.tips.map(([i,t,s])=>`<div class="tip"><span class="badge">${ic(i)}</span><div><b>${t}</b><br><span class="muted">${s}</span></div></div>`).join('');
   save();
 }
