@@ -196,6 +196,48 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .day li .ex::before{counter-increment:ex;content:counter(ex);font-family:var(--mono);font-size:.72rem;color:var(--muted);min-width:1.1em}
 .day li .presc{font-family:var(--mono);font-size:.8rem;white-space:nowrap;background:var(--sunk);padding:2px 7px;border-radius:6px}
 .day li.comp .presc{background:var(--brand-soft);color:var(--brand-text)}
+.vh{display:flex;flex-direction:column;gap:2px;font-size:.88rem}.vh b{display:flex;gap:6px;align-items:center}
+.vrow{display:grid;grid-template-columns:92px minmax(0,1fr) 36px 56px;gap:10px;align-items:center;font-size:.85rem}
+.vrow small{color:var(--muted)}.vrow.ok small{color:var(--go)}.vrow.low small,.vrow.high small{color:var(--warn)}
+.vbar{position:relative;height:8px;background:var(--sunk);border-radius:4px;overflow:hidden}
+.vbar .zone{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--go) 22%,transparent)}
+.vbar .fill{position:absolute;left:0;top:0;bottom:0;background:var(--brand2);border-radius:4px;opacity:.85}
+.vrow.ok .vbar .fill{background:var(--go)}
+.fpanel{display:flex;flex-direction:column;gap:14px}
+.addfoto{position:relative;display:flex}
+.addfoto input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.addfoto span{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:12px;background:var(--brand);color:#fff;font-weight:700}
+.addfoto input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
+.pratoform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:8px}
+.gal{display:flex;flex-direction:column;gap:14px}
+.gday h3{margin:0 0 8px;font-size:.9rem;display:flex;gap:8px;align-items:baseline}
+.gday h3 small{color:var(--muted);font-weight:500}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.gitem{position:relative;margin:0;background:var(--surface);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.gitem img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--sunk)}
+.gitem.prato img{aspect-ratio:1}
+.gitem figcaption{padding:6px 10px 8px;font-size:.8rem;display:flex;flex-direction:column}
+.gitem figcaption small{color:var(--muted)}
+.gitem .del{position:absolute;top:6px;right:6px;width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;cursor:pointer}
+.cmpsel{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmpimgs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cmpimgs figure{margin:0;display:flex;flex-direction:column;gap:4px;font-size:.8rem}
+.cmpimgs img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--sunk)}
+.cmpimgs .empty{aspect-ratio:3/4;border-radius:12px;background:var(--sunk);display:grid;place-items:center;color:var(--muted);text-align:center;padding:8px}
+.subslist{display:flex;flex-direction:column;max-height:340px;overflow:auto}
+.subrow{display:grid;grid-template-columns:minmax(0,1fr) auto 64px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.subrow small{color:var(--muted);text-align:right}
+.subrow .unit{display:block;font-size:.72rem;color:var(--muted)}
+.subrow .ficon{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--c);flex:none}
+.subrow .food{display:flex;gap:8px;align-items:center}
+.medgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:620px){.medgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.medgrid label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--muted)}
+.medgrid input{width:100%;font:inherit;font-weight:500;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:8px 10px}
+.medtable{width:100%;border-collapse:collapse;font-size:.85rem}
+.medtable th,.medtable td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}
+.medtable th:first-child,.medtable td:first-child{text-align:left}
+.medtable .dn{color:var(--go)}.medtable .up{color:var(--warn)}
 .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tip{background:var(--surface);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;box-shadow:var(--shadow)}
 .tip .badge{width:32px;height:32px;border-radius:9px}
@@ -277,7 +319,7 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
 .tabbar{display:none}
 @media (max-width:640px){
   .topbar nav{display:none}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .tabbar{display:grid;grid-template-columns:repeat(6,1fr);position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
   .tabbar a{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.68rem;font-weight:700;color:var(--muted);text-decoration:none;padding:4px 0}
   .tabbar a .i{width:22px;height:22px}
   .tabbar a.on{color:var(--go)}
@@ -327,6 +369,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
     <a href="#resumo" data-i="target"><span>Metas</span></a>
     <a href="#alimentos" data-i="utensils"><span>Cardápio</span></a>
     <a href="#treino" data-i="dumbbell"><span>Treino</span></a>
+    <a href="#fotos" data-i="camera"><span>Fotos</span></a>
     <a href="#ajustes" data-i="sliders-horizontal"><span>Ajustes</span></a>
   </nav>
 </div></header>
@@ -427,9 +470,16 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         <thead><tr><th>Alimento</th><th>Porção do dia</th><th>kcal</th><th>Prot.</th><th>Carb.</th><th>Gord.</th></tr></thead>
         <tbody id="tbody"></tbody><tfoot id="tfoot"></tfoot>
       </table></div>
+      <div class="card" id="subs">
+        <h3 class="ch" data-i="repeat">Substituições equivalentes</h3>
+        <p class="note" style="margin:0">Escolha um alimento do seu cardápio e veja quanto de cada outro do mesmo grupo entrega o mesmo macro principal. Muda um pouco a saciedade e a fibra, mas o total do dia fica praticamente igual. Trocas que dariam porções grandes demais não aparecem.</p>
+        <select id="subsSel" aria-label="Alimento para substituir"></select>
+        <div id="subsList" class="subslist"></div>
+      </div>
       <h3 class="label" style="margin-top:6px">Como dividir nas refeições</h3>
       <div class="meals" id="meals"></div>
-      <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
+      <p class="note" id="dietNote"></p>
+      <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO (4ª edição) e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
     </section>
 
     <section id="treino">
@@ -437,7 +487,45 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
       <p class="hint" style="margin:0" data-i="repeat">Toque no nome de um exercício para trocar por um equivalente. Séries e repetições continuam calculadas pelo seu objetivo.</p>
       <div class="warnbox" id="splitWarn" hidden></div>
       <div class="days" id="days"></div>
+      <div class="card" id="volume"></div>
       <div class="tips" id="tips"></div>
+    </section>
+
+    <section id="fotos">
+      <div class="shead"><span class="badge" data-i="camera"></span><h2>Fotos</h2><p>Acompanhe a evolução do corpo e registre seus pratos. As fotos ficam só neste aparelho e não são enviadas para lugar nenhum.</p></div>
+      <div class="seg" id="fotoTab" style="max-width:360px">
+        <label><input type="radio" name="fotoTab" value="corpo" checked><span data-i="user">Evolução</span></label>
+        <label><input type="radio" name="fotoTab" value="prato"><span data-i="utensils">Pratos</span></label>
+      </div>
+      <div id="fpCorpo" class="fpanel">
+        <div class="card">
+          <h3 class="ch" data-i="camera">Nova foto de avaliação</h3>
+          <div class="seg" id="poseSeg">
+            <label><input type="radio" name="pose" value="Frente" checked><span>Frente</span></label>
+            <label><input type="radio" name="pose" value="Lado"><span>Lado</span></label>
+            <label><input type="radio" name="pose" value="Costas"><span>Costas</span></label>
+          </div>
+          <label class="addfoto"><input type="file" accept="image/*" id="fileCorpo"><span data-i="camera">Tirar ou escolher foto</span></label>
+          <p class="note"><span data-i="info"></span>Para comparar de verdade: mesmo lugar, mesma luz e mesmo horário, de preferência de manhã em jejum, a cada 2 a 4 semanas. O peso do seu perfil é salvo junto.</p>
+        </div>
+        <div class="card">
+          <h3 class="ch" data-i="ruler">Medidas (cm)</h3>
+          <div class="medgrid" id="medInputs"></div>
+          <button type="button" class="ghost" id="medSave" data-i="check" style="align-self:flex-start">Salvar medidas de hoje</button>
+          <div id="medTable"></div>
+        </div>
+        <div class="card" id="compare"></div>
+        <div id="galCorpo" class="gal"></div>
+      </div>
+      <div id="fpPrato" class="fpanel" hidden>
+        <div class="card">
+          <h3 class="ch" data-i="camera">Registrar prato</h3>
+          <div class="pratoform"><select id="pratoMeal" aria-label="Refeição"></select><input type="text" id="pratoNota" placeholder="Observação (opcional)" maxlength="80"></div>
+          <label class="addfoto"><input type="file" accept="image/*" id="filePrato"><span data-i="camera">Tirar ou escolher foto</span></label>
+          <p class="note"><span data-i="info"></span>Fotografar o prato antes de comer ajuda a manter a atenção nas porções e a comparar com o cardápio do dia.</p>
+        </div>
+        <div id="galPrato" class="gal"></div>
+      </div>
     </section>
 
     <section id="ajustes">
@@ -484,7 +572,10 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         <p><strong>Metabolismo basal</strong> pela fórmula de Mifflin-St Jeor: 10 × peso + 6,25 × altura − 5 × idade, somando 5 para homens e subtraindo 161 para mulheres.</p>
         <p><strong>Gasto total</strong> é o basal multiplicado pelo fator da sua rotina (1,2 a 1,9).</p>
         <p><strong>Meta</strong>: secar usa 20% abaixo do gasto, manter usa o gasto, crescer usa 10% acima. Nunca abaixo de 1.200 kcal (mulheres) ou 1.500 kcal (homens).</p>
-        <p><strong>Macros</strong>: proteína de 2,2 g/kg para secar, 1,8 g/kg para manter e 2,0 g/kg para crescer. Gordura de 0,8 g/kg, com mínimo de 20% das calorias. O carboidrato completa o restante.</p>
+        <p><strong>Macros</strong>: proteína de 2,2 g/kg para secar, 1,8 g/kg para manter e 2,0 g/kg para crescer. Com IMC 30 ou mais, a conta usa o peso de referência (IMC 25). Gordura de 0,8 g/kg, com mínimo de 20% das calorias. O carboidrato completa o restante.</p>
+        <p><strong>Ritmo previsto</strong>: diferença entre a meta e o gasto, vezes 7 dias, dividida por 7.700 kcal por kg. É uma estimativa: confira a balança e ajuste a meta em Ajustes se o peso não andar em 2 a 3 semanas.</p>
+        <p><strong>Volume de treino</strong>: o app soma as séries semanais de cada músculo, contando meia série para os que ajudam nos compostos. A faixa de 10 a 20 séries (8 para iniciantes) vem das meta-análises de volume.</p>
+        <p><strong>Fontes</strong>: ISSN, posição sobre proteína e exercício (Jäger et al., 2017) e sobre creatina (Kreider et al., 2017); Helms et al., 2014, recomendações para preparação natural; Schoenfeld e Aragon, 2018, proteína por refeição; Schoenfeld et al., 2017, e Pelland et al., 2024, volume e hipertrofia; Schoenfeld et al., 2016, e Singer et al., 2024, descanso entre séries; Iraki et al., 2019, ganho de massa; Stronger by Science, Renaissance Periodization (Mike Israetel) e Jeff Nippard como divulgação desses estudos.</p>
         <p><strong>Cardápio</strong>: cada alimento entra no grupo do seu macro principal. O que falta de cada macro é repartido entre os alimentos do grupo, dando mais peso às bases da refeição (carnes, arroz, batata) do que aos complementos. O app desconta o que os outros grupos já trazem e repete até estabilizar.</p>
       </div>
     </details>
@@ -494,13 +585,14 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
   <a href="#hoje" class="on" data-i="flame">Hoje</a>
   <a href="#alimentos" data-i="utensils">Dieta</a>
   <a href="#treino" data-i="dumbbell">Treino</a>
+  <a href="#fotos" data-i="camera">Fotos</a>
   <a href="#dados" data-i="user">Perfil</a>
   <a href="#ajustes" data-i="sliders-horizontal">Ajustes</a>
 </nav>
 <footer><b>SHAPE</b> · criado por Ted Borges Dias Luz · ícones Lucide (licença ISC)</footer>
 
 <script>
-const ICONS={"drumstick":"<path d=\"M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23\" /><path d=\"m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59\" />","beef":"<circle cx=\"12.5\" cy=\"8.5\" r=\"2.5\" /><path d=\"M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z\" /><path d=\"m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5\" />","fish":"<path d=\"M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z\" /><path d=\"M18 12v.5\" /><path d=\"M16 17.93a9.77 9.77 0 0 1 0-11.86\" /><path d=\"M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33\" /><path d=\"M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4\" /><path d=\"m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98\" />","egg":"<path d=\"M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z\" />","milk":"<path d=\"M8 2h8\" /><path d=\"M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2\" /><path d=\"M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" />","wheat":"<path d=\"M2 22 16 8\" /><path d=\"M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z\" /><path d=\"M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" />","bean":"<path d=\"M10.165 6.598C9.954 7.478 9.64 8.36 9 9c-.64.64-1.521.954-2.402 1.165A6 6 0 0 0 8 22c7.732 0 14-6.268 14-14a6 6 0 0 0-11.835-1.402Z\" /><path d=\"M5.341 10.62a4 4 0 1 0 5.279-5.28\" />","carrot":"<path d=\"M2.27 21.7s9.87-3.5 12.73-6.36a4.5 4.5 0 0 0-6.36-6.37C5.77 11.84 2.27 21.7 2.27 21.7zM8.64 14l-2.05-2.04M15.34 15l-2.46-2.46\" /><path d=\"M22 9s-1.33-2-3.5-2C16.86 7 15 9 15 9s1.33 2 3.5 2S22 9 22 9z\" /><path d=\"M15 2s-2 1.33-2 3.5S15 9 15 9s2-1.84 2-3.5C17 3.33 15 2 15 2z\" />","croissant":"<path d=\"m4.6 13.11 5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11Z\" /><path d=\"m10.5 9.5-1-2.29C9.2 6.48 8.8 6 8 6H4.5C2.79 6 2 6.5 2 8.5a7.71 7.71 0 0 0 2 4.83\" /><path d=\"M8 6c0-1.55.24-4-2-4-2 0-2.5 2.17-2.5 4\" /><path d=\"m14.5 13.5 2.29 1c.73.3 1.21.7 1.21 1.5v3.5c0 1.71-.5 2.5-2.5 2.5a7.71 7.71 0 0 1-4.83-2\" /><path d=\"M18 16c1.55 0 4-.24 4 2 0 2-2.17 2.5-4 2.5\" />","banana":"<path d=\"M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5\" /><path d=\"M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z\" />","apple":"<path d=\"M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z\" /><path d=\"M10 2c1 .5 2 2 2 5\" />","droplet":"<path d=\"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z\" />","nut":"<path d=\"M12 4V2\" /><path d=\"M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4\" /><path d=\"M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z\" />","leaf":"<path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z\" /><path d=\"M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12\" />","salad":"<path d=\"M7 21h10\" /><path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1\" /><path d=\"m13 12 4-4\" /><path d=\"M10.9 7.25A3.99 3.99 0 0 0 4 10c0 .73.2 1.41.54 2\" />","cooking-pot":"<path d=\"M2 12h20\" /><path d=\"M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8\" /><path d=\"m4 8 16-4\" /><path d=\"m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8\" />","sprout":"<path d=\"M7 20h10\" /><path d=\"M10 20c5.5-2.5.8-6.4 3-10\" /><path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\" /><path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\" />","cup-soda":"<path d=\"m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8\" /><path d=\"M5 8h14\" /><path d=\"M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" /><path d=\"m12 8 1-6h2\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /><path d=\"M12 2v2\" /><path d=\"M12 20v2\" /><path d=\"m4.93 4.93 1.41 1.41\" /><path d=\"m17.66 17.66 1.41 1.41\" /><path d=\"M2 12h2\" /><path d=\"M20 12h2\" /><path d=\"m6.34 17.66-1.41 1.41\" /><path d=\"m19.07 4.93-1.41 1.41\" />","moon":"<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z\" />","utensils":"<path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\" /><path d=\"M7 2v20\" /><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\" />","cookie":"<path d=\"M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5\" /><path d=\"M8.5 8.5v.01\" /><path d=\"M16 15.5v.01\" /><path d=\"M12 12v.01\" /><path d=\"M11 17v.01\" /><path d=\"M7 14v.01\" />","dumbbell":"<path d=\"M14.4 14.4 9.6 9.6\" /><path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\" /><path d=\"m21.5 21.5-1.4-1.4\" /><path d=\"M3.9 3.9 2.5 2.5\" /><path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\" />","flame":"<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\" />","scale":"<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"M7 21h10\" /><path d=\"M12 3v18\" /><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\" />","ruler":"<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z\" /><path d=\"m14.5 12.5 2-2\" /><path d=\"m11.5 9.5 2-2\" /><path d=\"m8.5 6.5 2-2\" /><path d=\"m17.5 15.5 2-2\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><circle cx=\"12\" cy=\"12\" r=\"6\" /><circle cx=\"12\" cy=\"12\" r=\"2\" />","glass-water":"<path d=\"M5.116 4.104A1 1 0 0 1 6.11 3h11.78a1 1 0 0 1 .994 1.105L17.19 20.21A2 2 0 0 1 15.2 22H8.8a2 2 0 0 1-2-1.79z\" /><path d=\"M6 12a5 5 0 0 1 6 0 5 5 0 0 0 6 0\" />","footprints":"<path d=\"M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z\" /><path d=\"M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z\" /><path d=\"M16 17h4\" /><path d=\"M4 13h4\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","building-2":"<path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\" /><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\" /><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\" /><path d=\"M10 6h4\" /><path d=\"M10 10h4\" /><path d=\"M10 14h4\" /><path d=\"M10 18h4\" />","heart-pulse":"<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\" /><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /><circle cx=\"12\" cy=\"14\" r=\"8\" />","trending-up":"<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\" /><polyline points=\"16 7 22 7 22 13\" />","activity":"<path d=\"M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2\" />","user":"<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\" /><circle cx=\"12\" cy=\"7\" r=\"4\" />","sparkles":"<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\" /><path d=\"M20 3v4\" /><path d=\"M22 5h-4\" /><path d=\"M4 17v2\" /><path d=\"M5 18H3\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><path d=\"M12 16v-4\" /><path d=\"M12 8h.01\" />","chef-hat":"<path d=\"M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z\" /><path d=\"M6 17h12\" />","calculator":"<rect width=\"16\" height=\"20\" x=\"4\" y=\"2\" rx=\"2\" /><line x1=\"8\" x2=\"16\" y1=\"6\" y2=\"6\" /><line x1=\"16\" x2=\"16\" y1=\"14\" y2=\"18\" /><path d=\"M16 10h.01\" /><path d=\"M12 10h.01\" /><path d=\"M8 10h.01\" /><path d=\"M12 14h.01\" /><path d=\"M8 14h.01\" /><path d=\"M12 18h.01\" /><path d=\"M8 18h.01\" />","biceps-flexed":"<path d=\"M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1\" /><path d=\"M15 14a5 5 0 0 0-7.584 2\" /><path d=\"M9.964 6.825C8.019 7.977 9.5 13 8 15\" />","soup":"<path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M7 21h10\" /><path d=\"M19.5 12 22 6\" /><path d=\"M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62\" /><path d=\"M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62\" /><path d=\"M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62\" />","sandwich":"<path d=\"m2.37 11.223 8.372-6.777a2 2 0 0 1 2.516 0l8.371 6.777\" /><path d=\"M21 15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-5.25\" /><path d=\"M3 15a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h9\" /><path d=\"m6.67 15 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2\" /><rect width=\"20\" height=\"4\" x=\"2\" y=\"11\" rx=\"1\" />","zap":"<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\" />","cherry":"<path d=\"M2 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M12 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M7 14c3.22-2.91 4.29-8.75 5-12 1.66 2.38 4.94 9 5 12\" /><path d=\"M22 9c-4.29 0-7.14-2.33-10-7 5.71 0 10 4.67 10 7Z\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","sliders-horizontal":"<line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\" /><line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\" /><line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\" /><line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\" /><line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\" /><line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\" /><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\" /><line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\" /><line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\" />","clock":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><polyline points=\"12 6 12 12 16 14\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /><path d=\"M3 3v5h5\" />","calendar-days":"<path d=\"M8 2v4\" /><path d=\"M16 2v4\" /><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\" /><path d=\"M3 10h18\" /><path d=\"M8 14h.01\" /><path d=\"M12 14h.01\" /><path d=\"M16 14h.01\" /><path d=\"M8 18h.01\" /><path d=\"M12 18h.01\" /><path d=\"M16 18h.01\" />","coffee":"<path d=\"M10 2v2\" /><path d=\"M14 2v2\" /><path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /><path d=\"M6 2v2\" />","bed":"<path d=\"M2 4v16\" /><path d=\"M2 8h18a2 2 0 0 1 2 2v10\" /><path d=\"M2 17h20\" /><path d=\"M6 8v9\" />","plus":"<path d=\"M5 12h14\" /><path d=\"M12 5v14\" />","minus":"<path d=\"M5 12h14\" />","repeat":"<path d=\"m17 2 4 4-4 4\" /><path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /><path d=\"m7 22-4-4 4-4\" /><path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />","chevron-down":"<path d=\"m6 9 6 6 6-6\" />"};
+const ICONS={"drumstick":"<path d=\"M15.4 15.63a7.875 6 135 1 1 6.23-6.23 4.5 3.43 135 0 0-6.23 6.23\" /><path d=\"m8.29 12.71-2.6 2.6a2.5 2.5 0 1 0-1.65 4.65A2.5 2.5 0 1 0 8.7 18.3l2.59-2.59\" />","beef":"<circle cx=\"12.5\" cy=\"8.5\" r=\"2.5\" /><path d=\"M12.5 2a6.5 6.5 0 0 0-6.22 4.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3A6.5 6.5 0 0 0 12.5 2Z\" /><path d=\"m18.5 6 2.19 4.5a6.48 6.48 0 0 1 .31 2 6.49 6.49 0 0 1-2.6 5.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5\" />","fish":"<path d=\"M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z\" /><path d=\"M18 12v.5\" /><path d=\"M16 17.93a9.77 9.77 0 0 1 0-11.86\" /><path d=\"M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33\" /><path d=\"M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4\" /><path d=\"m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98\" />","egg":"<path d=\"M12 22c6.23-.05 7.87-5.57 7.5-10-.36-4.34-3.95-9.96-7.5-10-3.55.04-7.14 5.66-7.5 10-.37 4.43 1.27 9.95 7.5 10z\" />","milk":"<path d=\"M8 2h8\" /><path d=\"M9 2v2.789a4 4 0 0 1-.672 2.219l-.656.984A4 4 0 0 0 7 10.212V20a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-9.789a4 4 0 0 0-.672-2.219l-.656-.984A4 4 0 0 1 15 4.788V2\" /><path d=\"M7 15a6.472 6.472 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" />","wheat":"<path d=\"M2 22 16 8\" /><path d=\"M3.47 12.53 5 11l1.53 1.53a3.5 3.5 0 0 1 0 4.94L5 19l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M7.47 8.53 9 7l1.53 1.53a3.5 3.5 0 0 1 0 4.94L9 15l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M11.47 4.53 13 3l1.53 1.53a3.5 3.5 0 0 1 0 4.94L13 11l-1.53-1.53a3.5 3.5 0 0 1 0-4.94Z\" /><path d=\"M20 2h2v2a4 4 0 0 1-4 4h-2V6a4 4 0 0 1 4-4Z\" /><path d=\"M11.47 17.47 13 19l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L5 19l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M15.47 13.47 17 15l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L9 15l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" /><path d=\"M19.47 9.47 21 11l-1.53 1.53a3.5 3.5 0 0 1-4.94 0L13 11l1.53-1.53a3.5 3.5 0 0 1 4.94 0Z\" />","bean":"<path d=\"M10.165 6.598C9.954 7.478 9.64 8.36 9 9c-.64.64-1.521.954-2.402 1.165A6 6 0 0 0 8 22c7.732 0 14-6.268 14-14a6 6 0 0 0-11.835-1.402Z\" /><path d=\"M5.341 10.62a4 4 0 1 0 5.279-5.28\" />","carrot":"<path d=\"M2.27 21.7s9.87-3.5 12.73-6.36a4.5 4.5 0 0 0-6.36-6.37C5.77 11.84 2.27 21.7 2.27 21.7zM8.64 14l-2.05-2.04M15.34 15l-2.46-2.46\" /><path d=\"M22 9s-1.33-2-3.5-2C16.86 7 15 9 15 9s1.33 2 3.5 2S22 9 22 9z\" /><path d=\"M15 2s-2 1.33-2 3.5S15 9 15 9s2-1.84 2-3.5C17 3.33 15 2 15 2z\" />","croissant":"<path d=\"m4.6 13.11 5.79-3.21c1.89-1.05 4.79 1.78 3.71 3.71l-3.22 5.81C8.8 23.16.79 15.23 4.6 13.11Z\" /><path d=\"m10.5 9.5-1-2.29C9.2 6.48 8.8 6 8 6H4.5C2.79 6 2 6.5 2 8.5a7.71 7.71 0 0 0 2 4.83\" /><path d=\"M8 6c0-1.55.24-4-2-4-2 0-2.5 2.17-2.5 4\" /><path d=\"m14.5 13.5 2.29 1c.73.3 1.21.7 1.21 1.5v3.5c0 1.71-.5 2.5-2.5 2.5a7.71 7.71 0 0 1-4.83-2\" /><path d=\"M18 16c1.55 0 4-.24 4 2 0 2-2.17 2.5-4 2.5\" />","banana":"<path d=\"M4 13c3.5-2 8-2 10 2a5.5 5.5 0 0 1 8 5\" /><path d=\"M5.15 17.89c5.52-1.52 8.65-6.89 7-12C11.55 4 11.5 2 13 2c3.22 0 5 5.5 5 8 0 6.5-4.2 12-10.49 12C5.11 22 2 22 2 20c0-1.5 1.14-1.55 3.15-2.11Z\" />","apple":"<path d=\"M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06Z\" /><path d=\"M10 2c1 .5 2 2 2 5\" />","droplet":"<path d=\"M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z\" />","nut":"<path d=\"M12 4V2\" /><path d=\"M5 10v4a7.004 7.004 0 0 0 5.277 6.787c.412.104.802.292 1.102.592L12 22l.621-.621c.3-.3.69-.488 1.102-.592A7.003 7.003 0 0 0 19 14v-4\" /><path d=\"M12 4C8 4 4.5 6 4 8c-.243.97-.919 1.952-2 3 1.31-.082 1.972-.29 3-1 .54.92.982 1.356 2 2 1.452-.647 1.954-1.098 2.5-2 .595.995 1.151 1.427 2.5 2 1.31-.621 1.862-1.058 2.5-2 .629.977 1.162 1.423 2.5 2 1.209-.548 1.68-.967 2-2 1.032.916 1.683 1.157 3 1-1.297-1.036-1.758-2.03-2-3-.5-2-4-4-8-4Z\" />","leaf":"<path d=\"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z\" /><path d=\"M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12\" />","salad":"<path d=\"M7 21h10\" /><path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M11.38 12a2.4 2.4 0 0 1-.4-4.77 2.4 2.4 0 0 1 3.2-2.77 2.4 2.4 0 0 1 3.47-.63 2.4 2.4 0 0 1 3.37 3.37 2.4 2.4 0 0 1-1.1 3.7 2.51 2.51 0 0 1 .03 1.1\" /><path d=\"m13 12 4-4\" /><path d=\"M10.9 7.25A3.99 3.99 0 0 0 4 10c0 .73.2 1.41.54 2\" />","cooking-pot":"<path d=\"M2 12h20\" /><path d=\"M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8\" /><path d=\"m4 8 16-4\" /><path d=\"m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8\" />","sprout":"<path d=\"M7 20h10\" /><path d=\"M10 20c5.5-2.5.8-6.4 3-10\" /><path d=\"M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z\" /><path d=\"M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z\" />","cup-soda":"<path d=\"m6 8 1.75 12.28a2 2 0 0 0 2 1.72h4.54a2 2 0 0 0 2-1.72L18 8\" /><path d=\"M5 8h14\" /><path d=\"M7 15a6.47 6.47 0 0 1 5 0 6.47 6.47 0 0 0 5 0\" /><path d=\"m12 8 1-6h2\" />","sun":"<circle cx=\"12\" cy=\"12\" r=\"4\" /><path d=\"M12 2v2\" /><path d=\"M12 20v2\" /><path d=\"m4.93 4.93 1.41 1.41\" /><path d=\"m17.66 17.66 1.41 1.41\" /><path d=\"M2 12h2\" /><path d=\"M20 12h2\" /><path d=\"m6.34 17.66-1.41 1.41\" /><path d=\"m19.07 4.93-1.41 1.41\" />","moon":"<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z\" />","utensils":"<path d=\"M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2\" /><path d=\"M7 2v20\" /><path d=\"M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7\" />","cookie":"<path d=\"M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5\" /><path d=\"M8.5 8.5v.01\" /><path d=\"M16 15.5v.01\" /><path d=\"M12 12v.01\" /><path d=\"M11 17v.01\" /><path d=\"M7 14v.01\" />","dumbbell":"<path d=\"M14.4 14.4 9.6 9.6\" /><path d=\"M18.657 21.485a2 2 0 1 1-2.829-2.828l-1.767 1.768a2 2 0 1 1-2.829-2.829l6.364-6.364a2 2 0 1 1 2.829 2.829l-1.768 1.767a2 2 0 1 1 2.828 2.829z\" /><path d=\"m21.5 21.5-1.4-1.4\" /><path d=\"M3.9 3.9 2.5 2.5\" /><path d=\"M6.404 12.768a2 2 0 1 1-2.829-2.829l1.768-1.767a2 2 0 1 1-2.828-2.829l2.828-2.828a2 2 0 1 1 2.829 2.828l1.767-1.768a2 2 0 1 1 2.829 2.829z\" />","flame":"<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\" />","scale":"<path d=\"m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z\" /><path d=\"M7 21h10\" /><path d=\"M12 3v18\" /><path d=\"M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2\" />","ruler":"<path d=\"M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z\" /><path d=\"m14.5 12.5 2-2\" /><path d=\"m11.5 9.5 2-2\" /><path d=\"m8.5 6.5 2-2\" /><path d=\"m17.5 15.5 2-2\" />","target":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><circle cx=\"12\" cy=\"12\" r=\"6\" /><circle cx=\"12\" cy=\"12\" r=\"2\" />","glass-water":"<path d=\"M5.116 4.104A1 1 0 0 1 6.11 3h11.78a1 1 0 0 1 .994 1.105L17.19 20.21A2 2 0 0 1 15.2 22H8.8a2 2 0 0 1-2-1.79z\" /><path d=\"M6 12a5 5 0 0 1 6 0 5 5 0 0 0 6 0\" />","footprints":"<path d=\"M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z\" /><path d=\"M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z\" /><path d=\"M16 17h4\" /><path d=\"M4 13h4\" />","house":"<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\" /><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\" />","building-2":"<path d=\"M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z\" /><path d=\"M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2\" /><path d=\"M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2\" /><path d=\"M10 6h4\" /><path d=\"M10 10h4\" /><path d=\"M10 14h4\" /><path d=\"M10 18h4\" />","heart-pulse":"<path d=\"M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z\" /><path d=\"M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27\" />","timer":"<line x1=\"10\" x2=\"14\" y1=\"2\" y2=\"2\" /><line x1=\"12\" x2=\"15\" y1=\"14\" y2=\"11\" /><circle cx=\"12\" cy=\"14\" r=\"8\" />","trending-up":"<polyline points=\"22 7 13.5 15.5 8.5 10.5 2 17\" /><polyline points=\"16 7 22 7 22 13\" />","activity":"<path d=\"M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2\" />","user":"<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\" /><circle cx=\"12\" cy=\"7\" r=\"4\" />","sparkles":"<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\" /><path d=\"M20 3v4\" /><path d=\"M22 5h-4\" /><path d=\"M4 17v2\" /><path d=\"M5 18H3\" />","info":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><path d=\"M12 16v-4\" /><path d=\"M12 8h.01\" />","chef-hat":"<path d=\"M17 21a1 1 0 0 0 1-1v-5.35c0-.457.316-.844.727-1.041a4 4 0 0 0-2.134-7.589 5 5 0 0 0-9.186 0 4 4 0 0 0-2.134 7.588c.411.198.727.585.727 1.041V20a1 1 0 0 0 1 1Z\" /><path d=\"M6 17h12\" />","calculator":"<rect width=\"16\" height=\"20\" x=\"4\" y=\"2\" rx=\"2\" /><line x1=\"8\" x2=\"16\" y1=\"6\" y2=\"6\" /><line x1=\"16\" x2=\"16\" y1=\"14\" y2=\"18\" /><path d=\"M16 10h.01\" /><path d=\"M12 10h.01\" /><path d=\"M8 10h.01\" /><path d=\"M12 14h.01\" /><path d=\"M8 14h.01\" /><path d=\"M12 18h.01\" /><path d=\"M8 18h.01\" />","biceps-flexed":"<path d=\"M12.409 13.017A5 5 0 0 1 22 15c0 3.866-4 7-9 7-4.077 0-8.153-.82-10.371-2.462-.426-.316-.631-.832-.62-1.362C2.118 12.723 2.627 2 10 2a3 3 0 0 1 3 3 2 2 0 0 1-2 2c-1.105 0-1.64-.444-2-1\" /><path d=\"M15 14a5 5 0 0 0-7.584 2\" /><path d=\"M9.964 6.825C8.019 7.977 9.5 13 8 15\" />","soup":"<path d=\"M12 21a9 9 0 0 0 9-9H3a9 9 0 0 0 9 9Z\" /><path d=\"M7 21h10\" /><path d=\"M19.5 12 22 6\" /><path d=\"M16.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.73 1.62\" /><path d=\"M11.25 3c.27.1.8.53.74 1.36-.05.83-.93 1.2-.98 2.02-.06.78.33 1.24.72 1.62\" /><path d=\"M6.25 3c.27.1.8.53.75 1.36-.06.83-.93 1.2-1 2.02-.05.78.34 1.24.74 1.62\" />","sandwich":"<path d=\"m2.37 11.223 8.372-6.777a2 2 0 0 1 2.516 0l8.371 6.777\" /><path d=\"M21 15a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-5.25\" /><path d=\"M3 15a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h9\" /><path d=\"m6.67 15 6.13 4.6a2 2 0 0 0 2.8-.4l3.15-4.2\" /><rect width=\"20\" height=\"4\" x=\"2\" y=\"11\" rx=\"1\" />","zap":"<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\" />","cherry":"<path d=\"M2 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M12 17a5 5 0 0 0 10 0c0-2.76-2.5-5-5-3-2.5-2-5 .24-5 3Z\" /><path d=\"M7 14c3.22-2.91 4.29-8.75 5-12 1.66 2.38 4.94 9 5 12\" /><path d=\"M22 9c-4.29 0-7.14-2.33-10-7 5.71 0 10 4.67 10 7Z\" />","check":"<path d=\"M20 6 9 17l-5-5\" />","sliders-horizontal":"<line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\" /><line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\" /><line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\" /><line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\" /><line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\" /><line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\" /><line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\" /><line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\" /><line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\" />","clock":"<circle cx=\"12\" cy=\"12\" r=\"10\" /><polyline points=\"12 6 12 12 16 14\" />","rotate-ccw":"<path d=\"M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8\" /><path d=\"M3 3v5h5\" />","calendar-days":"<path d=\"M8 2v4\" /><path d=\"M16 2v4\" /><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\" /><path d=\"M3 10h18\" /><path d=\"M8 14h.01\" /><path d=\"M12 14h.01\" /><path d=\"M16 14h.01\" /><path d=\"M8 18h.01\" /><path d=\"M12 18h.01\" /><path d=\"M16 18h.01\" />","coffee":"<path d=\"M10 2v2\" /><path d=\"M14 2v2\" /><path d=\"M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1\" /><path d=\"M6 2v2\" />","bed":"<path d=\"M2 4v16\" /><path d=\"M2 8h18a2 2 0 0 1 2 2v10\" /><path d=\"M2 17h20\" /><path d=\"M6 8v9\" />","plus":"<path d=\"M5 12h14\" /><path d=\"M12 5v14\" />","minus":"<path d=\"M5 12h14\" />","repeat":"<path d=\"m17 2 4 4-4 4\" /><path d=\"M3 11v-1a4 4 0 0 1 4-4h14\" /><path d=\"m7 22-4-4 4-4\" /><path d=\"M21 13v1a4 4 0 0 1-4 4H3\" />","chevron-down":"<path d=\"m6 9 6 6 6-6\" />","camera":"<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\" /><circle cx=\"12\" cy=\"13\" r=\"3\" />","trash-2":"<path d=\"M3 6h18\" /><path d=\"M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6\" /><path d=\"M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2\" /><line x1=\"10\" x2=\"10\" y1=\"11\" y2=\"17\" /><line x1=\"14\" x2=\"14\" y1=\"11\" y2=\"17\" />"};
 function ic(n){return `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]||''}</svg>`}
 function hydrate(root){root.querySelectorAll('[data-i]').forEach(el=>{if(!el.dataset.done){el.insertAdjacentHTML('afterbegin',ic(el.dataset.i));el.dataset.done=1;if(!el.textContent.trim()&&el.classList.contains('badge'))0;else el.style.display=el.style.display||'';}})}
 
@@ -512,6 +604,15 @@ const FOODS=[
  {id:'atum',n:'Atum em água (lata)',i:'fish',g:'p',w:2,k:116,p:26,c:0,f:1,max:240,m:['lan','jan']},
  {id:'ovo',n:'Ovo inteiro cozido',i:'egg',g:'p',w:1.2,k:146,p:13.3,c:0.6,f:9.5,max:200,un:[50,'ovo','ovos'],m:['cafe']},
  {id:'whey',n:'Whey protein',i:'cup-soda',g:'p',w:1,k:400,p:80,c:8,f:6,max:60,un:[30,'scoop','scoops'],m:['lan']},
+ {id:'coxa',n:'Coxa de frango sem pele cozida',i:'drumstick',g:'p',w:2,k:167,p:26.9,c:0,f:5.8,max:400,m:['alm','jan']},
+ {id:'musculo',n:'Músculo bovino cozido',i:'beef',g:'p',w:2.5,k:194,p:31.2,c:0,f:6.7,max:400,m:['alm','jan']},
+ {id:'contrafile',n:'Contra-filé grelhado',i:'beef',g:'p',w:2.5,k:194,p:35.9,c:0,f:4.5,max:400,m:['alm','jan']},
+ {id:'lombo',n:'Lombo de porco assado',i:'beef',g:'p',w:2,k:210,p:35.7,c:0,f:6.4,max:350,m:['alm','jan']},
+ {id:'salmao',n:'Salmão grelhado',i:'fish',g:'p',w:2,k:243,p:26.1,c:0,f:14.5,max:300,m:['alm','jan']},
+ {id:'sardinha',n:'Sardinha assada',i:'fish',g:'p',w:1.5,k:164,p:32.2,c:0,f:3,max:250,m:['alm','jan']},
+ {id:'clara',n:'Clara de ovo cozida',i:'egg',g:'p',w:1,k:59,p:13.4,c:0,f:0.1,max:330,un:[33,'clara','claras'],m:['cafe','lan']},
+ {id:'ricota',n:'Ricota',i:'milk',g:'p',w:.6,k:140,p:12.6,c:3.8,f:8.1,max:150,m:['cafe','lan']},
+ {id:'leite',n:'Leite desnatado',i:'milk',g:'p',w:.5,k:35,p:3.4,c:4.9,f:0.2,max:400,un:[200,'copo','copos'],m:['cafe','lan']},
  {id:'iogurte',n:'Iogurte natural desnatado',i:'milk',g:'p',w:.6,k:41,p:3.8,c:5.8,f:0.3,max:340,un:[170,'pote','potes'],m:['lan']},
  {id:'arroz',n:'Arroz branco cozido',i:'cooking-pot',g:'c',w:3,k:128,p:2.5,c:28.1,f:0.2,max:500,m:['alm','jan']},
  {id:'arrozint',n:'Arroz integral cozido',i:'cooking-pot',g:'c',w:3,k:124,p:2.6,c:25.8,f:1,max:500,m:['alm','jan']},
@@ -519,15 +620,31 @@ const FOODS=[
  {id:'batata',n:'Batata-doce cozida',i:'carrot',g:'c',w:3,k:77,p:0.6,c:18.4,f:0.1,max:600,m:['alm','jan']},
  {id:'macarrao',n:'Macarrão cozido',i:'wheat',g:'c',w:3,k:157,p:5.8,c:30.9,f:0.9,max:400,m:['alm','jan']},
  {id:'mandioca',n:'Mandioca cozida',i:'sprout',g:'c',w:2,k:125,p:0.6,c:30.1,f:0.3,max:400,m:['alm','jan']},
+ {id:'feijaopreto',n:'Feijão preto cozido',i:'bean',g:'c',w:1.5,k:77,p:4.5,c:14,f:0.5,max:300,m:['alm','jan']},
+ {id:'lentilha',n:'Lentilha cozida',i:'bean',g:'c',w:1.5,k:93,p:6.3,c:16.3,f:0.5,max:300,m:['alm','jan']},
+ {id:'batatainglesa',n:'Batata inglesa cozida',i:'carrot',g:'c',w:2.5,k:52,p:1.2,c:11.9,f:0,max:600,m:['alm','jan']},
+ {id:'cuscuz',n:'Cuscuz de milho cozido',i:'wheat',g:'c',w:2,k:113,p:2.2,c:25.3,f:0.7,max:400,m:['cafe','jan']},
+ {id:'milho',n:'Milho verde em conserva',i:'wheat',g:'c',w:1,k:98,p:3.2,c:17.1,f:2.4,max:200,m:['alm','jan']},
  {id:'aveia',n:'Aveia em flocos',i:'wheat',g:'c',w:1.5,k:394,p:13.9,c:66.6,f:8.5,max:100,m:['cafe','lan']},
  {id:'pao',n:'Pão francês',i:'croissant',g:'c',w:1.5,k:300,p:8,c:58.6,f:3.1,max:150,un:[50,'pão','pães'],m:['cafe']},
+ {id:'paoint',n:'Pão de forma integral',i:'croissant',g:'c',w:1.2,k:253,p:9.4,c:49.9,f:3.7,max:150,un:[25,'fatia','fatias'],m:['cafe','lan']},
  {id:'banana',n:'Banana prata',i:'banana',g:'c',w:1,k:98,p:1.3,c:26,f:0.1,max:300,un:[80,'banana','bananas'],m:['cafe','lan']},
  {id:'maca',n:'Maçã',i:'apple',g:'c',w:.8,k:56,p:0.3,c:15.2,f:0,max:300,un:[130,'maçã','maçãs'],m:['lan']},
+ {id:'mamao',n:'Mamão papaia',i:'apple',g:'c',w:.8,k:40,p:0.5,c:10.4,f:0.1,max:400,m:['cafe','lan']},
+ {id:'morango',n:'Morango',i:'cherry',g:'c',w:.6,k:30,p:0.9,c:6.8,f:0.3,max:400,m:['lan']},
+ {id:'manga',n:'Manga',i:'apple',g:'c',w:.8,k:51,p:0.9,c:12.8,f:0.2,max:300,m:['lan']},
+ {id:'abacaxi',n:'Abacaxi',i:'apple',g:'c',w:.8,k:48,p:0.9,c:12.3,f:0.1,max:300,m:['lan','alm']},
+ {id:'melancia',n:'Melancia',i:'apple',g:'c',w:.6,k:33,p:0.9,c:8.1,f:0,max:500,m:['lan']},
+ {id:'uva',n:'Uva',i:'cherry',g:'c',w:.6,k:53,p:0.7,c:13.6,f:0.2,max:300,m:['lan']},
+ {id:'mel',n:'Mel',i:'droplet',g:'c',w:.4,k:309,p:0,c:84,f:0,max:40,un:[20,'colher de sopa','colheres de sopa'],m:['cafe','lan']},
  {id:'azeite',n:'Azeite de oliva',i:'droplet',g:'f',w:2,k:884,p:0,c:0,f:100,max:30,un:[13,'colher de sopa','colheres de sopa'],m:['alm','jan']},
  {id:'amendoim',n:'Pasta de amendoim',i:'nut',g:'f',w:1.5,k:588,p:25,c:20,f:50,max:40,un:[15,'colher de sopa','colheres de sopa'],m:['lan']},
  {id:'castanha',n:'Castanha-do-pará',i:'nut',g:'f',w:1,k:643,p:14.5,c:15.1,f:63.5,max:30,un:[4,'unidade','unidades'],m:['lan']},
  {id:'abacate',n:'Abacate',i:'leaf',g:'f',w:1.5,k:96,p:1.2,c:6,f:8.4,max:200,m:['cafe','lan']},
  {id:'queijo',n:'Queijo minas frescal',i:'milk',g:'f',w:1,k:264,p:17.4,c:3.2,f:20.2,max:90,un:[30,'fatia','fatias'],m:['cafe']},
+ {id:'amendoimt',n:'Amendoim torrado',i:'nut',g:'f',w:1,k:606,p:22.5,c:18.7,f:54,max:40,m:['lan']},
+ {id:'azeitona',n:'Azeitona verde',i:'cherry',g:'f',w:.6,k:137,p:0.9,c:4.1,f:14.2,max:100,m:['alm','jan']},
+ {id:'mussarela',n:'Queijo mussarela',i:'milk',g:'f',w:.8,k:330,p:22.6,c:3,f:25.2,max:60,un:[20,'fatia','fatias'],m:['cafe','lan']},
  {id:'legumes',n:'Legumes e verduras',i:'salad',g:'v',k:30,p:2,c:5,f:0.3,fixed:300,m:['alm','jan']},
 ];
 const GROUPS=[['p','Proteínas','drumstick','--prot'],['c','Carboidratos','wheat','--carb'],['f','Gorduras boas','droplet','--fat'],['v','Vegetais · 300 g fixos','salad','--ok']];
@@ -574,11 +691,14 @@ function calc(F){
   const floor=F.sexo==='m'?1500:1200;
   let kcal=Math.round(get*mult/10)*10, floored=false;
   if(kcal<floor){kcal=floor;floored=true}
-  const p=Math.round((S.protKg??{cut:2.2,man:1.8,bulk:2.0}[F.obj])*F.peso);
+  // Com IMC 30 ou mais, a proteína usa o peso de referência (IMC 25) para não inflar a meta com massa gorda.
+  const imc=F.peso/((F.altura/100)**2), pRef=imc>=30?25*(F.altura/100)**2:F.peso;
+  const p=Math.round((S.protKg??{cut:2.2,man:1.8,bulk:2.0}[F.obj])*pRef);
   const f=Math.round(S.fatKg!=null?S.fatKg*F.peso:Math.max(.8*F.peso,.2*kcal/9));
   let c=Math.round((kcal-p*4-f*9)/4), lowC=false;
   if(c<50){c=50;lowC=true}
-  return{tmb,get,kcal,p,c,f,floored,lowC,ajuste,auto};
+  const semana=(kcal-get)*7/7700, semanaPct=semana/F.peso*100;
+  return{tmb,get,kcal,p,c,f,floored,lowC,ajuste,auto,pRef,semana,semanaPct};
 }
 
 function solve(T){
@@ -613,6 +733,7 @@ const EQ={
  agach:{g:'Quadríceps',c:1,opts:[['Agachamento livre','g'],['Agachamento no Smith','g'],['Hack machine','g'],['Agachamento goblet com halter ou mochila','h'],['Agachamento búlgaro','h']]},
  legpress:{g:'Quadríceps',c:1,opts:[['Leg press 45°','g'],['Leg press horizontal','g'],['Agachamento búlgaro com halteres','g'],['Agachamento búlgaro','h'],['Agachamento sumô com mochila','h']]},
  terra:{g:'Posterior e glúteos',c:1,opts:[['Levantamento terra romeno','g'],['Stiff com barra','g'],['Good morning','g'],['Stiff com halteres ou mochila','h'],['Ponte de glúteo com carga','h']]},
+ elevpelv:{g:'Glúteos',c:1,opts:[['Elevação pélvica com barra','g'],['Elevação pélvica na máquina','g'],['Elevação pélvica com halter','g'],['Elevação pélvica com mochila','h'],['Ponte de glúteo unilateral','h']]},
  extensora:{g:'Quadríceps',c:0,opts:[['Cadeira extensora','g'],['Afundo no Smith','g'],['Afundo alternado','h'],['Subida no banco (step-up)','h']]},
  flexora:{g:'Posterior',c:0,opts:[['Mesa flexora','g'],['Cadeira flexora','g'],['Flexora em pé com caneleira','h'],['Ponte de glúteo unilateral','h']]},
  pant:{g:'Panturrilha',c:0,opts:[['Panturrilha em pé','g'],['Panturrilha sentado','g'],['Panturrilha no leg press','g'],['Panturrilha unilateral no degrau','h']]},
@@ -638,22 +759,22 @@ const T={
  SA:['Superior A',['supino','remada','desenv','puxada','rosca','triceps']],
  IA:['Inferior A',['agach','flexora','extensora','pant','prancha']],
  SB:['Superior B',['supinoinc','puxada','remada','elevlat','crucifixo','facepull']],
- IB:['Inferior B',['terra','legpress','extensora','pant','abd']],
+ IB:['Inferior B',['terra','legpress','elevpelv','flexora','pant','abd']],
  PU:['Empurrar',['supino','supinoinc','desenv','elevlat','triceps']],
  PL:['Puxar',['puxada','remada','facepull','rosca','abd']],
- LG:['Pernas',['agach','terra','extensora','flexora','pant']],
+ LG:['Pernas',['agach','terra','elevpelv','extensora','flexora','pant']],
  SU:['Superior',['supinoinc','remada','desenv','puxada','rosca','triceps']],
- IN:['Inferior',['legpress','terra','flexora','pant','prancha']],
- CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','facepull','triceps']],
+ IN:['Inferior',['legpress','terra','elevpelv','flexora','pant','prancha']],
+ CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','triceps']],
  CB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2','abd']],
- CC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ CC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  DA:['A · Peito e tríceps',['supino','supinoinc','crucifixo','triceps','triceps2']],
  DB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2']],
- DC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ DC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  DD:['D · Ombros e core',['desenv','elevlat','facepull','abd','prancha']],
  EA:['A · Peito',['supino','supinoinc','crucifixo','abd']],
  EB:['B · Costas',['puxada','remada','pullover','prancha']],
- EC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
+ EC:['C · Pernas',['agach','legpress','terra','elevpelv','extensora','flexora','pant']],
  ED:['D · Ombros',['desenv','elevlat','facepull','abd']],
  EE:['E · Braços',['rosca','triceps','rosca2','triceps2']],
 };
@@ -668,6 +789,16 @@ const SPLITS={
  abcde:{n:'ABCDE',d:'Um grupo por dia: peito, costas, pernas, ombros, braços.',k:['EA','EB','EC','ED','EE']},
 };
 const FOCUS={'Corpo inteiro A':'Pernas, peito e costas','Corpo inteiro B':'Posterior, ombros e braços','Superior A':'Peito, costas e braços','Superior B':'Peito alto, costas e ombros','Inferior A':'Quadríceps e posterior','Inferior B':'Posterior e glúteos','Empurrar':'Peito, ombros e tríceps','Puxar':'Costas, ombro posterior e bíceps','Pernas':'Pernas completas','Superior':'Tronco completo','Inferior':'Pernas e core'};
+// Séries semanais por músculo: 1 para o alvo direto, 0,5 para quem ajuda (contagem fracionada de Pelland et al., 2024).
+const VOL={agach:['Quadríceps',['Glúteos']],legpress:['Quadríceps',['Glúteos']],terra:['Posterior',['Glúteos']],elevpelv:['Glúteos',['Posterior']],extensora:['Quadríceps',[]],flexora:['Posterior',[]],pant:['Panturrilha',[]],
+ supino:['Peito',['Tríceps']],supinoinc:['Peito',['Tríceps']],crucifixo:['Peito',[]],remada:['Costas',['Bíceps']],puxada:['Costas',['Bíceps']],pullover:['Costas',[]],
+ desenv:['Ombros',['Tríceps']],elevlat:['Ombros',[]],facepull:['Ombros',[]],rosca:['Bíceps',[]],rosca2:['Bíceps',[]],triceps:['Tríceps',[]],triceps2:['Tríceps',[]]};
+const MUSC=['Peito','Costas','Ombros','Bíceps','Tríceps','Quadríceps','Posterior','Glúteos','Panturrilha'];
+function weeklyVolume(days){
+  const v={};MUSC.forEach(m=>v[m]=0);
+  days.forEach(d=>d.ex.forEach(e=>{const r=VOL[e.k];if(!r)return;const n=+e.presc.split(' ')[0];v[r[0]]+=n;r[1].forEach(m=>v[m]+=n/2)}));
+  return v;
+}
 function exChoice(k,F){
   const e=EQ[k],loc=F.local==='casa'?'h':'g';
   const saved=S.swaps&&S.swaps[F.local+':'+k];
@@ -687,11 +818,14 @@ function plan(F){
   })}));
   const cardio={cut:'3 sessões de 30 min em ritmo moderado, ou 8 a 10 mil passos por dia',
     man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
-  return{nome:splitName,days,leftOut,tips:[
-    ['timer','Descanso','90 a 120 s nos exercícios principais, 60 s nos demais'],
-    ['heart-pulse','Cardio',cardio],
+  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:10,tips:[
+    ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
+    ['heart-pulse','Cardio',cardio+'. Em jejum ou alimentado o resultado é o mesmo quando as calorias do dia são iguais; escolha o que for mais confortável'],
     ['zap','Intensidade',ini?'Pare 2 a 3 repetições antes da falha':'Última série perto da falha, com 1 a 2 repetições de reserva'],
-    ['trending-up','Progressão','Bateu o topo da faixa em todas as séries? Suba 2 a 5% da carga']]};
+    ['trending-up','Progressão','Use a progressão dupla: suba repetições até o topo da faixa em todas as séries, então aumente 2 a 5% da carga e volte ao início da faixa'],
+    ['repeat','Execução','Controle a descida e use a amplitude completa, dando ênfase à parte em que o músculo está alongado'],
+    ['rotate-ccw','Semana leve','A cada 4 a 8 semanas, ou quando as cargas travarem, faça uma semana com metade das séries'],
+    ['bed','Recuperação','Durma 7 a 9 horas. Creatina (3 a 5 g por dia) é o suplemento com mais evidência, se quiser usar']]};
 }
 
 function render(){
@@ -703,17 +837,21 @@ function render(){
   $('heroTitle').textContent={cut:'Menos gordura, músculo preservado',man:'Energia na medida certa',bulk:'Combustível para crescer'}[F.obj];
   const pct=(g,k)=>Math.round(g*k/R.kcal*100);
   $('pG').textContent=R.p+' g';$('cG').textContent=R.c+' g';$('fG').textContent=R.f+' g';
-  $('pInfo').textContent=fmt(R.p/F.peso,1)+' g/kg · '+pct(R.p,4)+'%';
+  $('pInfo').textContent=fmt(R.p/R.pRef,1)+' g/kg'+(R.pRef!==F.peso?' ref.':'')+' · '+pct(R.p,4)+'%';
   $('cInfo').textContent=fmt(R.c/F.peso,1)+' g/kg · '+pct(R.c,4)+'%';
   $('fInfo').textContent=fmt(R.f/F.peso,1)+' g/kg · '+pct(R.f,9)+'%';
   const tot=R.p*4+R.c*4+R.f*9, gap=1.2;
   let off=0;[['rP',R.p*4],['rC',R.c*4],['rF',R.f*9]].forEach(([id,v])=>{const len=v/tot*100;const el=$(id);el.setAttribute('stroke-dasharray',Math.max(0,len-gap)+' '+(100-len+gap));el.setAttribute('stroke-dashoffset',-off);off+=len});
   const imc=F.peso/((F.altura/100)**2);
   const imcTxt=imc<18.5?'abaixo do ideal':imc<25?'faixa saudável':imc<30?'sobrepeso':'obesidade';
-  $('facts').innerHTML=[['flame','Basal',fmt(R.tmb)+' kcal','em repouso'],['activity','Gasto total',fmt(R.get)+' kcal','com sua rotina'],['scale','IMC',fmt(imc,1),imcTxt],['glass-water','Água',fmt(F.peso*.035,1)+' L','por dia']]
+  const ritmo=Math.abs(R.semana)<0.05?'estável':(R.semana>0?'+':'−')+fmt(Math.abs(R.semana),2)+' kg';
+  $('facts').innerHTML=[['activity','Gasto total',fmt(R.get)+' kcal','basal '+fmt(R.tmb)+' kcal'],['trending-up','Ritmo previsto',ritmo,'por semana · '+fmt(Math.abs(R.semanaPct),1)+'% do peso'],['scale','IMC',fmt(imc,1),imcTxt],['glass-water','Água',fmt(F.peso*.035,1)+' L','por dia']]
     .map(([i,l,v,s])=>`<div class="fact"><span class="badge">${ic(i)}</span><div><span>${l}</span><b class="num">${v}</b><span>${s}</span></div></div>`).join('');
   const w=[];
   if(R.floored)w.push('A meta foi elevada ao mínimo seguro de '+fmt(R.kcal)+' kcal. Para cortar mais que isso, procure acompanhamento profissional.');
+  if(R.semanaPct<-1)w.push('Esse ritmo passa de 1% do peso por semana. Para preservar músculo, o ideal é perder 0,5 a 1% por semana.');
+  if(R.semanaPct>0.5)w.push('Esse ritmo passa de 0,5% do peso por semana. Ganhar mais rápido que isso tende a virar gordura.');
+  if(R.pRef!==F.peso)w.push('Proteína calculada pelo peso de referência ('+fmt(R.pRef)+' kg, IMC 25), que é o que importa para preservar e construir músculo.');
   if(R.lowC)w.push('O carboidrato ficou no mínimo de 50 g, então o total passa um pouco da meta.');
   $('warn').hidden=!w.length;$('warn').innerHTML=ic('info')+'<span>'+w.join(' ')+'</span>';
 
@@ -741,6 +879,9 @@ function render(){
     return `<div class="meal"><div class="mh"><span class="badge">${ic(m.i)}</span><div><h3>${esc(m.n)}</h3></div><span class="time">${m.h}</span></div><ul>${li}</ul><div class="mtot num"><span>${fmt(s2.k)} kcal</span><span>${fmt(s2.p)} g proteína</span></div></div>`}).join('')
     ||'<p class="muted">Ligue pelo menos uma refeição em Ajustes.</p>';
 
+  renderSubs(items);
+  const protMeal=Math.round(.4*R.pRef);
+  $('dietNote').innerHTML=ic('target')+`<span>Mire pelo menos <b>${protMeal} g de proteína</b> em 3 a 5 refeições do dia e <b>${fmt(R.kcal*14/1000)} g de fibras</b> (frutas, verduras, feijão, aveia).${active.length<3?' Você tem menos de 3 refeições ligadas, o que dificulta distribuir a proteína.':''}</span>`;
   const P=plan(F);
   $('splitLabel').textContent=P.nome;
   $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||[...new Set(d.ex.map(e=>e.g))].slice(0,3).join(', ')}</small></div><span class="time">${ic('clock')}${S.horaTreino||''}</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex"><span class="exwrap"><select class="exsel" data-k="${e.k}" aria-label="Trocar ${esc(e.n)} por equivalente"><optgroup label="Academia">${EQ[e.k].opts.filter(o=>o[1]==='g').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup><optgroup label="Em casa">${EQ[e.k].opts.filter(o=>o[1]==='h').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup></select>${ic('chevron-down')}</span><small>${e.g}</small></span><span class="presc">${e.presc}</span></li>`).join('')}</ol></div>`).join('');
@@ -763,8 +904,24 @@ function render(){
      <span><b>${esc(nextMeal.n)}</b> às <b>${nextMeal.h}</b></span>
      <span class="sub">${mk.n} alimentos · <b>${fmt(mk.k)} kcal</b></span></a>`:''}`;
   renderStreak();
+  const VMAX=20;
+  $('volume').innerHTML=`<div class="vh"><b>${ic('activity')}Séries por semana em cada músculo</b><span class="muted">Faixa ideal: ${P.volMin} a ${VMAX}. Exercícios compostos contam meia série para os músculos que ajudam.</span></div>`+
+    MUSC.map(m=>{const n=Math.round(P.vol[m]*2)/2,st=n<P.volMin?'low':n>VMAX?'high':'ok';
+      return `<div class="vrow ${st}"><span>${m}</span><div class="vbar"><i class="zone" style="left:${P.volMin/25*100}%;width:${(VMAX-P.volMin)/25*100}%"></i><i class="fill" style="width:${Math.min(100,n/25*100)}%"></i></div><span class="num">${fmt(n,n%1?1:0)}</span><small>${st==='ok'?'na faixa':st==='low'?'pouco':'muito'}</small></div>`}).join('');
   $('tips').innerHTML=P.tips.map(([i,t,s])=>`<div class="tip"><span class="badge">${ic(i)}</span><div><b>${t}</b><br><span class="muted">${s}</span></div></div>`).join('');
   save();
+}
+// Equivalência pelo macro principal do grupo: gramas do substituto = gramas × (macro do original ÷ macro do substituto).
+let SUBSK=null;
+function renderSubs(items){
+  const opts=items.filter(x=>x.g!=='v');
+  if(!opts.length){$('subs').hidden=true;return}$('subs').hidden=false;
+  if(!opts.some(x=>x.id===SUBSK))SUBSK=opts[0].id;
+  $('subsSel').innerHTML=opts.map(x=>`<option value="${x.id}" ${x.id===SUBSK?'selected':''}>${x.n} · ${fmt(x.grams)} g</option>`).join('');
+  const a=opts.find(x=>x.id===SUBSK),m=a.g,amt=a.grams*a[m]/100;
+  $('subsList').innerHTML=FOODS.filter(x=>x.g===m&&x.id!==a.id&&x[m]>0).map(x=>{const g=Math.round(amt/x[m]*100/5)*5;const u=unitText({...x,grams:g});
+    return {x,g,u,k:x.k*g/100}}).filter(o=>o.g>0&&o.g<=o.x.max*1.5).sort((p,q)=>p.x.n.localeCompare(q.x.n)).map(({x,g,u,k})=>
+    `<div class="subrow" style="--c:var(${GCOLOR[x.g]})"><span class="food"><span class="ficon">${ic(x.i)}</span>${x.n}</span><span class="num">${fmt(g)} g<span class="unit">${u}</span></span><small class="num">${fmt(k)} kcal</small></div>`).join('');
 }
 function buildPick(){
   $('pick').innerHTML=GROUPS.map(([g,n,i,c])=>`<div class="pickgroup" style="--c:var(${c})"><span class="gh">${ic(i)}${n}</span><div class="chips">${
@@ -822,6 +979,63 @@ function buildSettings(){
   const md=document.getElementById('mode-'+(S.mode||'auto'));if(md)md.checked=true;
 }
 function placeholders(){const F=readForm();$('ajuste').placeholder='auto: '+({cut:-20,man:0,bulk:10}[F.obj]);$('protKg').placeholder='auto: '+({cut:2.2,man:1.8,bulk:2.0}[F.obj]).toFixed(1).replace('.',',');$('fatKg').placeholder='auto: 0,8'}
+// Fotos: guardadas no IndexedDB deste aparelho, redimensionadas para no máximo 1280 px.
+const FDB=new Promise((res,rej)=>{try{const r=indexedDB.open('shape-fotos',1);r.onupgradeneeded=()=>r.result.createObjectStore('fotos',{keyPath:'id'});r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)}catch(e){rej(e)}});
+function fstore(mode,fn){return FDB.then(db=>new Promise((res,rej)=>{const t=db.transaction('fotos',mode);const q=fn(t.objectStore('fotos'));t.oncomplete=()=>res(q&&q.result);t.onerror=()=>rej(t.error)}))}
+const fotosAll=()=>fstore('readonly',st=>st.getAll());
+const fotoPut=f=>fstore('readwrite',st=>st.put(f));
+const fotoDel=id=>fstore('readwrite',st=>st.delete(id));
+function shrink(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),img=new Image();
+  img.onload=()=>{const k=Math.min(1,1280/Math.max(img.naturalWidth,img.naturalHeight));const c=document.createElement('canvas');
+    c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(new Error('foto')),'image/jpeg',.82)};
+  img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('foto'))};img.src=u})}
+const dfmt=k=>{const [y,m,d]=k.split('-');return d+'/'+m+'/'+y};
+let FOTOS=[],FURL={},CMP={a:null,b:null,pose:'Frente'};
+function furl(f){return FURL[f.id]||(FURL[f.id]=URL.createObjectURL(f.blob))}
+async function loadFotos(){try{FOTOS=(await fotosAll()).sort((x,y)=>y.ts-x.ts)}catch(e){FOTOS=[]}renderFotos()}
+async function addFoto(file,extra){
+  if(!file)return;
+  try{const blob=await shrink(file);const now=new Date();
+    await fotoPut({id:now.getTime()+'-'+Math.random().toString(36).slice(2,7),ts:now.getTime(),dia:dkey(now),blob,...extra});
+    if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();
+    await loadFotos()}catch(e){alert('Não foi possível salvar a foto neste aparelho.')}
+}
+function pratoMeals(){return MEAL_SLOTS.filter(m=>S.meals[m.k].on).map(m=>({k:m.k,...S.meals[m.k]})).sort((x,y)=>x.h.localeCompare(y.h))}
+function renderFotos(){
+  const corpo=FOTOS.filter(f=>f.kind==='corpo'),pratos=FOTOS.filter(f=>f.kind==='prato');
+  const days=[...new Set(corpo.map(f=>f.dia))].sort();
+  if(CMP.n!==days.length){CMP.n=days.length;CMP.a=days[0]||null;CMP.b=days[days.length-1]||null}
+  const pick=(dia,pose)=>corpo.find(f=>f.dia===dia&&f.pose===pose);
+  const fig=(dia,lab)=>{if(!dia)return `<figure><div class="empty">Sem fotos ainda</div></figure>`;const f=pick(dia,CMP.pose);
+    return `<figure>${f?`<img src="${furl(f)}" alt="${CMP.pose}, ${dfmt(dia)}">`:`<div class="empty">Sem foto de ${CMP.pose.toLowerCase()} nesse dia</div>`}<span><b>${lab}</b> · ${dfmt(dia)}${f&&f.peso?' · '+fmt(f.peso,1)+' kg':''}</span></figure>`};
+  const pa=pick(CMP.a,CMP.pose),pb=pick(CMP.b,CMP.pose);
+  const dif=pa&&pb&&pa.peso&&pb.peso&&CMP.a!==CMP.b?pb.peso-pa.peso:null;
+  const opt=sel=>days.map(d=>`<option value="${d}" ${d===sel?'selected':''}>${dfmt(d)}</option>`).join('');
+  $('compare').innerHTML=`<h3 class="ch">${ic('repeat')}Antes e depois</h3>`+(days.length<2?`<p class="note">${ic('info')}<span>Tire fotos em pelo menos dois dias diferentes para comparar lado a lado.</span></p>`:'')+
+    (days.length?`<div class="cmpsel"><select id="cmpA" aria-label="Antes">${opt(CMP.a)}</select><select id="cmpB" aria-label="Depois">${opt(CMP.b)}</select></div>
+    <div class="seg" id="cmpPose">${['Frente','Lado','Costas'].map(p=>`<label><input type="radio" name="cmpPose" value="${p}" ${CMP.pose===p?'checked':''}><span>${p}</span></label>`).join('')}</div>
+    <div class="cmpimgs">${fig(CMP.a,'Antes')}${fig(CMP.b,'Depois')}</div>${dif!=null?`<p class="note">${ic('scale')}<span>Diferença de peso: <b>${dif>0?'+':''}${fmt(dif,1)} kg</b></span></p>`:''}`:'');
+  const group=(list,cap)=>{const by={};list.forEach(f=>(by[f.dia]=by[f.dia]||[]).push(f));
+    return Object.keys(by).sort().reverse().map(d=>`<div class="gday"><h3>${dfmt(d)}<small>${by[d].length} foto${by[d].length>1?'s':''}</small></h3><div class="ggrid">${by[d].map(f=>`<figure class="gitem ${f.kind}"><img src="${furl(f)}" alt="${esc(cap(f))}" loading="lazy"><figcaption>${cap(f)}</figcaption><button type="button" class="del" data-id="${f.id}" aria-label="Apagar foto">${ic('trash-2')}</button></figure>`).join('')}</div></div>`).join('')};
+  $('galCorpo').innerHTML=group(corpo,f=>`<b>${f.pose}</b>${f.peso?`<small>${fmt(f.peso,1)} kg</small>`:''}`);
+  $('galPrato').innerHTML=group(pratos,f=>{const t=new Date(f.ts);return `<b>${esc(f.meal||'Prato')}</b><small>${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}${f.nota?' · '+esc(f.nota):''}</small>`})
+    ||'<p class="muted" style="margin:0">Nenhum prato registrado ainda.</p>';
+  const sel=$('pratoMeal'),cur=sel.value,ms=pratoMeals(),hm=String(new Date().getHours()).padStart(2,'0')+':'+String(new Date().getMinutes()).padStart(2,'0');
+  const near=[...ms].reverse().find(m=>m.h<=hm)||ms[0];
+  sel.innerHTML=ms.map(m=>`<option ${(cur?cur===m.n:near&&near.k===m.k)?'selected':''}>${esc(m.n)}</option>`).join('')+`<option ${cur==='Outro'?'selected':''}>Outro</option>`;
+}
+// Medidas corporais com fita métrica, salvas por data neste aparelho.
+const MEDKEY='shape-medidas',MEDS=['Ombro','Peito','Braço','Antebraço','Cintura','Quadril','Coxa','Panturrilha'];
+let MED={};try{MED=JSON.parse(localStorage.getItem(MEDKEY)||'{}')||{}}catch(e){}
+function renderMed(){
+  const days=Object.keys(MED).sort(),today=dkey(new Date()),cur=MED[today]||{};
+  $('medInputs').innerHTML=MEDS.map(m=>`<label>${m}<input type="number" inputmode="decimal" step="0.5" min="0" data-m="${m}" value="${cur[m]??''}"></label>`).join('');
+  if(!days.length){$('medTable').innerHTML='<p class="note">'+ic('info')+'<span>Meça sempre no mesmo lado e do mesmo jeito, de manhã. A cintura costuma mostrar a perda de gordura antes da balança.</span></p>';return}
+  const a=days[0],b=days[days.length-1];
+  $('medTable').innerHTML=`<table class="medtable"><thead><tr><th></th><th>${dfmt(a)}</th>${a!==b?`<th>${dfmt(b)}</th><th>Dif.</th>`:''}</tr></thead><tbody>${MEDS.map(m=>{const x=MED[a][m],y=MED[b][m];const d=x!=null&&y!=null&&a!==b?y-x:null;
+    return `<tr><td>${m}</td><td class="num">${x!=null?fmt(x,1):'–'}</td>${a!==b?`<td class="num">${y!=null?fmt(y,1):'–'}</td><td class="num ${d==null?'':d<0?'dn':d>0?'up':''}">${d==null?'':(d>0?'+':'')+fmt(d,1)}</td>`:''}</tr>`}).join('')}</tbody></table>`+(days.length>1?`<button type="button" class="ghost" id="medDel" data-i="trash-2" style="margin-top:8px">${ic('trash-2')}Apagar medidas de ${dfmt(b)}</button>`:'');
+}
 hydrate(document);load();applyLook();buildPick();buildSettings();placeholders();
 $('palettes').addEventListener('change',e=>{S.palette=e.target.value;applyLook();save()});
 $('modeSeg').addEventListener('change',e=>{S.mode=e.target.value;applyLook();save()});
@@ -837,6 +1051,17 @@ $('days').addEventListener('change',e=>{const t=e.target;if(!t.classList.contain
 $('horaTreino').addEventListener('input',e=>{S.horaTreino=e.target.value;render()});
 for(const k of ['ajuste','protKg','fatKg']){$(k).addEventListener('input',e=>{const v=e.target.value.trim();S[k]=v===''||isNaN(+v)?null:+v;render()})}
 $('veg').addEventListener('input',e=>{const v=+e.target.value;S.veg=isNaN(v)?300:Math.max(0,Math.min(800,v));render()});
+$('fotoTab').addEventListener('change',e=>{$('fpCorpo').hidden=e.target.value!=='corpo';$('fpPrato').hidden=e.target.value!=='prato'});
+$('fileCorpo').addEventListener('change',e=>{addFoto(e.target.files[0],{kind:'corpo',pose:radio('pose'),peso:readForm().peso||null});e.target.value=''});
+$('filePrato').addEventListener('change',e=>{addFoto(e.target.files[0],{kind:'prato',meal:$('pratoMeal').value,nota:$('pratoNota').value.trim()});$('pratoNota').value='';e.target.value=''});
+$('compare').addEventListener('change',e=>{if(e.target.id==='cmpA')CMP.a=e.target.value;else if(e.target.id==='cmpB')CMP.b=e.target.value;else if(e.target.name==='cmpPose')CMP.pose=e.target.value;renderFotos()});
+document.querySelectorAll('.gal').forEach(g=>g.addEventListener('click',async e=>{const b=e.target.closest('.del');if(!b||!confirm('Apagar esta foto?'))return;
+  const id=b.dataset.id;if(FURL[id]){URL.revokeObjectURL(FURL[id]);delete FURL[id]}await fotoDel(id);loadFotos()}));
+loadFotos();renderMed();
+$('medSave').addEventListener('click',()=>{const v={};$('medInputs').querySelectorAll('input').forEach(i=>{const n=parseFloat(i.value.replace(',','.'));if(n>0)v[i.dataset.m]=n});
+  const k=dkey(new Date());if(Object.keys(v).length)MED[k]=v;else delete MED[k];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
+$('medTable').addEventListener('click',e=>{if(!e.target.closest('#medDel'))return;const days=Object.keys(MED).sort();const b=days[days.length-1];if(!confirm('Apagar as medidas de '+dfmt(b)+'?'))return;delete MED[b];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
+$('subsSel').addEventListener('change',e=>{SUBSK=e.target.value;render()});
 $('reset').addEventListener('click',()=>{const pal=S.palette,mode=S.mode;S=defaultSettings();S.palette=pal;S.mode=mode;buildSettings();render()});
 $('f').addEventListener('change',placeholders);
 $('pick').addEventListener('change',e=>{const id=e.target.value;e.target.checked?sel.add(id):sel.delete(id);render()});
