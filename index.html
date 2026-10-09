@@ -623,6 +623,7 @@ const EQ={
  puxada:{g:'Costas',c:1,opts:[['Puxada frontal','g'],['Barra fixa','g'],['Puxada com triângulo','g'],['Barra fixa ou remada invertida na mesa','h'],['Puxada com elástico','h']]},
  desenv:{g:'Ombros',c:1,opts:[['Desenvolvimento com halteres','g'],['Desenvolvimento com barra','g'],['Desenvolvimento na máquina','g'],['Flexão pike','h'],['Desenvolvimento com mochila','h']]},
  elevlat:{g:'Ombros',c:0,opts:[['Elevação lateral com halteres','g'],['Elevação lateral no cabo','g'],['Elevação lateral na máquina','g'],['Elevação lateral com garrafas de água','h']]},
+ pullover:{g:'Costas',c:0,opts:[['Pulldown com braços estendidos','g'],['Remada unilateral com halter','g'],['Pullover com halter','g'],['Remada unilateral com mochila','h'],['Pullover com garrafa ou mochila','h']]},
  facepull:{g:'Ombro posterior',c:0,opts:[['Face pull','g'],['Crucifixo inverso na máquina','g'],['Crucifixo inverso com halteres','g'],['Crucifixo inverso com garrafas','h']]},
  rosca:{g:'Bíceps',c:0,opts:[['Rosca direta com barra','g'],['Rosca alternada com halteres','g'],['Rosca no cabo','g'],['Rosca com mochila ou galão','h']]},
  rosca2:{g:'Bíceps',c:0,opts:[['Rosca martelo','g'],['Rosca Scott','g'],['Rosca concentrada','g'],['Rosca martelo com garrafas','h']]},
@@ -643,15 +644,15 @@ const T={
  LG:['Pernas',['agach','terra','extensora','flexora','pant']],
  SU:['Superior',['supinoinc','remada','desenv','puxada','rosca','triceps']],
  IN:['Inferior',['legpress','terra','flexora','pant','prancha']],
- CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','triceps']],
- CB:['B · Costas e bíceps',['puxada','remada','facepull','rosca','rosca2','abd']],
+ CA:['A · Peito, ombros e tríceps',['supino','supinoinc','crucifixo','desenv','elevlat','facepull','triceps']],
+ CB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2','abd']],
  CC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
  DA:['A · Peito e tríceps',['supino','supinoinc','crucifixo','triceps','triceps2']],
- DB:['B · Costas e bíceps',['puxada','remada','facepull','rosca','rosca2']],
+ DB:['B · Costas e bíceps',['puxada','remada','pullover','rosca','rosca2']],
  DC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
  DD:['D · Ombros e core',['desenv','elevlat','facepull','abd','prancha']],
  EA:['A · Peito',['supino','supinoinc','crucifixo','abd']],
- EB:['B · Costas',['puxada','remada','facepull','prancha']],
+ EB:['B · Costas',['puxada','remada','pullover','prancha']],
  EC:['C · Pernas',['agach','legpress','terra','extensora','flexora','pant']],
  ED:['D · Ombros',['desenv','elevlat','facepull','abd']],
  EE:['E · Braços',['rosca','triceps','rosca2','triceps2']],
@@ -666,7 +667,7 @@ const SPLITS={
  abcd:{n:'ABCD',d:'Peito e tríceps, costas e bíceps, pernas, ombros e core.',k:['DA','DB','DC','DD']},
  abcde:{n:'ABCDE',d:'Um grupo por dia: peito, costas, pernas, ombros, braços.',k:['EA','EB','EC','ED','EE']},
 };
-const FOCUS={'Corpo inteiro A':'Pernas, peito e costas','Corpo inteiro B':'Posterior, ombros e braços','Superior A':'Peito, costas e braços','Superior B':'Peito alto, costas e ombros','Inferior A':'Quadríceps e posterior','Inferior B':'Posterior e glúteos','Empurrar':'Peito, ombros e tríceps','Puxar':'Costas e bíceps','Pernas':'Pernas completas','Superior':'Tronco completo','Inferior':'Pernas e core'};
+const FOCUS={'Corpo inteiro A':'Pernas, peito e costas','Corpo inteiro B':'Posterior, ombros e braços','Superior A':'Peito, costas e braços','Superior B':'Peito alto, costas e ombros','Inferior A':'Quadríceps e posterior','Inferior B':'Posterior e glúteos','Empurrar':'Peito, ombros e tríceps','Puxar':'Costas, ombro posterior e bíceps','Pernas':'Pernas completas','Superior':'Tronco completo','Inferior':'Pernas e core'};
 function exChoice(k,F){
   const e=EQ[k],loc=F.local==='casa'?'h':'g';
   const saved=S.swaps&&S.swaps[F.local+':'+k];
