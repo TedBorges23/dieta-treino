@@ -198,6 +198,9 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .day li .ex::before{counter-increment:ex;content:counter(ex);font-family:var(--mono);font-size:.72rem;color:var(--muted);min-width:1.1em}
 .day li .presc{font-family:var(--mono);font-size:.8rem;white-space:nowrap;background:var(--sunk);padding:2px 7px;border-radius:6px}
 .day li.comp .presc{background:var(--brand-soft);color:var(--brand-text)}
+.day li.cardio .ex>span{display:flex;align-items:center;gap:6px;font-weight:600}
+.day li.cardio .i{width:16px;height:16px;color:var(--go)}
+.day li.cardio .ex::before{content:'';counter-increment:none}
 .vh{display:flex;flex-direction:column;gap:2px;font-size:.88rem}.vh b{display:flex;gap:6px;align-items:center}
 .vrow{display:grid;grid-template-columns:92px minmax(0,1fr) 36px 56px;gap:10px;align-items:center;font-size:.85rem}
 .vrow small{color:var(--muted)}.vrow.ok small{color:var(--go)}.vrow.low small,.vrow.high small{color:var(--warn)}
@@ -574,7 +577,15 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
           <p class="hint">Escolha de 2 a 6 dias e a divisão que preferir.</p>
           <div class="weekdays" id="weekdays"></div>
           <div class="field"><label class="label" for="split" data-i="dumbbell">Divisão do treino</label><select id="split"></select><span class="hint" id="splitDesc" style="margin:0"></span></div>
-          <div class="field" style="max-width:160px"><label class="label" for="horaTreino" data-i="clock">Horário do treino</label><input type="time" id="horaTreino"></div>
+          <div class="row2">
+            <div class="field"><label class="label" for="horaTreino" data-i="clock">Horário do treino</label><input type="time" id="horaTreino"></div>
+            <div class="field"><label class="label" for="tempo" data-i="timer">Tempo disponível</label><select id="tempo"></select></div>
+          </div>
+          <div class="row2">
+            <div class="field"><label class="label" for="cardioMin" data-i="heart-pulse">Cardio no fim</label><select id="cardioMin"></select></div>
+            <div class="field"><label class="label" for="cardioTipo" data-i="footprints">Tipo de cardio</label><select id="cardioTipo"></select></div>
+          </div>
+          <span class="hint" id="tempoDesc" style="margin:0"></span>
         </div>
         <div class="card">
           <h3 class="ch" data-i="sparkles">Aparência</h3>
@@ -694,7 +705,7 @@ const MEAL_SLOTS=[
 ];
 const FALLBACK={cafe:['lan','alm','jan'],lan:['cafe','jan','alm'],alm:['jan','lan','cafe'],jan:['alm','lan','cafe']};
 const WEEK=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
-function defaultSettings(){return{split:'auto',swaps:{},palVer:2,palette:'oceano',mode:'auto',ajuste:null,protKg:null,fatKg:null,veg:300,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',
+function defaultSettings(){return{split:'auto',swaps:{},palVer:2,palette:'oceano',mode:'auto',ajuste:null,protKg:null,fatKg:null,veg:300,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',tempo:60,cardioMin:'auto',cardioTipo:'auto',
   meals:Object.fromEntries(MEAL_SLOTS.map(m=>[m.k,{on:m.on,n:m.n,h:m.h}]))}}
 let S=defaultSettings();
 
@@ -860,6 +871,34 @@ function exChoice(k,F){
   const saved=S.swaps&&S.swaps[F.local+':'+k];
   return e.opts.find(o=>o[0]===saved)||e.opts.find(o=>o[1]===loc)||e.opts[0];
 }
+const CARDIO={esteira:['Caminhada inclinada na esteira','g'],bike:['Bicicleta','g'],eliptico:['Elíptico','g'],escada:['Escada','g'],corrida:['Corrida','h'],caminhada:['Caminhada rápida','h'],corda:['Pular corda','h'],polichinelo:['Polichinelo e corrida parada','h']};
+const TEMPOS=[30,45,60,75,90,120];
+// Minutos de cardio por treino: automático pelo objetivo, sem passar de um terço do tempo.
+function cardioPlan(F,tempo){
+  const auto=S.cardioMin==='auto'||S.cardioMin==null;
+  // Automático: a musculação tem prioridade e o cardio usa o tempo que sobrar, até a meta do objetivo.
+  const min=auto?{cut:20,man:15,bulk:10}[F.obj]:Math.max(0,Math.min(+S.cardioMin,tempo-20));
+  const tipo=S.cardioTipo&&CARDIO[S.cardioTipo]?S.cardioTipo:F.local==='casa'?'caminhada':'esteira';
+  const hiit=tipo==='corda'||tipo==='polichinelo';
+  const folga={cut:['Nos dias sem treino, caminhe 30 a 45 min ou bata 8 a 10 mil passos',120],man:['Em 2 dias sem treino, caminhe 20 a 30 min',50],bulk:['Nos dias sem treino, caminhadas leves se quiser',0]}[F.obj];
+  return{min,auto,tipo,nome:CARDIO[tipo][0],hiit,ritmo:hiit?'intervalado: 30 s forte e 60 s leve':'em ritmo moderado (dá para falar frases curtas)',folga:folga[0],folgaMin:folga[1]};
+}
+// Duração estimada: ~45 s por série mais o descanso (2 min nos principais, 1 min e 15 nos demais) e 5 min de aquecimento.
+const exMin=e=>+e.presc.split(' ')[0]*(e.comp?2.75:2);
+const dayMin=d=>5+d.ex.reduce((t,e)=>t+exMin(e),0);
+function setSets(e,n){e.presc=n+' × '+e.presc.split(' × ')[1]}
+// Ajusta o treino ao tempo: primeiro tira séries dos isoladores, depois dos principais e só então tira exercícios (core primeiro).
+function fitDay(d,budget){
+  const sets=e=>+e.presc.split(' ')[0];
+  const steps=[
+    ()=>{const e=[...d.ex].reverse().find(e=>!e.comp&&sets(e)>2);if(e){setSets(e,2);return 1}},
+    ()=>{const e=[...d.ex].reverse().find(e=>e.comp&&sets(e)>3);if(e){setSets(e,3);return 1}},
+    ()=>{if(d.ex.length<=3)return;const i=d.ex.findIndex(e=>e.g==='Core');d.ex.splice(i>=0?i:d.ex.length-1,1);return 1},
+    ()=>{const e=[...d.ex].reverse().find(e=>sets(e)>2);if(e){setSets(e,2);return 1}}];
+  let s=0;
+  while(dayMin(d)>budget+2&&s<steps.length){if(steps[s]())d.cortado=true;else s++}
+  d.min=Math.round(dayMin(d));
+}
 function plan(F){
   const ini=F.nivel==='ini',adv=F.nivel==='adv';
   const reps={cut:['8–12','12–15'],man:['8–12','10–15'],bulk:['6–10','10–12']}[F.obj];
@@ -874,10 +913,16 @@ function plan(F){
     // Iniciante começa pela adaptação: 3 séries de 12 a 15, como nos treinos de adaptação do curso.
     return{k,n:o[0],g:e.g,comp,presc:(comp?(ini?3:4):3)+' × '+(o[2]||(ini?'12–15':comp?reps[0]:reps[1]))};
   })}));
-  const cardio={cut:'3 sessões de 30 min em ritmo moderado, ou 8 a 10 mil passos por dia',
-    man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
-  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:adv?12:10,tips:[
-    ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
+  // Tempo do treino: a musculação vem primeiro e o cardio fica no fim, dentro do tempo escolhido.
+  const tempo=+S.tempo||60,C=cardioPlan(F,tempo);
+  days.forEach(d=>{
+    if(C.auto){fitDay(d,tempo);const sobra=Math.floor((tempo-d.min)/5)*5;d.cardio=sobra>=10?Math.min(C.min,sobra):0}
+    else{fitDay(d,tempo-C.min);d.cardio=C.min}});
+  const semana=days.reduce((t,d)=>t+d.cardio,0),comCardio=days.filter(d=>d.cardio).length;
+  const cardio=(comCardio?`${C.auto?'Use o tempo que sobrar: até ':''}${C.min} min de ${C.nome.toLowerCase()} depois da musculação, ${C.ritmo}`:C.min&&C.auto?'Com esse tempo não sobra espaço para cardio depois da musculação':'Sem cardio depois da musculação')+'. '+C.folga+
+    `. No total, uns ${semana+C.folgaMin} min de cardio por semana (a OMS recomenda pelo menos 150 min de atividade moderada)`;
+  return{nome:splitName,days,leftOut,tempo,cardioP:C,curto:days.some(d=>d.cortado),vol:weeklyVolume(days),volMin:ini?8:adv?12:10,tips:[
+    ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'+(tempo<=45?'. Com pouco tempo, faça bi-sets: alterne dois exercícios de músculos diferentes (peito e costas, bíceps e tríceps) e descanse só depois do par':'')],
     ['heart-pulse','Cardio',cardio+'. Em jejum ou alimentado o resultado é o mesmo quando as calorias do dia são iguais; escolha o que for mais confortável'],
     ['zap','Intensidade',ini?'Fase de adaptação: 4 a 8 semanas parando 2 a 3 repetições antes da falha, aprendendo a técnica':adv?'Séries até 0 a 1 repetição da falha. Drop-set ou rest-pause na última série de um isolador economizam tempo com resultado parecido':'Última série perto da falha, com 1 a 2 repetições de reserva'],
     ['trending-up','Progressão','Use a progressão dupla: suba repetições até o topo da faixa em todas as séries, então aumente 2 a 5% da carga e volte ao início da faixa'],
@@ -942,9 +987,11 @@ function render(){
   $('dietNote').innerHTML=ic('target')+`<span>Mire pelo menos <b>${protMeal} g de proteína</b> em 3 a 5 refeições do dia e <b>${fmt(R.kcal*14/1000)} g de fibras</b> (frutas, verduras, feijão, aveia).${active.length<3?' Você tem menos de 3 refeições ligadas, o que dificulta distribuir a proteína.':''}</span>`;
   const P=plan(F);
   $('splitLabel').textContent=P.nome;
-  $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||[...new Set(d.ex.map(e=>e.g))].slice(0,3).join(', ')}</small></div><span class="time">${ic('clock')}${S.horaTreino||''}</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex"><span class="exwrap"><select class="exsel" data-k="${e.k}" aria-label="Trocar ${esc(e.n)} por equivalente"><optgroup label="Academia">${EQ[e.k].opts.filter(o=>o[1]==='g').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup><optgroup label="Em casa">${EQ[e.k].opts.filter(o=>o[1]==='h').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup></select>${ic('chevron-down')}</span><small>${e.g}</small></span><span class="presc">${e.presc}</span></li>`).join('')}</ol></div>`).join('');
+  $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||[...new Set(d.ex.map(e=>e.g))].slice(0,3).join(', ')}</small></div><span class="time">${ic('clock')}${S.horaTreino||''} · ${d.min+d.cardio} min</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex"><span class="exwrap"><select class="exsel" data-k="${e.k}" aria-label="Trocar ${esc(e.n)} por equivalente"><optgroup label="Academia">${EQ[e.k].opts.filter(o=>o[1]==='g').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup><optgroup label="Em casa">${EQ[e.k].opts.filter(o=>o[1]==='h').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup></select>${ic('chevron-down')}</span><small>${e.g}</small></span><span class="presc">${e.presc}</span></li>`).join('')}${d.cardio?`<li class="cardio"><span class="ex"><span>${ic('heart-pulse')} Cardio · ${P.cardioP.nome}</span><small>${P.cardioP.hiit?'Intervalado':'Ritmo moderado'}</small></span><span class="presc">${d.cardio} min</span></li>`:''}</ol></div>`).join('');
   $('splitWarn').hidden=!P.leftOut.length;
   if(P.leftOut.length)$('splitWarn').innerHTML=ic('info')+`<span>Sua divisão tem ${P.leftOut.length+P.days.length} treinos e você treina ${P.days.length} dias. Ficam de fora: <b>${P.leftOut.join(', ')}</b>. Escolha mais dias ou outra divisão.</span>`;
+  const C=P.cardioP;
+  $('tempoDesc').textContent=(C.auto?`A musculação vem primeiro e o cardio usa o tempo que sobrar, até ${C.min} min.`:C.min?`Cerca de ${P.tempo-C.min} min de musculação e ${C.min} min de cardio.`:'Só musculação, sem cardio no fim.')+(P.curto?' Para caber no tempo, o app tirou algumas séries ou exercícios; confira o volume semanal no Treino.':'');
   const now=new Date(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   const nextMeal=active.find(m=>m.h>hm)||active[0];
   const todayW=DOW[now.getDay()];const td=P.days.find(d=>d.dia===todayW);
@@ -957,7 +1004,7 @@ function render(){
      <span class="sub">Proteína <b>${R.p} g</b> · Carbo <b>${R.c} g</b> · Gordura <b>${R.f} g</b></span></a>
    <a class="mcard" href="#treino"><span class="mt"><span class="badge">${ic('dumbbell')}</span>TREINO<span class="go">›</span></span>
      <span><b>${td?esc(td.nome):'Descanso hoje'}</b></span>
-     <span class="sub">${td?`Foco: <b>${FOCUS[td.nome]||''}</b> · ${S.horaTreino||''}`:nextT?`Próximo: <b>${esc(nextT.nome)}</b> (${nextT.dia})`:''}</span></a>
+     <span class="sub">${td?`Foco: <b>${FOCUS[td.nome]||''}</b> · ${S.horaTreino||''} · ${td.min+td.cardio} min`:nextT?`Próximo: <b>${esc(nextT.nome)}</b> (${nextT.dia})`:''}</span></a>
    ${nextMeal?`<a class="mcard" href="#alimentos"><span class="mt"><span class="badge">${ic('clock')}</span>PRÓXIMA REFEIÇÃO<span class="go">›</span></span>
      <span><b>${esc(nextMeal.n)}</b> às <b>${nextMeal.h}</b></span>
      <span class="sub">${mk.n} alimentos · <b>${fmt(mk.k)} kcal</b></span></a>`:''}`;
@@ -1029,6 +1076,9 @@ function buildSettings(){
     <input type="time" id="meal-h-${m.k}" data-f="h" value="${v.h}" aria-label="Horário"></div>`}).join('');
   $('weekdays').innerHTML=WEEK.map(d=>`<label><input type="checkbox" id="wd-${d}" value="${d}" ${S.dias.includes(d)?'checked':''}><span>${d}</span></label>`).join('');
   $('horaTreino').value=S.horaTreino;
+  $('tempo').innerHTML=TEMPOS.map(t=>`<option value="${t}" ${+S.tempo===t?'selected':''}>${t} min</option>`).join('');
+  $('cardioMin').innerHTML=[['auto','Automático'],['0','Não fazer'],...[10,15,20,30,40].map(m=>[m+'',m+' min'])].map(([v,n])=>`<option value="${v}" ${String(S.cardioMin)===v?'selected':''}>${n}</option>`).join('');
+  $('cardioTipo').innerHTML=`<option value="auto">Automático</option><optgroup label="Academia">${Object.entries(CARDIO).filter(c=>c[1][1]==='g').map(([k,c])=>`<option value="${k}" ${S.cardioTipo===k?'selected':''}>${c[0]}</option>`).join('')}</optgroup><optgroup label="Em casa ou na rua">${Object.entries(CARDIO).filter(c=>c[1][1]==='h').map(([k,c])=>`<option value="${k}" ${S.cardioTipo===k?'selected':''}>${c[0]}</option>`).join('')}</optgroup>`;
   $('split').innerHTML=Object.entries(SPLITS).map(([k,v])=>`<option value="${k}" ${S.split===k?'selected':''}>${v.n}${v.k?` (${v.k.length} treinos)`:''}</option>`).join('');
   $('splitDesc').textContent=(SPLITS[S.split]||SPLITS.auto).d;
   for(const k of ['ajuste','protKg','fatKg']){$(k).value=S[k]??''}
@@ -1132,6 +1182,9 @@ $('weekdays').addEventListener('change',e=>{const d=e.target.value;
 $('split').addEventListener('change',e=>{S.split=e.target.value;$('splitDesc').textContent=SPLITS[S.split].d;render()});
 $('days').addEventListener('change',e=>{const t=e.target;if(!t.classList.contains('exsel'))return;S.swaps=S.swaps||{};S.swaps[readForm().local+':'+t.dataset.k]=t.value;render()});
 $('horaTreino').addEventListener('input',e=>{S.horaTreino=e.target.value;render()});
+$('tempo').addEventListener('change',e=>{S.tempo=+e.target.value;render()});
+$('cardioMin').addEventListener('change',e=>{S.cardioMin=e.target.value==='auto'?'auto':+e.target.value;render()});
+$('cardioTipo').addEventListener('change',e=>{S.cardioTipo=e.target.value;render()});
 for(const k of ['ajuste','protKg','fatKg']){$(k).addEventListener('input',e=>{const v=e.target.value.trim();S[k]=v===''||isNaN(+v)?null:+v;render()})}
 $('veg').addEventListener('input',e=>{const v=+e.target.value;S.veg=isNaN(v)?300:Math.max(0,Math.min(800,v));render()});
 $('fotoTab').addEventListener('change',e=>{$('fpCorpo').hidden=e.target.value!=='corpo';$('fpPrato').hidden=e.target.value!=='prato'});
