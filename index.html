@@ -224,6 +224,20 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .cmpimgs figure{margin:0;display:flex;flex-direction:column;gap:4px;font-size:.8rem}
 .cmpimgs img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;background:var(--sunk)}
 .cmpimgs .empty{aspect-ratio:3/4;border-radius:12px;background:var(--sunk);display:grid;place-items:center;color:var(--muted);text-align:center;padding:8px}
+.subslist{display:flex;flex-direction:column;max-height:340px;overflow:auto}
+.subrow{display:grid;grid-template-columns:minmax(0,1fr) auto 64px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);font-size:.86rem}
+.subrow small{color:var(--muted);text-align:right}
+.subrow .unit{display:block;font-size:.72rem;color:var(--muted)}
+.subrow .ficon{display:grid;place-items:center;width:26px;height:26px;border-radius:8px;background:color-mix(in srgb,var(--c) 15%,var(--surface));color:var(--c);flex:none}
+.subrow .food{display:flex;gap:8px;align-items:center}
+.medgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+@media (max-width:620px){.medgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.medgrid label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;color:var(--muted)}
+.medgrid input{width:100%;font:inherit;font-weight:500;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:8px 10px}
+.medtable{width:100%;border-collapse:collapse;font-size:.85rem}
+.medtable th,.medtable td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}
+.medtable th:first-child,.medtable td:first-child{text-align:left}
+.medtable .dn{color:var(--go)}.medtable .up{color:var(--warn)}
 .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .tip{background:var(--surface);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;font-size:.88rem;box-shadow:var(--shadow)}
 .tip .badge{width:32px;height:32px;border-radius:9px}
@@ -456,10 +470,16 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         <thead><tr><th>Alimento</th><th>Porção do dia</th><th>kcal</th><th>Prot.</th><th>Carb.</th><th>Gord.</th></tr></thead>
         <tbody id="tbody"></tbody><tfoot id="tfoot"></tfoot>
       </table></div>
+      <div class="card" id="subs">
+        <h3 class="ch" data-i="repeat">Substituições equivalentes</h3>
+        <p class="note" style="margin:0">Escolha um alimento do seu cardápio e veja quanto de cada outro do mesmo grupo entrega o mesmo macro principal. Muda um pouco a saciedade e a fibra, mas o total do dia fica praticamente igual. Trocas que dariam porções grandes demais não aparecem.</p>
+        <select id="subsSel" aria-label="Alimento para substituir"></select>
+        <div id="subsList" class="subslist"></div>
+      </div>
       <h3 class="label" style="margin-top:6px">Como dividir nas refeições</h3>
       <div class="meals" id="meals"></div>
       <p class="note" id="dietNote"></p>
-      <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
+      <p class="note"><span data-i="info"></span>Valores por 100 g da Tabela TACO (4ª edição) e rótulos comuns, alimentos já cozidos. Porções arredondadas de 5 em 5 g.</p>
     </section>
 
     <section id="treino">
@@ -487,6 +507,12 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
           </div>
           <label class="addfoto"><input type="file" accept="image/*" id="fileCorpo"><span data-i="camera">Tirar ou escolher foto</span></label>
           <p class="note"><span data-i="info"></span>Para comparar de verdade: mesmo lugar, mesma luz e mesmo horário, de preferência de manhã em jejum, a cada 2 a 4 semanas. O peso do seu perfil é salvo junto.</p>
+        </div>
+        <div class="card">
+          <h3 class="ch" data-i="ruler">Medidas (cm)</h3>
+          <div class="medgrid" id="medInputs"></div>
+          <button type="button" class="ghost" id="medSave" data-i="check" style="align-self:flex-start">Salvar medidas de hoje</button>
+          <div id="medTable"></div>
         </div>
         <div class="card" id="compare"></div>
         <div id="galCorpo" class="gal"></div>
@@ -578,6 +604,15 @@ const FOODS=[
  {id:'atum',n:'Atum em água (lata)',i:'fish',g:'p',w:2,k:116,p:26,c:0,f:1,max:240,m:['lan','jan']},
  {id:'ovo',n:'Ovo inteiro cozido',i:'egg',g:'p',w:1.2,k:146,p:13.3,c:0.6,f:9.5,max:200,un:[50,'ovo','ovos'],m:['cafe']},
  {id:'whey',n:'Whey protein',i:'cup-soda',g:'p',w:1,k:400,p:80,c:8,f:6,max:60,un:[30,'scoop','scoops'],m:['lan']},
+ {id:'coxa',n:'Coxa de frango sem pele cozida',i:'drumstick',g:'p',w:2,k:167,p:26.9,c:0,f:5.8,max:400,m:['alm','jan']},
+ {id:'musculo',n:'Músculo bovino cozido',i:'beef',g:'p',w:2.5,k:194,p:31.2,c:0,f:6.7,max:400,m:['alm','jan']},
+ {id:'contrafile',n:'Contra-filé grelhado',i:'beef',g:'p',w:2.5,k:194,p:35.9,c:0,f:4.5,max:400,m:['alm','jan']},
+ {id:'lombo',n:'Lombo de porco assado',i:'beef',g:'p',w:2,k:210,p:35.7,c:0,f:6.4,max:350,m:['alm','jan']},
+ {id:'salmao',n:'Salmão grelhado',i:'fish',g:'p',w:2,k:243,p:26.1,c:0,f:14.5,max:300,m:['alm','jan']},
+ {id:'sardinha',n:'Sardinha assada',i:'fish',g:'p',w:1.5,k:164,p:32.2,c:0,f:3,max:250,m:['alm','jan']},
+ {id:'clara',n:'Clara de ovo cozida',i:'egg',g:'p',w:1,k:59,p:13.4,c:0,f:0.1,max:330,un:[33,'clara','claras'],m:['cafe','lan']},
+ {id:'ricota',n:'Ricota',i:'milk',g:'p',w:.6,k:140,p:12.6,c:3.8,f:8.1,max:150,m:['cafe','lan']},
+ {id:'leite',n:'Leite desnatado',i:'milk',g:'p',w:.5,k:35,p:3.4,c:4.9,f:0.2,max:400,un:[200,'copo','copos'],m:['cafe','lan']},
  {id:'iogurte',n:'Iogurte natural desnatado',i:'milk',g:'p',w:.6,k:41,p:3.8,c:5.8,f:0.3,max:340,un:[170,'pote','potes'],m:['lan']},
  {id:'arroz',n:'Arroz branco cozido',i:'cooking-pot',g:'c',w:3,k:128,p:2.5,c:28.1,f:0.2,max:500,m:['alm','jan']},
  {id:'arrozint',n:'Arroz integral cozido',i:'cooking-pot',g:'c',w:3,k:124,p:2.6,c:25.8,f:1,max:500,m:['alm','jan']},
@@ -585,15 +620,31 @@ const FOODS=[
  {id:'batata',n:'Batata-doce cozida',i:'carrot',g:'c',w:3,k:77,p:0.6,c:18.4,f:0.1,max:600,m:['alm','jan']},
  {id:'macarrao',n:'Macarrão cozido',i:'wheat',g:'c',w:3,k:157,p:5.8,c:30.9,f:0.9,max:400,m:['alm','jan']},
  {id:'mandioca',n:'Mandioca cozida',i:'sprout',g:'c',w:2,k:125,p:0.6,c:30.1,f:0.3,max:400,m:['alm','jan']},
+ {id:'feijaopreto',n:'Feijão preto cozido',i:'bean',g:'c',w:1.5,k:77,p:4.5,c:14,f:0.5,max:300,m:['alm','jan']},
+ {id:'lentilha',n:'Lentilha cozida',i:'bean',g:'c',w:1.5,k:93,p:6.3,c:16.3,f:0.5,max:300,m:['alm','jan']},
+ {id:'batatainglesa',n:'Batata inglesa cozida',i:'carrot',g:'c',w:2.5,k:52,p:1.2,c:11.9,f:0,max:600,m:['alm','jan']},
+ {id:'cuscuz',n:'Cuscuz de milho cozido',i:'wheat',g:'c',w:2,k:113,p:2.2,c:25.3,f:0.7,max:400,m:['cafe','jan']},
+ {id:'milho',n:'Milho verde em conserva',i:'wheat',g:'c',w:1,k:98,p:3.2,c:17.1,f:2.4,max:200,m:['alm','jan']},
  {id:'aveia',n:'Aveia em flocos',i:'wheat',g:'c',w:1.5,k:394,p:13.9,c:66.6,f:8.5,max:100,m:['cafe','lan']},
  {id:'pao',n:'Pão francês',i:'croissant',g:'c',w:1.5,k:300,p:8,c:58.6,f:3.1,max:150,un:[50,'pão','pães'],m:['cafe']},
+ {id:'paoint',n:'Pão de forma integral',i:'croissant',g:'c',w:1.2,k:253,p:9.4,c:49.9,f:3.7,max:150,un:[25,'fatia','fatias'],m:['cafe','lan']},
  {id:'banana',n:'Banana prata',i:'banana',g:'c',w:1,k:98,p:1.3,c:26,f:0.1,max:300,un:[80,'banana','bananas'],m:['cafe','lan']},
  {id:'maca',n:'Maçã',i:'apple',g:'c',w:.8,k:56,p:0.3,c:15.2,f:0,max:300,un:[130,'maçã','maçãs'],m:['lan']},
+ {id:'mamao',n:'Mamão papaia',i:'apple',g:'c',w:.8,k:40,p:0.5,c:10.4,f:0.1,max:400,m:['cafe','lan']},
+ {id:'morango',n:'Morango',i:'cherry',g:'c',w:.6,k:30,p:0.9,c:6.8,f:0.3,max:400,m:['lan']},
+ {id:'manga',n:'Manga',i:'apple',g:'c',w:.8,k:51,p:0.9,c:12.8,f:0.2,max:300,m:['lan']},
+ {id:'abacaxi',n:'Abacaxi',i:'apple',g:'c',w:.8,k:48,p:0.9,c:12.3,f:0.1,max:300,m:['lan','alm']},
+ {id:'melancia',n:'Melancia',i:'apple',g:'c',w:.6,k:33,p:0.9,c:8.1,f:0,max:500,m:['lan']},
+ {id:'uva',n:'Uva',i:'cherry',g:'c',w:.6,k:53,p:0.7,c:13.6,f:0.2,max:300,m:['lan']},
+ {id:'mel',n:'Mel',i:'droplet',g:'c',w:.4,k:309,p:0,c:84,f:0,max:40,un:[20,'colher de sopa','colheres de sopa'],m:['cafe','lan']},
  {id:'azeite',n:'Azeite de oliva',i:'droplet',g:'f',w:2,k:884,p:0,c:0,f:100,max:30,un:[13,'colher de sopa','colheres de sopa'],m:['alm','jan']},
  {id:'amendoim',n:'Pasta de amendoim',i:'nut',g:'f',w:1.5,k:588,p:25,c:20,f:50,max:40,un:[15,'colher de sopa','colheres de sopa'],m:['lan']},
  {id:'castanha',n:'Castanha-do-pará',i:'nut',g:'f',w:1,k:643,p:14.5,c:15.1,f:63.5,max:30,un:[4,'unidade','unidades'],m:['lan']},
  {id:'abacate',n:'Abacate',i:'leaf',g:'f',w:1.5,k:96,p:1.2,c:6,f:8.4,max:200,m:['cafe','lan']},
  {id:'queijo',n:'Queijo minas frescal',i:'milk',g:'f',w:1,k:264,p:17.4,c:3.2,f:20.2,max:90,un:[30,'fatia','fatias'],m:['cafe']},
+ {id:'amendoimt',n:'Amendoim torrado',i:'nut',g:'f',w:1,k:606,p:22.5,c:18.7,f:54,max:40,m:['lan']},
+ {id:'azeitona',n:'Azeitona verde',i:'cherry',g:'f',w:.6,k:137,p:0.9,c:4.1,f:14.2,max:100,m:['alm','jan']},
+ {id:'mussarela',n:'Queijo mussarela',i:'milk',g:'f',w:.8,k:330,p:22.6,c:3,f:25.2,max:60,un:[20,'fatia','fatias'],m:['cafe','lan']},
  {id:'legumes',n:'Legumes e verduras',i:'salad',g:'v',k:30,p:2,c:5,f:0.3,fixed:300,m:['alm','jan']},
 ];
 const GROUPS=[['p','Proteínas','drumstick','--prot'],['c','Carboidratos','wheat','--carb'],['f','Gorduras boas','droplet','--fat'],['v','Vegetais · 300 g fixos','salad','--ok']];
@@ -769,7 +820,7 @@ function plan(F){
     man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
   return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:10,tips:[
     ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
-    ['heart-pulse','Cardio',cardio],
+    ['heart-pulse','Cardio',cardio+'. Em jejum ou alimentado o resultado é o mesmo quando as calorias do dia são iguais; escolha o que for mais confortável'],
     ['zap','Intensidade',ini?'Pare 2 a 3 repetições antes da falha':'Última série perto da falha, com 1 a 2 repetições de reserva'],
     ['trending-up','Progressão','Use a progressão dupla: suba repetições até o topo da faixa em todas as séries, então aumente 2 a 5% da carga e volte ao início da faixa'],
     ['repeat','Execução','Controle a descida e use a amplitude completa, dando ênfase à parte em que o músculo está alongado'],
@@ -828,6 +879,7 @@ function render(){
     return `<div class="meal"><div class="mh"><span class="badge">${ic(m.i)}</span><div><h3>${esc(m.n)}</h3></div><span class="time">${m.h}</span></div><ul>${li}</ul><div class="mtot num"><span>${fmt(s2.k)} kcal</span><span>${fmt(s2.p)} g proteína</span></div></div>`}).join('')
     ||'<p class="muted">Ligue pelo menos uma refeição em Ajustes.</p>';
 
+  renderSubs(items);
   const protMeal=Math.round(.4*R.pRef);
   $('dietNote').innerHTML=ic('target')+`<span>Mire pelo menos <b>${protMeal} g de proteína</b> em 3 a 5 refeições do dia e <b>${fmt(R.kcal*14/1000)} g de fibras</b> (frutas, verduras, feijão, aveia).${active.length<3?' Você tem menos de 3 refeições ligadas, o que dificulta distribuir a proteína.':''}</span>`;
   const P=plan(F);
@@ -858,6 +910,18 @@ function render(){
       return `<div class="vrow ${st}"><span>${m}</span><div class="vbar"><i class="zone" style="left:${P.volMin/25*100}%;width:${(VMAX-P.volMin)/25*100}%"></i><i class="fill" style="width:${Math.min(100,n/25*100)}%"></i></div><span class="num">${fmt(n,n%1?1:0)}</span><small>${st==='ok'?'na faixa':st==='low'?'pouco':'muito'}</small></div>`}).join('');
   $('tips').innerHTML=P.tips.map(([i,t,s])=>`<div class="tip"><span class="badge">${ic(i)}</span><div><b>${t}</b><br><span class="muted">${s}</span></div></div>`).join('');
   save();
+}
+// Equivalência pelo macro principal do grupo: gramas do substituto = gramas × (macro do original ÷ macro do substituto).
+let SUBSK=null;
+function renderSubs(items){
+  const opts=items.filter(x=>x.g!=='v');
+  if(!opts.length){$('subs').hidden=true;return}$('subs').hidden=false;
+  if(!opts.some(x=>x.id===SUBSK))SUBSK=opts[0].id;
+  $('subsSel').innerHTML=opts.map(x=>`<option value="${x.id}" ${x.id===SUBSK?'selected':''}>${x.n} · ${fmt(x.grams)} g</option>`).join('');
+  const a=opts.find(x=>x.id===SUBSK),m=a.g,amt=a.grams*a[m]/100;
+  $('subsList').innerHTML=FOODS.filter(x=>x.g===m&&x.id!==a.id&&x[m]>0).map(x=>{const g=Math.round(amt/x[m]*100/5)*5;const u=unitText({...x,grams:g});
+    return {x,g,u,k:x.k*g/100}}).filter(o=>o.g>0&&o.g<=o.x.max*1.5).sort((p,q)=>p.x.n.localeCompare(q.x.n)).map(({x,g,u,k})=>
+    `<div class="subrow" style="--c:var(${GCOLOR[x.g]})"><span class="food"><span class="ficon">${ic(x.i)}</span>${x.n}</span><span class="num">${fmt(g)} g<span class="unit">${u}</span></span><small class="num">${fmt(k)} kcal</small></div>`).join('');
 }
 function buildPick(){
   $('pick').innerHTML=GROUPS.map(([g,n,i,c])=>`<div class="pickgroup" style="--c:var(${c})"><span class="gh">${ic(i)}${n}</span><div class="chips">${
@@ -961,6 +1025,17 @@ function renderFotos(){
   const near=[...ms].reverse().find(m=>m.h<=hm)||ms[0];
   sel.innerHTML=ms.map(m=>`<option ${(cur?cur===m.n:near&&near.k===m.k)?'selected':''}>${esc(m.n)}</option>`).join('')+`<option ${cur==='Outro'?'selected':''}>Outro</option>`;
 }
+// Medidas corporais com fita métrica, salvas por data neste aparelho.
+const MEDKEY='shape-medidas',MEDS=['Ombro','Peito','Braço','Antebraço','Cintura','Quadril','Coxa','Panturrilha'];
+let MED={};try{MED=JSON.parse(localStorage.getItem(MEDKEY)||'{}')||{}}catch(e){}
+function renderMed(){
+  const days=Object.keys(MED).sort(),today=dkey(new Date()),cur=MED[today]||{};
+  $('medInputs').innerHTML=MEDS.map(m=>`<label>${m}<input type="number" inputmode="decimal" step="0.5" min="0" data-m="${m}" value="${cur[m]??''}"></label>`).join('');
+  if(!days.length){$('medTable').innerHTML='<p class="note">'+ic('info')+'<span>Meça sempre no mesmo lado e do mesmo jeito, de manhã. A cintura costuma mostrar a perda de gordura antes da balança.</span></p>';return}
+  const a=days[0],b=days[days.length-1];
+  $('medTable').innerHTML=`<table class="medtable"><thead><tr><th></th><th>${dfmt(a)}</th>${a!==b?`<th>${dfmt(b)}</th><th>Dif.</th>`:''}</tr></thead><tbody>${MEDS.map(m=>{const x=MED[a][m],y=MED[b][m];const d=x!=null&&y!=null&&a!==b?y-x:null;
+    return `<tr><td>${m}</td><td class="num">${x!=null?fmt(x,1):'–'}</td>${a!==b?`<td class="num">${y!=null?fmt(y,1):'–'}</td><td class="num ${d==null?'':d<0?'dn':d>0?'up':''}">${d==null?'':(d>0?'+':'')+fmt(d,1)}</td>`:''}</tr>`}).join('')}</tbody></table>`+(days.length>1?`<button type="button" class="ghost" id="medDel" data-i="trash-2" style="margin-top:8px">${ic('trash-2')}Apagar medidas de ${dfmt(b)}</button>`:'');
+}
 hydrate(document);load();applyLook();buildPick();buildSettings();placeholders();
 $('palettes').addEventListener('change',e=>{S.palette=e.target.value;applyLook();save()});
 $('modeSeg').addEventListener('change',e=>{S.mode=e.target.value;applyLook();save()});
@@ -982,7 +1057,11 @@ $('filePrato').addEventListener('change',e=>{addFoto(e.target.files[0],{kind:'pr
 $('compare').addEventListener('change',e=>{if(e.target.id==='cmpA')CMP.a=e.target.value;else if(e.target.id==='cmpB')CMP.b=e.target.value;else if(e.target.name==='cmpPose')CMP.pose=e.target.value;renderFotos()});
 document.querySelectorAll('.gal').forEach(g=>g.addEventListener('click',async e=>{const b=e.target.closest('.del');if(!b||!confirm('Apagar esta foto?'))return;
   const id=b.dataset.id;if(FURL[id]){URL.revokeObjectURL(FURL[id]);delete FURL[id]}await fotoDel(id);loadFotos()}));
-loadFotos();
+loadFotos();renderMed();
+$('medSave').addEventListener('click',()=>{const v={};$('medInputs').querySelectorAll('input').forEach(i=>{const n=parseFloat(i.value.replace(',','.'));if(n>0)v[i.dataset.m]=n});
+  const k=dkey(new Date());if(Object.keys(v).length)MED[k]=v;else delete MED[k];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
+$('medTable').addEventListener('click',e=>{if(!e.target.closest('#medDel'))return;const days=Object.keys(MED).sort();const b=days[days.length-1];if(!confirm('Apagar as medidas de '+dfmt(b)+'?'))return;delete MED[b];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
+$('subsSel').addEventListener('change',e=>{SUBSK=e.target.value;render()});
 $('reset').addEventListener('click',()=>{const pal=S.palette,mode=S.mode;S=defaultSettings();S.palette=pal;S.mode=mode;buildSettings();render()});
 $('f').addEventListener('change',placeholders);
 $('pick').addEventListener('change',e=>{const id=e.target.value;e.target.checked?sel.add(id):sel.delete(id);render()});
