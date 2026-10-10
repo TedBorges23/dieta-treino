@@ -382,6 +382,8 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
 .exdemo:focus-visible{outline:2.5px solid var(--go);outline-offset:2px}
 .exdlg{border:0;border-radius:18px;padding:16px;width:min(520px,calc(100vw - 32px));max-height:calc(100dvh - 32px);background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
 .exdlg::backdrop{background:rgb(0 0 0/.55)}
+.inststeps{margin:12px 0 10px;padding-left:22px;font-size:.92rem;line-height:1.5}
+.inststeps li{margin-bottom:6px}
 .exdh{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .exdh b{flex:1;font-size:1rem}
 .exdh button{font:inherit;font-size:1.3rem;line-height:1;width:36px;height:36px;border:0;border-radius:10px;background:var(--sunk);color:var(--ink);cursor:pointer}
@@ -674,6 +676,11 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
   <a href="#ajustes" data-i="sliders-horizontal">Ajustes</a>
 </nav>
 <footer><b>SHAPE</b> · criado por Ted Borges Dias Luz · ícones Lucide (licença ISC) · fotos dos exercícios Free Exercise DB (domínio público)</footer>
+<dialog id="instdlg" class="exdlg" aria-labelledby="instT">
+  <div class="exdh"><b id="instT">Instalar o SHAPE</b><button type="button" id="instX" aria-label="Fechar">×</button></div>
+  <ol class="inststeps" id="instSteps"></ol>
+  <small>Depois de instalado, o SHAPE abre pelo ícone na tela inicial e funciona sem internet.</small>
+</dialog>
 <dialog id="exdlg" class="exdlg" aria-labelledby="exdT">
   <div class="exdh"><b id="exdT"></b><button type="button" id="exdX" aria-label="Fechar">×</button></div>
   <figure class="exfig" id="exdFig" title="Toque para pausar"><img class="a" alt=""><img class="b" alt=""><figcaption class="cap"></figcaption></figure>
@@ -1357,10 +1364,25 @@ if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWo
 (function(){
   const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
   if(standalone)return;
-  let ev=null;const btn=document.getElementById('installBtn');
-  addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;btn.hidden=false});
-  btn.addEventListener('click',async()=>{if(!ev)return;ev.prompt();await ev.userChoice;ev=null;btn.hidden=true});
-  addEventListener('appinstalled',()=>{btn.hidden=true});
+  // O botão aparece sempre: quando o navegador oferece a instalação direta, usa ela; senão, mostra o passo a passo do aparelho.
+  let ev=null;const btn=document.getElementById('installBtn'),dlg=document.getElementById('instdlg');btn.hidden=false;
+  addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e});
+  function steps(){const ua=navigator.userAgent;
+    if(/iphone|ipad|ipod/i.test(ua)||(/macintosh/i.test(ua)&&navigator.maxTouchPoints>1)){
+      if(/FBAN|FBAV|Instagram|Line\/|WhatsApp/i.test(ua))return['Este link abriu dentro de outro app. Toque nos três pontinhos ou no ícone de bússola e escolha <b>Abrir no Safari</b>.','No Safari, toque em <b>Compartilhar</b> (o quadrado com a seta para cima).','Role e toque em <b>Adicionar à Tela de Início</b>, depois em <b>Adicionar</b>.'];
+      return['Toque em <b>Compartilhar</b> (o quadrado com a seta para cima, embaixo ou no topo da tela).','Role a lista e toque em <b>Adicionar à Tela de Início</b>.','Toque em <b>Adicionar</b>. O ícone do SHAPE aparece na tela inicial.']}
+    if(/android/i.test(ua)){
+      if(/; wv\)|FBAN|FBAV|Instagram|Line\//i.test(ua))return['Este link abriu dentro de outro app (WhatsApp, Instagram…), que não instala apps.','Toque nos três pontinhos <b>⋮</b> e escolha <b>Abrir no Chrome</b> (ou "Abrir no navegador").','No Chrome, toque em <b>Instalar app</b> de novo.'];
+      if(/SamsungBrowser/i.test(ua))return['Toque no menu <b>≡</b> embaixo, à direita.','Toque em <b>Adicionar página a</b> e depois em <b>Tela inicial</b>.','Se preferir, abra o link no Chrome e use <b>Instalar app</b>.'];
+      if(/Firefox/i.test(ua))return['Toque nos três pontinhos <b>⋮</b>.','Toque em <b>Instalar</b> ou <b>Adicionar à tela inicial</b>.'];
+      return['Toque nos três pontinhos <b>⋮</b> no canto de cima, à direita.','Toque em <b>Instalar app</b> ou <b>Adicionar à tela inicial</b>.','Confirme em <b>Instalar</b>. Se nada aparecer, recarregue a página uma vez e tente de novo.']}
+    return['No Chrome ou Edge, clique no ícone de instalar na barra de endereço (um monitor com uma seta).','Ou abra o menu do navegador e escolha <b>Instalar SHAPE</b>.']}
+  btn.addEventListener('click',async()=>{
+    if(ev){ev.prompt();const r=await ev.userChoice;ev=null;if(r.outcome==='accepted')btn.hidden=true;return}
+    document.getElementById('instSteps').innerHTML=steps().map(t=>'<li>'+t+'</li>').join('');dlg.showModal()});
+  document.getElementById('instX').addEventListener('click',()=>dlg.close());
+  dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+  addEventListener('appinstalled',()=>{btn.hidden=true;if(dlg.open)dlg.close()});
   if(/iphone|ipad|ipod/i.test(navigator.userAgent))document.getElementById('iosNote').hidden=false;
 })();
 </script>
