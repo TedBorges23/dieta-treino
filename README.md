@@ -9,3 +9,5 @@ Funciona no celular como app instalável: no Android, toque em "Instalar app"; n
 Para rodar localmente, sirva a pasta com qualquer servidor estático (por exemplo `python3 -m http.server`) e abra no navegador. Não há build nem dependências.
 
 Ícones: [Lucide](https://lucide.dev) (licença ISC), embutidos no arquivo.
+
+Fotos dos exercícios (pasta `ex/`): [Free Exercise DB](https://github.com/yuhonas/free-exercise-db), em domínio público (Unlicense), reduzidas para WebP.
