@@ -240,6 +240,13 @@ tfoot td{font-weight:700;background:var(--sunk);border-bottom:0}
 .medtable th,.medtable td{padding:6px 4px;border-bottom:1px solid var(--line);text-align:right}
 .medtable th:first-child,.medtable td:first-child{text-align:left}
 .medtable .dn{color:var(--go)}.medtable .up{color:var(--warn)}
+.medguide{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px}
+@media (max-width:620px){.medguide{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.medguide figure{margin:0;background:var(--sunk);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:4px}
+.medguide svg{width:100%;height:120px}
+.medguide b{font-size:.84rem}.medguide figcaption{font-size:.76rem;color:var(--muted);line-height:1.35}
+.medguide .bdy{opacity:.3}.medguide .bd{fill:var(--brand2)}.medguide .lb{fill:none;stroke:var(--brand2);stroke-linecap:round}.medguide .tp{fill:none;stroke:var(--lime);stroke-width:2.6}
+.medtips{margin:8px 0 0;padding-left:18px;font-size:.8rem;color:var(--muted);line-height:1.45}
 .lvl summary{cursor:pointer;font-size:.82rem;color:var(--brand-text);font-weight:600;margin-top:6px}
 .lvlgrid{display:grid;grid-template-columns:minmax(0,1.2fr) 1fr 1fr;gap:6px;align-items:center;font-size:.84rem}
 .lvlgrid input{width:100%;font:inherit;color:var(--ink);background:var(--sunk);border:1.5px solid transparent;border-radius:10px;padding:7px 8px}
@@ -593,6 +600,8 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
         </div>
         <div class="card">
           <h3 class="ch" data-i="ruler">Medidas (cm)</h3>
+          <details class="lvl"><summary>Como tirar cada medida</summary><div class="medguide" id="medGuide"></div>
+            <ul class="medtips"><li>Use fita métrica de costura, rente à pele, sem apertar nem afundar a carne.</li><li>Fita reta, paralela ao chão. Um espelho ou alguém ajudando facilita.</li><li>Meça de manhã, em jejum, sempre do mesmo lado e no mesmo ponto. Meça duas vezes e anote a média.</li></ul></details>
           <div class="medgrid" id="medInputs"></div>
           <button type="button" class="ghost" id="medSave" data-i="check" style="align-self:flex-start">Salvar medidas de hoje</button>
           <div id="medTable"></div>
@@ -1350,6 +1359,18 @@ $('filePrato').addEventListener('change',e=>{const i=e.target;addFoto(i.files[0]
 $('compare').addEventListener('change',e=>{if(e.target.id==='cmpA')CMP.a=e.target.value;else if(e.target.id==='cmpB')CMP.b=e.target.value;else if(e.target.name==='cmpPose')CMP.pose=e.target.value;renderFotos()});
 document.querySelectorAll('.gal').forEach(g=>g.addEventListener('click',async e=>{const b=e.target.closest('.del');if(!b||!confirm('Apagar esta foto?'))return;
   const id=b.dataset.id;if(FURL[id]){URL.revokeObjectURL(FURL[id]);delete FURL[id]}await fotoDel(id);loadFotos()}));
+// Guia das medidas: silhueta simples com a fita (em destaque) no ponto de cada medida.
+const MEDGUIA={Ombro:['ellipse cx="50" cy="40" rx="27" ry="3"','Em pé, braços soltos. Passe a fita em volta da parte mais larga dos ombros, por cima dos braços.'],
+  Peito:['ellipse cx="50" cy="56" rx="19" ry="2.6"','Na altura dos mamilos, por baixo das axilas. Meça no fim de uma expiração normal.'],
+  'Braço':['ellipse cx="75.6" cy="60" rx="6.5" ry="2"','Braço relaxado ao lado do corpo. No meio do caminho entre o ombro e o cotovelo.'],
+  'Antebraço':['ellipse cx="80.4" cy="90" rx="5.8" ry="1.8"','Na parte mais grossa, logo abaixo do cotovelo, com a mão aberta e relaxada.'],
+  Cintura:['ellipse cx="50" cy="86" rx="16" ry="2.4"','Na altura do umbigo, barriga solta (sem encolher), no fim de uma expiração.'],
+  Quadril:['ellipse cx="50" cy="106" rx="20" ry="2.6"','Pés juntos. Na parte mais saliente do bumbum, olhando de lado no espelho.'],
+  Coxa:['ellipse cx="59.6" cy="124" rx="9.5" ry="2.2"','Pés na largura do quadril, peso nas duas pernas. Logo abaixo do bumbum, na parte mais grossa.'],
+  Panturrilha:['ellipse cx="60" cy="162" rx="6.8" ry="2"','Em pé, peso nas duas pernas. Na parte mais grossa da panturrilha.']};
+const MEDBODY='<g class="bdy"><circle class="bd" cx="50" cy="15" r="10"/><rect class="bd" x="45" y="23" width="10" height="10"/><path class="bd" d="M28 36Q50 30 72 36L68 60Q64 75 64 88Q68 100 68 112L32 112Q32 100 36 88Q36 75 32 60Z"/>'+
+  '<g class="lb"><path d="M27 40L22 78L18 112M73 40L78 78L82 112" stroke-width="9"/><path d="M40.5 110L40 150M59.5 110L60 150" stroke-width="16"/><path d="M40 150L40 190M60 150L60 190" stroke-width="11"/></g></g>';
+$('medGuide').innerHTML=MEDS.map(m=>`<figure><svg viewBox="0 4 100 192" role="img" aria-label="Onde medir: ${m}">${MEDBODY}<${MEDGUIA[m][0]} class="tp"/></svg><b>${m}</b><figcaption>${MEDGUIA[m][1]}</figcaption></figure>`).join('');
 loadFotos();renderMed();
 $('medSave').addEventListener('click',()=>{const v={};$('medInputs').querySelectorAll('input').forEach(i=>{const n=parseFloat(i.value.replace(',','.'));if(n>0)v[i.dataset.m]=n});
   const k=dkey(new Date());if(Object.keys(v).length)MED[k]=v;else delete MED[k];try{localStorage.setItem(MEDKEY,JSON.stringify(MED))}catch(e){}renderMed()});
