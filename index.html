@@ -289,6 +289,8 @@ input[type=time]{font-family:var(--mono);font-size:.88rem}
 .weekdays span{display:grid;place-items:center;height:42px;border-radius:11px;background:var(--sunk);font-family:var(--display);font-size:.72rem;font-weight:700;color:var(--muted)}
 .weekdays input:checked+span{background:var(--go);color:#fff}
 .weekdays input:focus-visible+span{outline:2.5px solid var(--go);outline-offset:2px}
+.ordem{display:grid;gap:6px}
+.ordem label{display:grid;grid-template-columns:48px minmax(0,1fr);gap:10px;align-items:center;font-family:var(--display);font-size:.78rem;font-weight:700;color:var(--muted)}
 .day .time{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:4px}
 .meal .time{margin-left:auto;font-family:var(--mono);font-size:.85rem;font-weight:500;background:var(--sunk);padding:3px 8px;border-radius:7px}
 /* hoje: sequência e meu dia */
@@ -633,6 +635,7 @@ footer{max-width:1200px;margin:0 auto;padding-inline:16px;padding-block:0 32px;f
           <p class="hint">Escolha de 2 a 6 dias e a divisão que preferir.</p>
           <div class="weekdays" id="weekdays"></div>
           <div class="field"><label class="label" for="split" data-i="dumbbell">Divisão do treino</label><select id="split"></select><span class="hint" id="splitDesc" style="margin:0"></span></div>
+          <div class="field"><span class="label" data-i="repeat">Treino de cada dia</span><span class="hint" style="margin:0">Em Automático os treinos seguem a ordem da divisão.</span><div class="ordem" id="ordem"></div></div>
           <div class="field" style="max-width:160px"><label class="label" for="horaTreino" data-i="clock">Horário do treino</label><input type="time" id="horaTreino"></div>
         </div>
         <div class="card">
@@ -767,7 +770,7 @@ const MEAL_SLOTS=[
 ];
 const FALLBACK={cafe:['lan','alm','jan'],lan:['cafe','jan','alm'],alm:['jan','lan','cafe'],jan:['alm','lan','cafe']};
 const WEEK=['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
-function defaultSettings(){return{split:'auto',swaps:{},palVer:2,palette:'oceano',mode:'auto',ajuste:null,protKg:null,fatKg:null,veg:300,agua:null,aguaSeq:true,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',
+function defaultSettings(){return{split:'auto',swaps:{},palVer:2,palette:'oceano',mode:'auto',ajuste:null,protKg:null,fatKg:null,veg:300,agua:null,aguaSeq:true,dias:['SEG','TER','QUI','SEX'],horaTreino:'18:00',ordem:{},
   meals:Object.fromEntries(MEAL_SLOTS.map(m=>[m.k,{on:m.on,n:m.n,h:m.h}]))}}
 let S=defaultSettings();
 
@@ -1056,17 +1059,20 @@ function plan(F){
   const dias=WEEK.filter(d=>S.dias.includes(d));
   const sp=SPLITS[S.split]||SPLITS.auto;
   const nd=Math.min(6,Math.max(2,dias.length)),femAuto=!sp.k&&F.sexo==='f'&&(nd===4||nd===5);
-  const keys=sp.k?dias.map((_,j)=>sp.k[j%sp.k.length]):femAuto?SPLITS['fem'+nd].k:AUTO[nd];
-  const leftOut=sp.k&&sp.k.length>dias.length?sp.k.slice(dias.length).map(t=>T[t][0]):[];
+  const auto=sp.k?dias.map((_,j)=>sp.k[j%sp.k.length]):femAuto?SPLITS['fem'+nd].k:AUTO[nd];
+  // Treino escolhido para cada dia em Ajustes, guardado por divisão; sem escolha, segue o ciclo.
+  const opts=[...new Set(sp.k||auto)],ctx=sp.k?S.split:femAuto?'fem'+nd:'auto'+nd,ord=(S.ordem||{})[ctx]||{};
+  const keys=auto.map((t,j)=>opts.includes(ord[dias[j]])?ord[dias[j]]:t);
+  const leftOut=opts.filter(t=>!keys.includes(t)).map(t=>T[t][0]);
   const splitName=sp.k?sp.n:femAuto?SPLITS['fem'+nd].n:({2:'Corpo inteiro A/B',3:'Corpo inteiro A/B',4:'Superior / Inferior',5:'Empurrar · Puxar · Pernas + Sup/Inf',6:'Empurrar · Puxar · Pernas, 2 voltas'})[Math.min(6,Math.max(2,dias.length))];
-  const days=keys.map((t,j)=>({dia:dias[j],nome:T[t][0],ex:T[t][1].map(k=>{
+  const days=keys.map((t,j)=>({dia:dias[j],auto:T[auto[j]][0],nome:T[t][0],ex:T[t][1].map(k=>{
     const e=EQ[k],o=exChoice(k,F),comp=e.c===1;
     // Iniciante começa pela adaptação: 3 séries de 12 a 15, como nos treinos de adaptação do curso.
     return{k,n:o[0],g:e.g,comp,presc:(comp?(ini?3:4):3)+' × '+(o[2]||(ini?'12–15':comp?reps[0]:reps[1]))};
   })}));
   const cardio={cut:'3 sessões de 30 min em ritmo moderado, ou 8 a 10 mil passos por dia',
     man:'2 sessões de 20 min por semana',bulk:'2 sessões leves de 15 min, para o coração'}[F.obj];
-  return{nome:splitName,days,leftOut,vol:weeklyVolume(days),volMin:ini?8:adv?12:10,tips:[
+  return{nome:splitName,days,leftOut,opts:opts.map(t=>[t,T[t][0]]),ctx,ord,vol:weeklyVolume(days),volMin:ini?8:adv?12:10,tips:[
     ['timer','Descanso','2 a 3 min nos exercícios principais, 1 a 2 min nos demais. Descansar mais rende mais repetições e mais músculo'],
     ['heart-pulse','Cardio',cardio+'. Em jejum ou alimentado o resultado é o mesmo quando as calorias do dia são iguais; escolha o que for mais confortável'],
     ['zap','Intensidade',ini?'Fase de adaptação: 4 a 8 semanas parando 2 a 3 repetições antes da falha, aprendendo a técnica':adv?'Séries até 0 a 1 repetição da falha. Drop-set ou rest-pause na última série de um isolador economizam tempo com resultado parecido':'Última série perto da falha, com 1 a 2 repetições de reserva'],
@@ -1134,7 +1140,9 @@ function render(){
   $('splitLabel').textContent=P.nome;
   $('days').innerHTML=P.days.map(d=>`<div class="day"><div class="dh"><span class="dn">${d.dia}</span><div><h3>${d.nome}</h3><small>${FOCUS[d.nome]||[...new Set(d.ex.map(e=>e.g))].slice(0,3).join(', ')}</small></div><span class="time">${ic('clock')}${S.horaTreino||''}</span></div><ol>${d.ex.map(e=>`<li class="${e.comp?'comp':''}"><span class="ex"><span class="exwrap"><select class="exsel" data-k="${e.k}" aria-label="Trocar ${esc(e.n)} por equivalente"><optgroup label="Academia">${EQ[e.k].opts.filter(o=>o[1]==='g').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup><optgroup label="Em casa">${EQ[e.k].opts.filter(o=>o[1]==='h').map(o=>`<option ${o[0]===e.n?'selected':''}>${o[0]}</option>`).join('')}</optgroup></select>${ic('chevron-down')}</span><small>${e.g}</small></span><span class="presc">${e.presc}</span>${demoBtn(e.n)}</li>`).join('')}</ol></div>`).join('');
   $('splitWarn').hidden=!P.leftOut.length;
-  if(P.leftOut.length)$('splitWarn').innerHTML=ic('info')+`<span>Sua divisão tem ${P.leftOut.length+P.days.length} treinos e você treina ${P.days.length} dias. Ficam de fora: <b>${P.leftOut.join(', ')}</b>. Escolha mais dias ou outra divisão.</span>`;
+  if(P.leftOut.length)$('splitWarn').innerHTML=ic('info')+`<span>Sua divisão tem ${P.opts.length} treinos e ${P.leftOut.length>1?'ficam':'fica'} de fora da semana: <b>${P.leftOut.join(', ')}</b>. Escolha mais dias, outra divisão ou mude o treino de cada dia em Ajustes.</span>`;
+  $('ordem').dataset.ctx=P.ctx;
+  $('ordem').innerHTML=P.days.map(d=>`<label><span>${d.dia}</span><select data-dia="${d.dia}" aria-label="Treino de ${d.dia}"><option value="">Automático (${esc(d.auto)})</option>${P.opts.map(([t,n])=>`<option value="${t}" ${P.ord[d.dia]===t?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`).join('');
   const now=new Date(),hm=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
   const nextMeal=active.find(m=>m.h>hm)||active[0];
   const todayW=DOW[now.getDay()];const td=P.days.find(d=>d.dia===todayW);
@@ -1341,6 +1349,8 @@ $('mealrows').addEventListener('input',e=>{const row=e.target.closest('.mealrow'
 $('weekdays').addEventListener('change',e=>{const d=e.target.value;
   if(e.target.checked){if(S.dias.length>=6){e.target.checked=false;return}S.dias.push(d)}
   else{if(S.dias.length<=2){e.target.checked=true;return}S.dias=S.dias.filter(x=>x!==d)}render()});
+$('ordem').addEventListener('change',e=>{const d=e.target.dataset.dia,ctx=e.currentTarget.dataset.ctx;if(!d)return;
+  S.ordem=S.ordem||{};const o=S.ordem[ctx]={...(S.ordem[ctx]||{})};if(e.target.value)o[d]=e.target.value;else delete o[d];render()});
 $('split').addEventListener('change',e=>{S.split=e.target.value;$('splitDesc').textContent=SPLITS[S.split].d;render()});
 $('days').addEventListener('click',e=>{const b=e.target.closest('.exdemo');if(b)showDemo(b.dataset.n)});
 $('exdX').addEventListener('click',()=>$('exdlg').close());
