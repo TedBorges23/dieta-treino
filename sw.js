@@ -1,5 +1,5 @@
 // Cache para o SHAPE abrir sem internet. Troque a versão a cada publicação.
-const CACHE = 'shape-v18';
+const CACHE = 'shape-v19';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 // Fotos dos exercícios ficam num cache próprio, que não é apagado a cada versão. Troque EXCACHE só se as fotos mudarem.
 const EXCACHE = 'shape-ex-v1';
