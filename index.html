@@ -1261,23 +1261,33 @@ const fotosAll=()=>fstore('readonly',st=>st.getAll());
 const fotoPut=f=>fstore('readwrite',st=>st.put(f));
 const fotoDel=id=>fstore('readwrite',st=>st.delete(id));
 function blobBuf(b){return b.arrayBuffer?b.arrayBuffer():new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error);r.readAsArrayBuffer(b)})}
-function shrink(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),img=new Image();
-  img.onload=()=>{try{const k=Math.min(1,1280/Math.max(img.naturalWidth,img.naturalHeight));const c=document.createElement('canvas');
-    c.width=Math.round(img.naturalWidth*k);c.height=Math.round(img.naturalHeight*k);c.getContext('2d').drawImage(img,0,0,c.width,c.height);
-    URL.revokeObjectURL(u);const done=b=>{c.width=c.height=0;b?res(b):rej(new Error('foto'))};
-    if(c.toBlob)c.toBlob(done,'image/jpeg',.82);else fetch(c.toDataURL('image/jpeg',.82)).then(r=>r.blob()).then(done,rej)}catch(e){URL.revokeObjectURL(u);rej(e)}};
-  img.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('foto'))};img.src=u})}
+// Reduz a foto para no máximo 1280 px. O iPhone às vezes não decodifica por um caminho, então
+// tenta três (createImageBitmap, <img> com blob: e <img> com data:); se nenhum der, guarda o arquivo original.
+function canvasBlob(src,w,h){return new Promise((res,rej)=>{if(!w||!h)return rej(new Error('tamanho'));
+  const k=Math.min(1,1280/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(w*k));c.height=Math.max(1,Math.round(h*k));
+  c.getContext('2d').drawImage(src,0,0,c.width,c.height);
+  const viaURL=()=>{try{const d=c.toDataURL('image/jpeg',.82),bin=atob(d.split(',')[1]),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);
+    c.width=c.height=0;bin.length>100?res(new Blob([u],{type:'image/jpeg'})):rej(new Error('canvas'))}catch(e){rej(e)}};
+  if(c.toBlob)c.toBlob(b=>{if(b&&b.size){c.width=c.height=0;res(b)}else viaURL()},'image/jpeg',.82);else viaURL()})}
+function imgLoad(src){return new Promise((res,rej)=>{const img=new Image();img.onload=()=>res(img);img.onerror=()=>rej(new Error('img'));img.src=src})}
+function fileDataURL(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(r.error||new Error('leitura'));r.readAsDataURL(f)})}
+async function shrink(file){const errs=[];const why=e=>(e&&(e.name!=='Error'?e.name:e.message))||'?';
+  if(window.createImageBitmap)try{const bm=await createImageBitmap(file);try{return await canvasBlob(bm,bm.width,bm.height)}finally{bm.close&&bm.close()}}catch(e){errs.push('b:'+why(e))}
+  const u=URL.createObjectURL(file);try{const img=await imgLoad(u);return await canvasBlob(img,img.naturalWidth,img.naturalHeight)}catch(e){errs.push('u:'+why(e))}finally{URL.revokeObjectURL(u)}
+  try{const img=await imgLoad(await fileDataURL(file));return await canvasBlob(img,img.naturalWidth,img.naturalHeight)}catch(e){errs.push('d:'+why(e))}
+  if(file.size>0&&file.size<20e6)return file;
+  throw new Error(errs.join(' ')+' '+file.size+'B '+(file.type||'sem tipo'))}
 const dfmt=k=>{const [y,m,d]=k.split('-');return d+'/'+m+'/'+y};
 let FOTOS=[],FURL={},CMP={a:null,b:null,pose:'Frente'};
 function furl(f){return FURL[f.id]||(FURL[f.id]=URL.createObjectURL(f.blob||new Blob([f.buf],{type:f.type||'image/jpeg'})))}
 async function loadFotos(){try{FOTOS=(await fotosAll()).sort((x,y)=>y.ts-x.ts)}catch(e){FOTOS=[]}renderFotos()}
 async function addFoto(file,extra){
   if(!file)return;
-  let blob;try{blob=await shrink(file)}catch(e){alert('Não foi possível abrir essa foto. Tente tirar de novo ou escolher outra.');return}
+  let blob;try{blob=await shrink(file)}catch(e){alert('Não foi possível abrir essa foto. Tente tirar de novo ou escolher outra.\n\n(código: '+(e&&e.message)+')');return}
   try{const now=new Date();const buf=await blobBuf(blob);
     await fotoPut({id:now.getTime()+'-'+Math.random().toString(36).slice(2,7),ts:now.getTime(),dia:dkey(now),buf,type:blob.type||'image/jpeg',...extra});
     if(navigator.storage&&navigator.storage.persist)navigator.storage.persist().catch(()=>{});
-    await loadFotos()}catch(e){alert('Não foi possível salvar a foto neste aparelho'+(e&&e.name==='QuotaExceededError'?': o espaço acabou. Apague algumas fotos antigas.':'. Feche e abra o app e tente de novo.'))}
+    await loadFotos()}catch(e){alert('Não foi possível salvar a foto neste aparelho'+(e&&e.name==='QuotaExceededError'?': o espaço acabou. Apague algumas fotos antigas.':'. Feche e abra o app e tente de novo.\n\n(código: '+(e&&(e.name+' '+e.message))+')'))}
 }
 function pratoMeals(){return MEAL_SLOTS.filter(m=>S.meals[m.k].on).map(m=>({k:m.k,...S.meals[m.k]})).sort((x,y)=>x.h.localeCompare(y.h))}
 function renderFotos(){
